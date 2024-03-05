@@ -1,0 +1,6 @@
+@RentH2.Services.AuthAPI_HostAddress = http://localhost:5158
+
+GET {{RentH2.Services.AuthAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

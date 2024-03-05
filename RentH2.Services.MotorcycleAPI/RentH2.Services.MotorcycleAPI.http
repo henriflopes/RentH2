@@ -1,0 +1,6 @@
+@RentH2.Services.MotorcycleAPI_HostAddress = http://localhost:5221
+
+GET {{RentH2.Services.MotorcycleAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

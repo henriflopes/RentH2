@@ -4,10 +4,11 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using RentH2.Services.MotorcycleAPI.Models;
 using System;
+using RentH2.Services.MotorcycleAPI.Services.IService;
 
 namespace RentH2.Services.MotorcycleAPI.Services
 {
-	public class MotorcycleService
+	public class MotorcycleService : IMotorcycleService
 	{
 		private readonly IMongoCollection<Motorcycle> _motorcycleCollection;
 
@@ -32,9 +33,10 @@ namespace RentH2.Services.MotorcycleAPI.Services
 
 		public async Task<DeleteResult> RemoveAsync(string id) => await _motorcycleCollection.DeleteOneAsync(x => x.Id == id);
 
-		public async Task<bool> ExistsNumberPlate(string NumberPlate){
+		public async Task<bool> ExistsNumberPlate(Motorcycle motorcycle)
+		{
 
-			var result = await _motorcycleCollection.Find(x => x.NumberPlate == NumberPlate).FirstOrDefaultAsync();
+			var result = await _motorcycleCollection.Find(x => x.NumberPlate == motorcycle.NumberPlate && x.Id != motorcycle.Id).FirstOrDefaultAsync();
 
 			return result != null;
 		}

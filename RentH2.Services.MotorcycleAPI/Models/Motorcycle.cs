@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using RentH2.Services.MotorcycleAPI.Utility;
 
 namespace RentH2.Services.MotorcycleAPI.Models
 {
@@ -14,13 +14,13 @@ namespace RentH2.Services.MotorcycleAPI.Models
 
 		public string Year { get; set; }
 
-		public string Model { get; set; }
+		public string Type { get; set; }
 
 		public string NumberPlate { get; set; }
 
 		public string? Location { get; set; }
 
-		public bool IsBooked { get; set; } = false;
+		public string Status { get; set; } = RentStatus.Available;
 	}
 }
 

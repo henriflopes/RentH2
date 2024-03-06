@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RentH2.Services.AuthAPI.Data;
@@ -11,9 +12,11 @@ using RentH2.Services.AuthAPI.Data;
 namespace RentH2.Services.AuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306132116_AddDriverLicenseFields")]
+    partial class AddDriverLicenseFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,20 +49,6 @@ namespace RentH2.Services.AuthAPI.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "cac43a6e-f7bb-4448-baaf-ladd431ccbbf",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "cac43a7e-f7cb-4448-baaf-labb431eabbf",
-                            Name = "Rider",
-                            NormalizedName = "RIDER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -147,18 +136,6 @@ namespace RentH2.Services.AuthAPI.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "408aa945-3d84-4421-8342-7269ec64d949",
-                            RoleId = "cac43a6e-f7bb-4448-baaf-ladd431ccbbf"
-                        },
-                        new
-                        {
-                            UserId = "208aa945-2d84-2421-2342-2269ec64d949",
-                            RoleId = "cac43a7e-f7cb-4448-baaf-labb431eabbf"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -268,56 +245,6 @@ namespace RentH2.Services.AuthAPI.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "408aa945-3d84-4421-8342-7269ec64d949",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6fe3d47-c84b-4000-87f6-d85da0ece3a9",
-                            DateBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DriverLicenseClass = "A+B",
-                            DriverLicenseId = "6D13ED6A-957A-4F94",
-                            DriverLicenseImageLocalPath = "",
-                            DriverLicenseImageUrl = "",
-                            Email = "admin@renth2.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Name = "System",
-                            NormalizedEmail = "ADMIN@RENTH2.COM",
-                            NormalizedUserName = "ADMIN@RENTH2.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPpG7RUcU7dioTzVXjU1uta22eoRIdb+oFGZiNzFCFIANwHOYlBa/emupmxAoIt1UQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "f2c1178a-79fb-44cb-a78d-352bda690eb3",
-                            SurName = "Admin",
-                            TaxId = "5ABFFEAAEAE0",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@renth2.com"
-                        },
-                        new
-                        {
-                            Id = "208aa945-2d84-2421-2342-2269ec64d949",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "ac65f98f-bd3d-4be8-8a2b-eab37f6b4ec8",
-                            DateBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DriverLicenseClass = "B",
-                            DriverLicenseId = "C5239363-957A-4F94",
-                            DriverLicenseImageLocalPath = "",
-                            DriverLicenseImageUrl = "",
-                            Email = "rider@renth2.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
-                            Name = "System",
-                            NormalizedEmail = "RIDER@RENTH2.COM",
-                            NormalizedUserName = "RIDER@RENTH2.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDXQGXFScmfYFo3aBEGUVgXe5YXi2KHn4RORVvWB94YrobVr6PHjhxlr+GnyTU5rFQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "93245e08-65f4-4b67-a196-55e580811fb6",
-                            SurName = "Rider",
-                            TaxId = "7AA4F3857AB9",
-                            TwoFactorEnabled = false,
-                            UserName = "rider@renth2.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Services.MotorcycleAPI.Models;
 using RentH2.Services.MotorcycleAPI.Models.Dto;
-using RentH2.Services.MotorcycleAPI.Services;
+using RentH2.Services.MotorcycleAPI.Services.IService;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
@@ -12,9 +12,9 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly ResponseDto _response;
-		private readonly MotorcycleService _motorcycleService;
+		private readonly IMotorcycleService _motorcycleService;
 
-		public MotorcycleAPIController(MotorcycleService motorcycleService, IMapper mapper) 
+		public MotorcycleAPIController(IMotorcycleService motorcycleService, IMapper mapper) 
 		{
 			_motorcycleService = motorcycleService;
 			_mapper = mapper;
@@ -64,7 +64,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			try
 			{
 				Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
-				var exists = await _motorcycleService.ExistsNumberPlate(motorcycle.NumberPlate);
+				var exists = await _motorcycleService.ExistsNumberPlate(motorcycle);
 
 				if (exists)
 				{
@@ -98,7 +98,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 				if (exists != null)
 				{
-					var existsNumberPlate = await _motorcycleService.ExistsNumberPlate(motorcycle.NumberPlate);
+					var existsNumberPlate = await _motorcycleService.ExistsNumberPlate(motorcycle);
 
 					if (existsNumberPlate)
 					{

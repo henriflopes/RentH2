@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RentH2.Services.AuthAPI.Configurations.Entities;
 using RentH2.Services.AuthAPI.Models;
 
 namespace RentH2.Services.AuthAPI.Data
@@ -15,6 +16,9 @@ namespace RentH2.Services.AuthAPI.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+			builder.ApplyConfiguration(new RoleSeedConfiguration());
+			builder.ApplyConfiguration(new UserSeedConfiguration());
+			builder.ApplyConfiguration(new UserRoleSeedConfiguration());
 		}
 	}
 }

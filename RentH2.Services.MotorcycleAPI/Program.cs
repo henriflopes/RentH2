@@ -1,6 +1,7 @@
 using AutoMapper;
 using RentH2.Services.MotorcycleAPI;
 using RentH2.Services.MotorcycleAPI.Services;
+using RentH2.Services.MotorcycleAPI.Services.IService;
 using RentH2.Services.MotorcycleAPI.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
-builder.Services.AddSingleton<MotorcycleService>();
+builder.Services.AddSingleton<IMotorcycleService, MotorcycleService>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);

@@ -1,4 +1,5 @@
-﻿using RentH2.Services.AuthAPI.Models.Dto;
+﻿using RentH2.Services.AuthAPI.Models;
+using RentH2.Services.AuthAPI.Models.Dto;
 
 namespace RentH2.Services.AuthAPI.Service.IService
 {
@@ -7,5 +8,6 @@ namespace RentH2.Services.AuthAPI.Service.IService
         Task<string> Register(RegistrationRequestDto registrationRequestDto);
         Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);
         Task<bool> AssignRole(string email, string roleName);
+        Task<List<ApplicationUser>> GetRiders();
     }
 }

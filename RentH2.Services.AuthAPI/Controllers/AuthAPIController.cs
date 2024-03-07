@@ -1,27 +1,25 @@
 ﻿using RentH2.Services.AuthAPI.Models.Dto;
-using RentH2.Services.AuthAPI.RabbitMQSender;
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 
 namespace RentH2.Services.AuthAPI.Controllers
 {
-    [Route("api/auth")]
+	[Route("api/auth")]
     [ApiController]
     public class AuthAPIController : ControllerBase
     {
         private readonly IAuthService _authService;
-        private readonly IRabbitMQAuthMessageSender _messageBus;
         private readonly IConfiguration _configuration;
-        private readonly string _topicQueueName;
-        protected ResponseDto _response;
+		private readonly IMapper _mapper;
+		protected ResponseDto _response;
 
-        public AuthAPIController(IAuthService authService, IRabbitMQAuthMessageSender messageBus, IConfiguration configuration)
-        {
+        public AuthAPIController(IAuthService authService, IConfiguration configuration, IMapper mapper)
+		{
             _authService = authService;
-            _messageBus = messageBus;
             _configuration = configuration;
-            _response = new();
-            _topicQueueName = _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue");
+			_mapper = mapper;
+			_response = new();
         }
 
         [HttpPost("register")]
@@ -35,7 +33,6 @@ namespace RentH2.Services.AuthAPI.Controllers
                 return BadRequest(_response);
             }
 
-            _messageBus.SendMessage(model.Email, _topicQueueName);
             return Ok(_response);
         }
 
@@ -66,5 +63,19 @@ namespace RentH2.Services.AuthAPI.Controllers
             }
             return Ok(_response);
         }
-    }
+
+		[HttpGet("GetRiders")]
+		public async Task<IActionResult> GetRiders()
+		{
+			var riders = await _authService.GetRiders();
+			if (riders == null)
+			{
+				_response.IsSuccess = false;
+				_response.Message = "Error encountered";
+				return BadRequest(_response);
+			}
+			_response.Result = _mapper.Map<List<ApplicationUserDto>>(riders);
+			return Ok(_response);
+		}
+	}
 }

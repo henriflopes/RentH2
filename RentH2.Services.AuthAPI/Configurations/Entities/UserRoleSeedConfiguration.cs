@@ -18,8 +18,13 @@ namespace RentH2.Services.AuthAPI.Configurations.Entities
                 {
                     RoleId = "cac43a7e-f7cb-4448-baaf-labb431eabbf",
                     UserId = "208aa945-2d84-2421-2342-2269ec64d949"
-                }
-            );
+                },
+                new IdentityUserRole<string>
+				{
+					RoleId = "cac43a7e-f7cb-4448-baaf-labb431eabbf",
+					UserId = "208dd945-2d84-2421-2342-2269fc54d949"
+				}
+			);
         }
     }
 }

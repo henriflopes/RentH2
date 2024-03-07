@@ -3,6 +3,7 @@ using RentH2.Services.AuthAPI.Models;
 using RentH2.Services.AuthAPI.Models.Dto;
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Identity;
+using RentH2.Services.AuthAPI.Utility;
 
 namespace RentH2.Services.AuthAPI.Service
 {
@@ -39,7 +40,28 @@ namespace RentH2.Services.AuthAPI.Service
             return false;
         }
 
-        public async Task<LoginResponseDto> Login(LoginRequestDto request)
+		public async Task<List<ApplicationUser>> GetRiders()
+		{
+            var riders = (await _userManager.GetUsersInRoleAsync(Roles.Rider)).ToList();
+			//       .Select( s => 
+			//           new ApplicationUser {
+			//Id = s.Id,
+			//Name = s.Name,
+			//SurName = s.SurName,
+			//PhoneNumber = s.PhoneNumber, 
+			//               Email = s.Email,
+			//               DateBirth = s.DateBirth, 
+			//               DriverLicenseId = s.DriverLicenseId, 
+			//               DriverLicenseClass = s.DriverLicenseClass, 
+			//               DriverLicenseImageUrl = s.DriverLicenseImageUrl, 
+			//               DriverLicenseImageLocalPath = s.DriverLicenseImageLocalPath 
+			//           }
+			//       ).ToList();
+
+			return riders;
+		}
+
+		public async Task<LoginResponseDto> Login(LoginRequestDto request)
         {
             var user = _context.ApplicationUsers.FirstOrDefault(q => q.UserName.ToLower() == request.UserName.ToLower());
 

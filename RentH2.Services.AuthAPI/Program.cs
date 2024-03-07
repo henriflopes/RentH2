@@ -5,6 +5,8 @@ using RentH2.Services.AuthAPI.Models;
 using RentH2.Services.AuthAPI.RabbitMQSender;
 using RentH2.Services.AuthAPI.Service;
 using RentH2.Services.AuthAPI.Service.IService;
+using AutoMapper;
+using RentH2.Services.AuthAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,10 @@ builder.Services.AddScoped<IRabbitMQAuthMessageSender, RabbitMQAuthMessageSender
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

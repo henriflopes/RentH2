@@ -2,7 +2,7 @@
 {
 	public static class RentStatus
 	{
-		public const string Available = "Available";
-		public const string Unavailable = "Unavailable";
+		public const string Available = "Disponível";
+		public const string Unavailable = "Indisponível";
 	}
 }

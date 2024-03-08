@@ -4,7 +4,8 @@ namespace RentH2.Services.AuthAPI.Models.Dto
 {
     public class ApplicationUserDto
     {
-        public string Name { get; set; }
+		public string Id { get; set; }
+		public string Name { get; set; }
         public string? SurName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

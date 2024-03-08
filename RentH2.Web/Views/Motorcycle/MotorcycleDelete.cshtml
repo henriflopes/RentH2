@@ -1,0 +1,55 @@
+﻿@model MotorcycleDto
+
+<form asp-action="MotorcycleDelete">
+    <input asp-for="Id" hidden />
+    <input asp-for="Type" hidden />
+    <input asp-for="NumberPlate" hidden />
+    <input asp-for="Location" hidden />
+    <input asp-for="Status" hidden />
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Exclusão de Motorcicleta</h1>
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Tipo</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Type" disabled class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Numero da Placa</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="NumberPlate" disabled class="form-control" />
+                <span asp-validation-for="NumberPlate" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Localização</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Location" disabled class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Status</label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="Status" disabled class="form-select w-25" asp-items="@ViewBag.Status">
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="col-5 offset-2">
+                <a asp-action="MotorcycleIndex" class="btn-primary btn form-control ">Retornar</a>
+            </div>
+            <div class="col-5">
+                <input type="submit" value="Excluir" class="btn btn-danger form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

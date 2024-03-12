@@ -116,17 +116,11 @@ namespace RentH2.Services.AuthAPI.Service
 				}
 			}
 			catch (Exception ex)
-			{ 
+			{
 				if (ex.InnerException == null)
 					return result;
 
-				result = ex.InnerException.Message switch
-				{
-					var s when s.Contains("AK_AspNetUsers_DriverLicenseId") => "Carteira de Motorista já cadastrada em nossa base de dados.",
-					var s when s.Contains("AK_AspNetUsers_DocumentId") => "Já existe o CNPJ cadastrado em nossa base de dados."
-				};
-
-				return result;
+				return HandleErrors.Message(ex.InnerException.Message);
 			}
 		}
 

@@ -10,7 +10,6 @@ namespace RentH2.Services.MotorcycleAPI.Services.IService
 		Task CreateAsync(Motorcycle motorcycle);
 		Task<ReplaceOneResult> UpdateAsync(Motorcycle motorcycle);
 		Task<DeleteResult> RemoveAsync(string id);
-		Task<bool> ExistsNumberPlate(Motorcycle motorcycle);
 
 	}
 }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using RentH2.Services.MotorcycleAPI.Models;
 using System;
 using RentH2.Services.MotorcycleAPI.Services.IService;
+using MongoDB.Bson;
 
 namespace RentH2.Services.MotorcycleAPI.Services
 {
@@ -17,6 +18,11 @@ namespace RentH2.Services.MotorcycleAPI.Services
 			var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
 			var mongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 			_motorcycleCollection = mongoDb.GetCollection<Motorcycle>(databaseSettings.Value.CollectionName);
+
+			var indexKeysDefinition = Builders<Motorcycle>.IndexKeys.Ascending("NumberPlate");
+			var indexOptions = new CreateIndexOptions { Unique = true, Name= "NumberPlate_Duplicate_1022" };
+			var indexModel = new CreateIndexModel<Motorcycle>(indexKeysDefinition, indexOptions);
+			_motorcycleCollection.Indexes.CreateOne(indexModel);
 		}
 
 		public async Task<List<Motorcycle>> GetAsync() =>
@@ -33,12 +39,5 @@ namespace RentH2.Services.MotorcycleAPI.Services
 
 		public async Task<DeleteResult> RemoveAsync(string id) => await _motorcycleCollection.DeleteOneAsync(x => x.Id == id);
 
-		public async Task<bool> ExistsNumberPlate(Motorcycle motorcycle)
-		{
-
-			var result = await _motorcycleCollection.Find(x => x.NumberPlate == motorcycle.NumberPlate && x.Id != motorcycle.Id).FirstOrDefaultAsync();
-
-			return result != null;
-		}
 	}
 }

@@ -6,6 +6,7 @@ using RentH2.MotorcycleAPI.Utility;
 using RentH2.Services.MotorcycleAPI.Models;
 using RentH2.Services.MotorcycleAPI.Models.Dto;
 using RentH2.Services.MotorcycleAPI.Services.IService;
+using RentH2.Services.MotorcycleAPI.Utility;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
@@ -67,15 +68,6 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			try
 			{
 				Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
-				var exists = await _motorcycleService.ExistsNumberPlate(motorcycle);
-
-				if (exists)
-				{
-					_response.IsSuccess = false;
-					_response.Message = "There is already a Number Plate like yours in our database!";
-					return _response;
-				}
-
 				await _motorcycleService.CreateAsync(motorcycle);
 				_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
 
@@ -83,7 +75,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
-				_response.Message = ex.Message;
+				_response.Message = HandleErrors.Message(ex.Message);
 			}
 
 			return _response;
@@ -101,15 +93,6 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 				if (exists != null)
 				{
-					var existsNumberPlate = await _motorcycleService.ExistsNumberPlate(motorcycle);
-
-					if (existsNumberPlate)
-					{
-						_response.IsSuccess = false;
-						_response.Message = "There is already a Number Plate like yours in our database!";
-						return _response;
-					}
-
 					await _motorcycleService.UpdateAsync(motorcycle);
 					_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
 				}
@@ -122,7 +105,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
-				_response.Message = ex.Message;
+				_response.Message = HandleErrors.Message(ex.Message);
 			}
 
 			return _response;

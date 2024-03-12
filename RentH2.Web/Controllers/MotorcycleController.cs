@@ -59,6 +59,7 @@ namespace RentH2.Web.Controllers
 				else
 				{
 					TempData["error"] = response?.Message;
+					SeedStatusType();
 				}
 			}
 
@@ -99,6 +100,7 @@ namespace RentH2.Web.Controllers
 				else
 				{
 					TempData["error"] = response?.Message;
+					SeedStatusType();
 				}
 			}
 
@@ -139,6 +141,7 @@ namespace RentH2.Web.Controllers
 				else
 				{
 					TempData["error"] = response?.Message;
+					SeedStatusType();
 				}
 			}
 			return NotFound(motorcycleDto);

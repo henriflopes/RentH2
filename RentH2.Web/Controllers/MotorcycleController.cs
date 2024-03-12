@@ -12,16 +12,21 @@ namespace RentH2.Web.Controllers
 		private readonly IMotorcycleService _motorcycleService;
 
 		public MotorcycleController(IMotorcycleService motorcycleService)
-        {
+		{
 			_motorcycleService = motorcycleService;
 		}
 
+		public IActionResult MotorcycleIndex()
+		{
+			return View();
+		}
+
 		[HttpGet]
-		public async Task<IActionResult> MotorcycleIndex()
+		public IActionResult GetAll()
 		{
 			List<MotorcycleDto>? motorcycles = new();
 
-			ResponseDto? response = await _motorcycleService.GetAllMotorcyclesAsync();
+			ResponseDto? response = _motorcycleService.GetAllMotorcyclesAsync().GetAwaiter().GetResult();
 
 			if (response != null && response.IsSuccess)
 			{
@@ -32,15 +37,17 @@ namespace RentH2.Web.Controllers
 				TempData["error"] = response?.Message;
 			}
 
-			return View(motorcycles);
+			return Json(new { data = motorcycles });
 		}
+
+
 
 		public IActionResult MotorcycleCreate()
 		{
 
-            SeedStatusType();
+			SeedStatusType();
 
-            return View();
+			return View();
 		}
 
 
@@ -74,8 +81,8 @@ namespace RentH2.Web.Controllers
 			if (response != null && response.IsSuccess)
 			{
 				MotorcycleDto? model = JsonConvert.DeserializeObject<MotorcycleDto?>(Convert.ToString(response.Result));
-                SeedStatusType();
-                return View(model);
+				SeedStatusType();
+				return View(model);
 			}
 			else
 			{
@@ -115,8 +122,8 @@ namespace RentH2.Web.Controllers
 			if (response != null && response.IsSuccess)
 			{
 				MotorcycleDto? model = JsonConvert.DeserializeObject<MotorcycleDto?>(Convert.ToString(response.Result));
-                SeedStatusType();
-                return View(model);
+				SeedStatusType();
+				return View(model);
 			}
 			else
 			{
@@ -147,16 +154,16 @@ namespace RentH2.Web.Controllers
 			return NotFound(motorcycleDto);
 		}
 
-        private void SeedStatusType()
-        {
-            var status = new List<SelectListItem>()
-            {
-                new SelectListItem{ Text=RentStatus.Available, Value=RentStatus.Available},
-                new SelectListItem{ Text=RentStatus.Unavailable, Value=RentStatus.Unavailable}
-            };
+		private void SeedStatusType()
+		{
+			var status = new List<SelectListItem>()
+			{
+				new SelectListItem{ Text=RentStatus.Available, Value=RentStatus.Available},
+				new SelectListItem{ Text=RentStatus.Unavailable, Value=RentStatus.Unavailable}
+			};
 
-            ViewBag.Status = status;
-        }
+			ViewBag.Status = status;
+		}
 
-    }
+	}
 }

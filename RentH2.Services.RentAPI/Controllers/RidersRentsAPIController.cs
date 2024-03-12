@@ -1,24 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentH2.Services.PlanAPI.Models;
-using RentH2.Services.PlanAPI.Models.Dto;
-using RentH2.Services.PlanAPI.Services.IService;
+using RentH2.Services.RentAPI.Models;
+using RentH2.Services.RentAPI.Models.Dto;
+using RentH2.Services.RentAPI.Services;
+using RentH2.Services.RentAPI.Services.IService;
 
-namespace RentH2.Services.PlanAPI.Controllers
+namespace RentH2.Services.RentAPI.Controllers
 {
-	[Route("api/plan")]
+	[Route("api/ridersrents")]
 	[ApiController]
 	[Authorize]
-	public class PlanAPIController : ControllerBase
+	public class RidersRentsAPIController : ControllerBase
 	{
 		private readonly ResponseDto _response;
-		private readonly IPlanService _planService;
+		private readonly IRidersRentsService _ridersRentsService;
 		private readonly IMapper _mapper;
 
-		public PlanAPIController(IPlanService planService, IMapper mapper)
+		public RidersRentsAPIController(IRidersRentsService ridersRentsService, IMapper mapper)
 		{
-			_planService = planService;
+			_ridersRentsService = ridersRentsService;
 			_mapper = mapper;
 			_response = new ResponseDto();
 		}
@@ -29,8 +30,8 @@ namespace RentH2.Services.PlanAPI.Controllers
 		{
 			try
 			{
-				List<Plan> plans = await _planService.GetAsync();
-				_response.Result = _mapper.Map<IEnumerable<PlanDto>>(plans);
+				List<RidersRents> rents = await _ridersRentsService.GetAsync();
+				_response.Result = _mapper.Map<IEnumerable<RentDto>>(rents);
 			}
 			catch (Exception ex)
 			{
@@ -47,8 +48,8 @@ namespace RentH2.Services.PlanAPI.Controllers
 		{
 			try
 			{
-				Plan plan = await _planService.GetAsync(id);
-				_response.Result = _mapper.Map<PlanDto>(plan);
+				RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
+				_response.Result = _mapper.Map<RentDto>(ridersRents);
 			}
 			catch (Exception ex)
 			{
@@ -61,13 +62,13 @@ namespace RentH2.Services.PlanAPI.Controllers
 
 
 		[HttpPost]
-		public async Task<ResponseDto> Post(PlanDto planDto)
+		public async Task<ResponseDto> Post(RidersRentsDto rentDto)
 		{
 			try
 			{
-				Plan plan = _mapper.Map<Plan>(planDto);
-				await _planService.CreateAsync(plan);
-				_response.Result = _mapper.Map<PlanDto>(plan);
+				RidersRents ridersRents = _mapper.Map<RidersRents>(rentDto);
+				await _ridersRentsService.CreateAsync(ridersRents);
+				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
 
 			}
 			catch (Exception ex)
@@ -80,18 +81,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 		}
 
 		[HttpPut]
-		public async Task<ResponseDto> Put(PlanDto planDto)
+		public async Task<ResponseDto> Put(RidersRentsDto ridersRentsDto)
 		{
 			try
 			{
-				Plan plan = _mapper.Map<Plan>(planDto);
+				RidersRents ridersRents = _mapper.Map<RidersRents>(ridersRentsDto);
 
-				Plan exists = await _planService.GetAsync(plan.Id);
+				RidersRents exists = await _ridersRentsService.GetAsync(ridersRents.Id);
 
 				if (exists != null)
 				{
-					await _planService.UpdateAsync(plan);
-					_response.Result = _mapper.Map<PlanDto>(plan);
+					await _ridersRentsService.UpdateAsync(ridersRents);
+					_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
 				}
 				else
 				{
@@ -112,13 +113,13 @@ namespace RentH2.Services.PlanAPI.Controllers
 		[Route("{id}")]
 		public async Task<ResponseDto> Delete(string id)
 		{
-			Plan plan = await _planService.GetAsync(id);
+			RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
 
 			try
 			{
-				if (plan != null)
+				if (ridersRents != null)
 				{
-					await _planService.RemoveAsync(id);
+					await _ridersRentsService.RemoveAsync(id);
 				}
 				else
 				{

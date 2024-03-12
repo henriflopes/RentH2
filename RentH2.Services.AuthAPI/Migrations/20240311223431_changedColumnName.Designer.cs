@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RentH2.Services.AuthAPI.Data;
@@ -11,9 +12,11 @@ using RentH2.Services.AuthAPI.Data;
 namespace RentH2.Services.AuthAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311223431_changedColumnName")]
+    partial class changedColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,20 +201,17 @@ namespace RentH2.Services.AuthAPI.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateBirth")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DocumentId")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("DriverLicenseClass")
                         .HasColumnType("text");
 
                     b.Property<string>("DriverLicenseId")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("DriverLicenseImageLocalPath")
                         .HasColumnType("text");
@@ -268,10 +268,6 @@ namespace RentH2.Services.AuthAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("DocumentId");
-
-                    b.HasAlternateKey("DriverLicenseId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -286,7 +282,7 @@ namespace RentH2.Services.AuthAPI.Migrations
                         {
                             Id = "408aa945-3d84-4421-8342-7269ec64d949",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8396e1c5-1297-42b3-b38e-52167a2e16a5",
+                            ConcurrencyStamp = "fdf54636-50e3-44c9-875d-3096fb0d3bf4",
                             DateBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DocumentId = "5ABFFEAAEAE0",
                             DriverLicenseClass = "A+B",
@@ -299,9 +295,9 @@ namespace RentH2.Services.AuthAPI.Migrations
                             Name = "System",
                             NormalizedEmail = "ADMIN@RENTH2.COM",
                             NormalizedUserName = "ADMIN@RENTH2.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG93kx3safkO5X2wD8GBv0RSbqFhdRKi09DCZ8ZTh8CFW7IRfVGNEk+XkfZ5aqkGZA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJe7KEseucqFlB0EbvIHGkw3GRdwkXH0uPPk2Cb/qqXBpEdTy4m7AxqMiW21Z8DuTQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dc46e1b6-045f-4c8c-a5c1-ebff03cf4092",
+                            SecurityStamp = "9b04c818-b536-4b2c-8849-abc55f1bb99f",
                             SurName = "Admin",
                             TwoFactorEnabled = false,
                             UserName = "admin@renth2.com"
@@ -310,7 +306,7 @@ namespace RentH2.Services.AuthAPI.Migrations
                         {
                             Id = "208aa945-2d84-2421-2342-2269ec64d949",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c61bd860-72f1-422d-a1c3-2a0178ad9f18",
+                            ConcurrencyStamp = "2ba4f607-7fe1-403c-ab78-a32163d3154e",
                             DateBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DocumentId = "7AA4F3857AB9",
                             DriverLicenseClass = "B",
@@ -323,9 +319,9 @@ namespace RentH2.Services.AuthAPI.Migrations
                             Name = "System",
                             NormalizedEmail = "RIDER@RENTH2.COM",
                             NormalizedUserName = "RIDER@RENTH2.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDakk8Y/HNiAb0bs6Crnt4lelE8t67QHOzN4rl79yWvUnPry3Z7woPDw2AOEdMe7uA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBTM7/s6otqpHFZ8UVAsZY0JbWVlF+/u4RJBbOpSOKlbHfsUmtLOidrQo4Rvxn9oPg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7adf0bf2-dd0b-414f-9e8f-c31916618bc7",
+                            SecurityStamp = "8ffb51b4-a79b-4632-880d-2df74af490da",
                             SurName = "Rider",
                             TwoFactorEnabled = false,
                             UserName = "rider@renth2.com"
@@ -334,7 +330,7 @@ namespace RentH2.Services.AuthAPI.Migrations
                         {
                             Id = "208dd945-2d84-2421-2342-2269fc54d949",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e82372e7-9930-482d-9e4a-35d9b8d7d322",
+                            ConcurrencyStamp = "51c5425f-28b2-436b-8b74-7d278856df71",
                             DateBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DocumentId = "8BB4F3857AC0",
                             DriverLicenseClass = "B",
@@ -347,9 +343,9 @@ namespace RentH2.Services.AuthAPI.Migrations
                             Name = "System",
                             NormalizedEmail = "RIDER02@RENTH2.COM",
                             NormalizedUserName = "RIDER02@RENTH2.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAFD7nUe9ZdImpSl3RxpFqFMASHqfcSQFICgouJMRSzRLVy2uoImvvg+IRFUzXv79g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEMCwxR8nuYe9KmElDIPOeeYxBntrUJLMoT8q8p3X8A3oPU/t3IC+nmMhhZ8gWunuw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1625eb2b-cc39-4c8b-ac87-51ece94a3085",
+                            SecurityStamp = "ca79dea8-e238-4d52-bc0c-c4ac52a91dc2",
                             SurName = "Rider02",
                             TwoFactorEnabled = false,
                             UserName = "rider02@renth2.com"

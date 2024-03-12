@@ -2,6 +2,7 @@
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace RentH2.Services.AuthAPI.Controllers
 {
@@ -23,7 +24,7 @@ namespace RentH2.Services.AuthAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
+        public async Task<IActionResult> Register(RegistrationRequestDto model)
         {
             var errorMessage = await _authService.Register(model);
             if (!string.IsNullOrEmpty(errorMessage))
@@ -33,7 +34,27 @@ namespace RentH2.Services.AuthAPI.Controllers
                 return BadRequest(_response);
             }
 
-            return Ok(_response);
+			if (model.Image != null)
+			{
+				string fileName = model.DocumentId + Path.GetExtension(model.Image.FileName);
+				string filePath = @"wwwroot\CnhImages\" + fileName;
+				var filePatchDirectory = Path.Combine(Directory.GetCurrentDirectory(), filePath);
+				using (var fileStream = new FileStream(filePatchDirectory, FileMode.Create))
+				{
+					model.Image.CopyTo(fileStream);
+				}
+
+				var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
+				model.DriverLicenseImgUrl = $"{baseUrl}/CnhImages/{fileName}";
+				model.DriverLicenseImgPath = filePath;
+			}
+			else
+			{
+				model.DriverLicenseImgUrl = "https://placeholder.co/600x400";
+			}
+			await _authService.UpdateUser(model);
+
+			return Ok(_response);
         }
 
         [HttpPost("login")]

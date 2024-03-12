@@ -7,14 +7,16 @@ using RentH2.Services.AuthAPI.Service;
 using RentH2.Services.AuthAPI.Service.IService;
 using AutoMapper;
 using RentH2.Services.AuthAPI;
+using EntityFramework.Exceptions.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
-	option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+	option.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseExceptionProcessor();
 });
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();

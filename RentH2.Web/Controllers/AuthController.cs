@@ -56,7 +56,7 @@ namespace RentH2.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            SeedRolesType();
+			SeedDropDownList();
 			return View();
         }
 
@@ -86,7 +86,7 @@ namespace RentH2.Web.Controllers
                 TempData["error"] = result.Message;
             }
 
-            SeedRolesType();
+			SeedDropDownList();
 			return View(model);
         }
 
@@ -123,7 +123,7 @@ namespace RentH2.Web.Controllers
 
         }
 
-		private void SeedRolesType()
+		private void SeedDropDownList()
 		{
 			var roles = new List<SelectListItem>()
 			{
@@ -131,6 +131,14 @@ namespace RentH2.Web.Controllers
 				new() { Text=Roles.Rider, Value=Roles.Rider}
 			};
 
+			var driverClasses = new List<SelectListItem>()
+			{
+				new() { Text=$"Classe {DriverLicenseClasses.ClassA}", Value=DriverLicenseClasses.ClassA},
+				new() { Text=$"Classe {DriverLicenseClasses.ClassB}", Value=DriverLicenseClasses.ClassB},
+				new() { Text=$"Classe {DriverLicenseClasses.ClassAB}", Value=DriverLicenseClasses.ClassAB}
+			};
+
+			ViewBag.Classes = driverClasses;
 			ViewBag.Roles = roles;
 		}
 	}

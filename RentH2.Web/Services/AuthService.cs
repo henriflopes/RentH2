@@ -39,8 +39,9 @@ namespace RentH2.Web.Services
             {
                 ApiType = SD.ApiType.POST,
                 Data = registrationRequestDto,
-                Url = SD.AuthAPIBase + "register"
-            }, withBearer: false);
+                Url = SD.AuthAPIBase + "register",
+				ContentType = SD.ContentType.MultipartFormData
+			}, withBearer: false);
         }
     }
 }

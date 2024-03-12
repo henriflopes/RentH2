@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using RentH2.Services.AuthAPI.Configurations.Entities;
 using RentH2.Services.AuthAPI.Models;
+using System.Reflection.Emit;
+using System.Xml;
 
 namespace RentH2.Services.AuthAPI.Data
 {
@@ -15,6 +17,8 @@ namespace RentH2.Services.AuthAPI.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
+			builder.Entity<ApplicationUser>().HasAlternateKey(a => new { a.DocumentId });
+			builder.Entity<ApplicationUser>().HasAlternateKey(a => new { a.DriverLicenseId });
 			base.OnModelCreating(builder);
 			builder.ApplyConfiguration(new RoleSeedConfiguration());
 			builder.ApplyConfiguration(new UserSeedConfiguration());

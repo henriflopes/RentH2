@@ -1,0 +1,66 @@
+﻿@model RegistrationRequestDto
+
+<form method="post" action="RegisterUser" enctype="multipart/form-data">
+	<div class="container border p-4">
+		<div class="row text-center p-3">
+			<h1>Registrar</h1>
+		</div>
+		<div class="row">
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<br />
+				Dados Pessoais
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="Email" class="form-control" placeholder="Email..." />
+				<span asp-validation-for="Email" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="Password" class="form-control" placeholder="Senha..." />
+				<span asp-validation-for="Password" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="Name" class="form-control" placeholder="Nome..." />
+				<span asp-validation-for="Name" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="DocumentId" class="form-control" placeholder="CNPJ..." />
+				<span asp-validation-for="DocumentId" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="DateBirth" class="form-control" placeholder="Data de Nascimento..." />
+				<span asp-validation-for="DateBirth" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="PhoneNumber" class="form-control" placeholder="Numero de Telefone..." />
+				<span asp-validation-for="PhoneNumber" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<br />
+				Carteira de Motorista
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="DriverLicenseId" class="form-control" placeholder="Carteira de Motorista..." />
+				<span asp-validation-for="DriverLicenseId" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<select asp-for="DriverLicenseClass" class="form-select" asp-items="@ViewBag.Classes">
+					<option disabled selected>--Selecione a classe--</option>
+				</select>
+				<span asp-validation-for="DriverLicenseClass" class="text-danger" />
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<input asp-for="Image" class="form-control" />
+				<input asp-for="DriverLicenseImgUrl" hidden class="form-control" />
+				<span asp-validation-for="Image" class="text-danger"></span>
+			</div>
+			<div class="col-12 col-md-6 offset-md-3 pb-2">
+				<br />
+				<button type="submit" class="form-control btn btn-success" value="Submit">Cadastrar</button>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

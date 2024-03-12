@@ -1,17 +1,17 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using RentH2.Services.MotorcycleAPI.Extensions;
-using RentH2.Services.MotorcycleAPI.Utility;
-using RentH2.Services.MotorcycleAPI;
-using RentH2.Services.MotorcycleAPI.Services.IService;
-using RentH2.Services.MotorcycleAPI.Services;
+using RentH2.Services.PlanAPI.Extensions;
+using RentH2.Services.PlanAPI.Utility;
+using RentH2.Services.PlanAPI;
+using RentH2.Services.PlanAPI.Services.IService;
+using RentH2.Services.PlanAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
-builder.Services.AddSingleton<IMotorcycleService, MotorcycleService>();
+builder.Services.AddSingleton<IPlanService, PlanService>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);

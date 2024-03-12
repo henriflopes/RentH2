@@ -4,7 +4,6 @@ using RentH2.Services.AuthAPI.Models.Dto;
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Identity;
 using RentH2.Services.AuthAPI.Utility;
-using Npgsql;
 
 namespace RentH2.Services.AuthAPI.Service
 {

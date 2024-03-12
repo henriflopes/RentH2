@@ -40,6 +40,8 @@
 								<li><hr class="dropdown-divider"></li>*@
 									<li><a class="dropdown-item" asp-controller="Motorcycle" asp-action="MotorcycleIndex">Motocicletas</a></li>
 									<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Auth" asp-action="Register">Cadastro de Usuários</a></li>
+								<li><hr class="dropdown-divider"></li>
 								</ul>
 							</li>
 						@* } *@
@@ -61,7 +63,7 @@
 								<a class="nav-link" asp-controller="Auth" asp-action="Login">Entrar</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" asp-controller="Auth" asp-action="Register">Registrar</a>
+								<a class="nav-link" asp-controller="Auth" asp-action="RegisterUser">Registrar</a>
 							</li>
 						}
 						else

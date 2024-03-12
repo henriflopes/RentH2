@@ -60,43 +60,56 @@ namespace RentH2.Web.Controllers
 			return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegistrationRequestDto model)
-        {
-            ResponseDto result = await _authService.RegisterAsync(model);
-            ResponseDto assignRole;
+		[HttpPost]
+		public async Task<IActionResult> Register(RegistrationRequestDto model)
+		{
+			var result = CreateUserFunc(ref model);
 
-            if (result != null && result.IsSuccess)
-            {
-                if (string.IsNullOrEmpty(model.Role))
-                {
-                    model.Role = Roles.Rider;
-                }
-
-                assignRole = await _authService.AssignRoleAsync(model);
-
-                if (assignRole != null && assignRole.IsSuccess)
-                {
-                    TempData["success"] = "Registration Successful";
-                    return RedirectToAction(nameof(Login));
-                }
-            }
-            else
-            {
-                TempData["error"] = result.Message;
-            }
+			if (result != null && result.IsSuccess)
+			{
+				TempData["success"] = $"Cadastro de {model.Role} feito com sucesso!";
+				return RedirectToAction(nameof(Login));
+			}
+			else
+			{
+				TempData["error"] = result?.Message;
+			}
 
 			SeedDropDownList();
 			return View(model);
+		}
+
+		[HttpGet]
+        public IActionResult RegisterUser()
+        {
+            SeedDropDownList();
+            return View();
         }
 
+		[HttpPost]
+		public async Task<IActionResult> RegisterUser(RegistrationRequestDto model)
+		{
+			var result = CreateUserFunc(ref model);
+
+			if (result != null && result.IsSuccess)
+			{
+				TempData["success"] = "Parábens motociclista seu cadastro foi concluido!";
+				return RedirectToAction(nameof(Login));
+			}
+            else
+            {
+				TempData["error"] = result?.Message;
+			}
+
+			SeedDropDownList();
+			return View(model);
+		}
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
             _tokenProvider.ClearToken();
             return RedirectToAction("Index", "Home");
         }
-
 
         private async Task SignInUser(LoginResponseDto model)
         {
@@ -140,6 +153,24 @@ namespace RentH2.Web.Controllers
 
 			ViewBag.Classes = driverClasses;
 			ViewBag.Roles = roles;
+		}
+
+		private ResponseDto CreateUserFunc(ref RegistrationRequestDto model)
+		{
+			if (string.IsNullOrEmpty(model.Role))
+			{
+				model.Role = Roles.Rider;
+			}
+
+			ResponseDto? result = _authService.RegisterAsync(model).GetAwaiter().GetResult();
+			ResponseDto? resultAssignRole = new();
+
+			if (result != null && result.IsSuccess)
+			{
+				resultAssignRole = _authService.AssignRoleAsync(model).GetAwaiter().GetResult();
+			}
+
+			return resultAssignRole;
 		}
 	}
 }

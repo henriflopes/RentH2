@@ -13,6 +13,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 builder.Services.AddHttpClient<IMotorcycleService, MotorcycleService>();
+builder.Services.AddHttpClient<IPlanService, PlanService>();
 
 //builder.Services.AddHttpClient<IProductService, ProductService>();
 //builder.Services.AddHttpClient<ICartService, CartService>();
@@ -24,11 +25,13 @@ SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"] + 
 SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"] + "/api/order/";
 SD.RentAPIBase = builder.Configuration["ServiceUrls:RentAPI"] + "/api/rent/";
 SD.MotorcycleAPIBase = builder.Configuration["ServiceUrls:MotorcycleAPI"] + "/api/motorcycle/";
+SD.PlanAPIBase = builder.Configuration["ServiceUrls:PlanAPI"] + "/api/plan/";
 
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
 //builder.Services.AddScoped<IProductService, ProductService>();
 //builder.Services.AddScoped<ICartService, CartService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();

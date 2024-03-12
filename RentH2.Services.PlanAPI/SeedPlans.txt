@@ -1,0 +1,26 @@
+{
+  "description": "Plano de 7 dias",
+  "totalDays": 7,
+  "dailyPrice": 30.00,
+  "totalPrice": 210.00,
+  "fineAntecipated": 0.20,
+  "fineDelayed": 50.00,
+}
+
+{
+  "description": "Plano de 15 dias",
+  "totalDays": 15,
+  "dailyPrice": 28.00,
+  "totalPrice": 420.00,
+  "fineAntecipated": 0.40,
+  "fineDelayed": 50.00
+}
+
+{
+  "description": "Plano de 30 dias",
+  "totalDays": 7,
+  "dailyPrice": 22.00,
+  "totalPrice": 660.00,
+  "fineAntecipated": 0.60,
+  "fineDelayed": 50.00,
+}

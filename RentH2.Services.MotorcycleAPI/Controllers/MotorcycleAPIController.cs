@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.MotorcycleAPI.Utility;
 using RentH2.Services.MotorcycleAPI.Models;
@@ -12,6 +11,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 {
 	[Route("api/motorcycle")]
 	[ApiController]
+	//[Authorize(Roles = Roles.Administrator)]
 	public class MotorcycleAPIController : ControllerBase
 	{
 		private readonly IMapper _mapper;
@@ -62,7 +62,6 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 
 		[HttpPost]
-		//[Authorize(Roles = Roles.Administrator)]
 		public async Task<ResponseDto> Post(MotorcycleDto motorcycleDto)
 		{
 			try
@@ -82,7 +81,6 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 		}
 
 		[HttpPut]
-		//[Authorize(Roles = Roles.Administrator)]
 		public async Task<ResponseDto> Put(MotorcycleDto motorcycleDto)
 		{
 			try
@@ -113,7 +111,6 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 		[HttpDelete]
         [Route("{id}")]
-        //[Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseDto> Delete(string id)
 		{
 			Motorcycle motorcycle = await _motorcycleService.GetAsync(id);

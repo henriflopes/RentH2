@@ -15,6 +15,5 @@ namespace RentH2.Services.AuthAPI.Models.Dto
 		public string? DriverLicenseClass { get; set; }
 		public string? DriverLicenseImageUrl { get; set; }
 		public string? DriverLicenseImageLocalPath { get; set; }
-
 	}
 }

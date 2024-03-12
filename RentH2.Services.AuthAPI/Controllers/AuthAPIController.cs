@@ -2,7 +2,6 @@
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 
 namespace RentH2.Services.AuthAPI.Controllers
 {
@@ -73,7 +72,7 @@ namespace RentH2.Services.AuthAPI.Controllers
         }
 
         [HttpPost("AssignRole")]
-        public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
+		public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
         {
             var assignRoleSuccessful = await _authService.AssignRole(model.Email, model.Role.ToUpper());
             if (!assignRoleSuccessful)

@@ -11,12 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
-builder.Services.AddSingleton<IRentService, RentService>();
-builder.Services.AddSingleton<IRidersRentsService, RidersRentsService>();
+
+builder.Services.AddScoped<IRentService, RentService>();
+builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
+builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddHttpClient("Plan", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:PlanAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+builder.Services.AddHttpClient("Motorcycle", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:MotorcycleAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

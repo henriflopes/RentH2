@@ -11,7 +11,11 @@ namespace RentH2.Web.Models
         [Display(Name = "Type")]
         public string? Type { get; set; }
 
-        [Required(ErrorMessage = "O numero da placa é necessário para identificar a motocicleta")]
+		[Required(ErrorMessage = "Informar o ano de fabricação")]
+		[Display(Name = "Ano de Fabricação")]
+		public string Year { get; set; }
+
+		[Required(ErrorMessage = "O numero da placa é necessário para identificar a motocicleta")]
         [Display(Name = "Number Plate")]
         public string NumberPlate { get; set; }
 

@@ -8,8 +8,9 @@ namespace RentH2.Services.MotorcycleAPI.Services.IService
 		Task<List<Motorcycle>> GetAsync();
 		Task<Motorcycle> GetAsync(string id);
 		Task CreateAsync(Motorcycle motorcycle);
-		Task<ReplaceOneResult> UpdateAsync(Motorcycle motorcycle);
-		Task<DeleteResult> RemoveAsync(string id);
+		Task UpdateAsync(Motorcycle motorcycle);
+		Task RemoveAsync(string id);
+		Task<List<Motorcycle>> GetAllByStatusAsync(List<string> rentStatus);
 
 	}
 }

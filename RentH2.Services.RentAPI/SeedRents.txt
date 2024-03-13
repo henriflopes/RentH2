@@ -1,0 +1,81 @@
+{
+  "startDate": "2024-03-13T00:07:00.485Z",
+  "endDate": "2024-03-20T00:07:00.485Z",
+  "endDateExpected": "2024-03-20T00:07:00.485Z",
+  "total": 210,
+  "totalExpected": 210,
+  "status": "Locado",
+  "timeStamp": "2024-03-13T00:07:00.485Z",
+  "user": {
+    "id": "208aa945-2d84-2421-2342-2269ec64d949",
+    "name": "System",
+    "surName": "Rider",
+    "phoneNumber": "",
+    "email": "rider@renth2.com",
+    "documentId": "7AA4F3857AB9",
+    "dateBirth": "1980-01-03T00:00:00.000Z",
+    "driverLicenseId": "C5239363-957A-4F94",
+    "driverLicenseClass": "B",
+    "driverLicenseImageUrl": "",
+    "driverLicenseImageLocalPath": ""
+  },
+  "motorcycle": {
+	  "id": "65eb56e64e70edcad4167ed8",
+	  "year": "2020",
+	  "type": "XT666",
+	  "numberPlate": "AT A12 DE",
+	  "location": "São Paulo",
+	  "status": "Locado"
+  },
+  "plan": {
+	"id": "65f0bb73673360953608ba9a",
+	"Description": "Plano de 7 dias",
+	"TotalDays": 7,
+	"DailyPrice": 30,
+	"TotalPrice": 210,
+	"FineAntecipated": 0.2,
+	"FineDelayed": 50,
+	"Status": "Disponível"
+  }
+}
+
+{
+  "startDate": "2024-03-23T00:07:00.485Z",
+  "endDate": "2024-03-30T00:07:00.485Z",
+  "endDateExpected": "2024-03-30T00:07:00.485Z",
+  "total": 210,
+  "totalExpected": 210,
+  "status": "Locado",
+  "timeStamp": "2024-03-13T00:07:00.485Z",
+  "user": {
+    "id": "208aa945-2d84-2421-2342-2269ec64d949",
+    "name": "System",
+    "surName": "Rider",
+    "phoneNumber": "",
+    "email": "rider@renth2.com",
+    "documentId": "7AA4F3857AB9",
+    "dateBirth": "1980-01-03T00:00:00.000Z",
+    "driverLicenseId": "C5239363-957A-4F94",
+    "driverLicenseClass": "B",
+    "driverLicenseImageUrl": "",
+    "driverLicenseImageLocalPath": ""
+  },
+  "motorcycle": {
+	  "id": "65eb56e64e70edcad4167ed8",
+	  "year": "2020",
+	  "type": "XT666",
+	  "numberPlate": "AT A12 DE",
+	  "location": "São Paulo",
+	  "status": "Locado"
+  },
+  "plan": {
+	"id": "65f0bb73673360953608ba9a",
+	"Description": "Plano de 7 dias",
+	"TotalDays": 7,
+	"DailyPrice": 30,
+	"TotalPrice": 210,
+	"FineAntecipated": 0.2,
+	"FineDelayed": 50,
+	"Status": "Disponível"
+  }
+}

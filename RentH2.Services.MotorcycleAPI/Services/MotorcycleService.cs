@@ -6,6 +6,7 @@ using RentH2.Services.MotorcycleAPI.Models;
 using System;
 using RentH2.Services.MotorcycleAPI.Services.IService;
 using MongoDB.Bson;
+using System.Linq;
 
 namespace RentH2.Services.MotorcycleAPI.Services
 {
@@ -34,10 +35,14 @@ namespace RentH2.Services.MotorcycleAPI.Services
 		public async Task CreateAsync(Motorcycle motorcycle) =>
 			await _motorcycleCollection.InsertOneAsync(motorcycle);
 
-		public async Task<ReplaceOneResult> UpdateAsync(Motorcycle motorcycle) =>
+		public async Task UpdateAsync(Motorcycle motorcycle) =>
 			await _motorcycleCollection.ReplaceOneAsync(x => x.Id == motorcycle.Id, motorcycle, new ReplaceOptions { IsUpsert = true });
 
-		public async Task<DeleteResult> RemoveAsync(string id) => await _motorcycleCollection.DeleteOneAsync(x => x.Id == id);
+		public async Task RemoveAsync(string id) => await _motorcycleCollection.DeleteOneAsync(x => x.Id == id);
 
+		public async Task<List<Motorcycle>> GetAllByStatusAsync(List<string> rentStatus) {
+			var filter = Builders<Motorcycle>.Filter.In(u => u.Status, rentStatus);
+			return await _motorcycleCollection.Find(filter).ToListAsync();
+		}
 	}
 }

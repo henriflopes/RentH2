@@ -17,6 +17,7 @@ namespace RentH2.Services.RentAPI.Models.Dto
 		public double Total { get; set; }
 		public double TotalExpected { get; set; }
 		public string Status { get; set; } = RentStatus.Available;
+		public DateTime TimeStamp { get; set; } = DateTime.Now;
 		public ApplicationUserDto User { get; set; }
 		public MotorcycleDto Motorcycle { get; set; }
 		public PlanDto Plan { get; set; }

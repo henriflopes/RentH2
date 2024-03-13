@@ -1,28 +1,31 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Services.RentAPI.Models;
 using RentH2.Services.RentAPI.Models.Dto;
 using RentH2.Services.RentAPI.Services.IService;
+using RentH2.Services.RentAPI.Utility;
 
 namespace RentH2.Services.RentAPI.Controllers
 {
 	[Route("api/rent")]
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	public class RentAPIController : ControllerBase
 	{
 		private readonly ResponseDto _response;
 		private readonly IRentService _rentService;
+		private readonly IMotorcycleService _motorcycleService;
+		private readonly IPlanService _planService;
 		private readonly IMapper _mapper;
 
-		public RentAPIController(IRentService rentService, IMapper mapper)
+		public RentAPIController(IRentService rentService, IMotorcycleService motorcycleService, IPlanService planService,IMapper mapper)
 		{
 			_rentService = rentService;
+			_motorcycleService = motorcycleService;
+			_planService = planService;
 			_mapper = mapper;
 			_response = new ResponseDto();
 		}
-
 
 		[HttpGet]
 		public async Task<ResponseDto> Get()
@@ -41,13 +44,78 @@ namespace RentH2.Services.RentAPI.Controllers
 			return _response;
 		}
 
-		[HttpGet]
-		[Route("{id}")]
-		public async Task<ResponseDto> Get(string id)
+		[HttpPost("GetAllRentedByExpectedDateAsync")]
+		public async Task<ResponseDto> GetAllRentedByExpectedDateAsync([FromBody] RentAgendaDto rentAgendaDto)
 		{
 			try
 			{
-				Rent rent = await _rentService.GetAsync(id);
+				RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
+				var rentedAgenda = await _rentService.GetAllRentedByExpectedDateAsync(rentAgenda);
+				_response.Result = _mapper.Map<IEnumerable<RentAgendaDto>>(rentedAgenda);
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+		}
+
+		[HttpPost("GetAvalaiblePlans")]
+		public async Task<ResponseDto> GetAvalaiblePlans([FromBody] RentAgendaDto rentAgendaDto)
+		{
+			try
+			{
+				var rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
+
+				var plans = await _planService.GetAllByStatusAsync([RentStatus.Available]);
+
+				foreach (var plan in plans.OrderBy(o => o.TotalDays))
+				{
+					rentAgenda.EndDate = rentAgenda.StartDate.AddDays(plan.TotalDays);
+					var motorcycle = await _motorcycleService.GetOneAvailable(rentAgenda);
+					if (motorcycle == null)
+					{
+						plan.Status = RentStatus.Unavailable;
+					}
+				}
+
+				_response.Result = plans;
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+		}
+
+		[HttpPost("RentAsync")]
+		public async Task<ResponseDto> RentAsync([FromBody] RentDto rentDto)
+		{
+			try
+			{
+				Rent rent = _mapper.Map<Rent>(rentDto);
+
+				RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rent);
+
+				var motorcycle = await _motorcycleService.GetOneAvailable(rentAgenda);
+				if (motorcycle == null)
+				{
+					_response.IsSuccess = false;
+					_response.Message = "Não há motos disponíveis para este período!";
+
+					return _response;
+				}
+
+				var motorcycleDto = _mapper.Map<Motorcycle>(motorcycle);
+				motorcycleDto.Status = RentStatus.Rented;
+				await _motorcycleService.UpdateAsync(motorcycleDto);
+				rent.Motorcycle = motorcycleDto;
+
+				await _rentService.CreateAsync(rent);
 				_response.Result = _mapper.Map<RentDto>(rent);
 			}
 			catch (Exception ex)
@@ -59,16 +127,14 @@ namespace RentH2.Services.RentAPI.Controllers
 			return _response;
 		}
 
-
-		[HttpPost]
-		public async Task<ResponseDto> Post(RentDto rentDto)
+		[HttpGet]
+		[Route("{id}")]
+		public async Task<ResponseDto> Get(string id)
 		{
 			try
 			{
-				Rent rent = _mapper.Map<Rent>(rentDto);
-				await _rentService.CreateAsync(rent);
+				Rent rent = await _rentService.GetAsync(id);
 				_response.Result = _mapper.Map<RentDto>(rent);
-
 			}
 			catch (Exception ex)
 			{

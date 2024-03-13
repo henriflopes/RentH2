@@ -1,0 +1,8 @@
+{
+  "id": "65e8d65e0a110d22f9945d36",
+  "year": null,
+  "type": "CRF 232",
+  "numberPlate": "NON",
+  "location": "Guararema",
+  "status": "Disponível"
+}

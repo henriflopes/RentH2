@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using RentH2.Services.RentAPI.Models;
+using RentH2.Services.RentAPI.Models.Dto;
 
 namespace RentH2.Services.RentAPI.Services.IService
 {
@@ -10,6 +11,7 @@ namespace RentH2.Services.RentAPI.Services.IService
 		Task CreateAsync(Rent rent);
 		Task<ReplaceOneResult> UpdateAsync(Rent rent);
 		Task<DeleteResult> RemoveAsync(string id);
+		Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda);
 
 	}
 }

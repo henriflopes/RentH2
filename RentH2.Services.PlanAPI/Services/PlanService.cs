@@ -32,5 +32,10 @@ namespace RentH2.Services.PlanAPI.Services
 
 		public async Task<DeleteResult> RemoveAsync(string id) => await _planCollection.DeleteOneAsync(x => x.Id == id);
 
+		public async Task<List<Plan>> GetAllByStatusAsync(List<string> rentStatus)
+		{
+			var filter = Builders<Plan>.Filter.In(u => u.Status, rentStatus);
+			return await _planCollection.Find(filter).ToListAsync();
+		}
 	}
 }

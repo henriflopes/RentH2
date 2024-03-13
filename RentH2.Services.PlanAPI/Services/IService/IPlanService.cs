@@ -10,6 +10,6 @@ namespace RentH2.Services.PlanAPI.Services.IService
 		Task CreateAsync(Plan plan);
 		Task<ReplaceOneResult> UpdateAsync(Plan plan);
 		Task<DeleteResult> RemoveAsync(string id);
-
+		Task<List<Plan>> GetAllByStatusAsync(List<string> rentStatus);
 	}
 }

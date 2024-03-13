@@ -60,6 +60,23 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			return _response;
 		}
 
+		[HttpPost("GetAllByStatusAsync")]
+		public async Task<ResponseDto> GetAllByStatusAsync([FromBody] List<string> rentStatus)
+		{
+			try
+			{
+				List<Motorcycle> motorcycles = await _motorcycleService.GetAllByStatusAsync(rentStatus);
+				_response.Result = _mapper.Map<List<MotorcycleDto>>(motorcycles);
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+		}
+
 
 		[HttpPost]
 		public async Task<ResponseDto> Post(MotorcycleDto motorcycleDto)

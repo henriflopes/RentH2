@@ -9,7 +9,7 @@ namespace RentH2.Services.PlanAPI.Controllers
 {
 	[Route("api/plan")]
 	[ApiController]
-	[Authorize]
+	//[Authorize]
 	public class PlanAPIController : ControllerBase
 	{
 		private readonly ResponseDto _response;
@@ -31,6 +31,23 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
 				List<Plan> plans = await _planService.GetAsync();
 				_response.Result = _mapper.Map<IEnumerable<PlanDto>>(plans);
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+		}
+
+		[HttpPost("GetAllByStatusAsync")]
+		public async Task<ResponseDto> GetAllByStatusAsync([FromBody] List<string> rentStatus)
+		{
+			try
+			{
+				List<Plan> motorcycles = await _planService.GetAllByStatusAsync(rentStatus);
+				_response.Result = _mapper.Map<List<PlanDto>>(motorcycles);
 			}
 			catch (Exception ex)
 			{

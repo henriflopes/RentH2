@@ -14,7 +14,11 @@ namespace RentH2.Services.RentAPI
 				config.CreateMap<MotorcycleDto, Motorcycle>().ReverseMap();
 				config.CreateMap<PlanDto, Plan>().ReverseMap();
 				config.CreateMap<ApplicationUserDto, ApplicationUser>().ReverseMap();
+
 				config.CreateMap<RidersRentsDto, RidersRents>().ReverseMap();
+				config.CreateMap<RentAgendaDto, RentAgenda>().ReverseMap();
+				config.CreateMap<Rent, RentAgenda>().ReverseMap();
+
 			});
 
 			return mappingConfig;

@@ -11,6 +11,8 @@ namespace RentH2.Services.MotorcycleAPI.Models.Dto
 		[Display(Name = "Type")]
 		public string? Type { get; set; }
 
+		public string Year { get; set; }
+
 		[Required(ErrorMessage = "The number plate is required to identify the vehicle")]
 		[Display(Name = "Number Plate")]
 		public string NumberPlate { get; set; }

@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
 	<link rel="stylesheet" href="~/RentH2.Web.styles.css" asp-append-version="true" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.css">
 </head>
 <body>
 	<header>
@@ -26,8 +27,16 @@
 						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Sobre nós
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" asp-controller="Home" asp-action="Privacy">Privacidade</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Home" asp-action="History">História</a></li>
+								<li><hr class="dropdown-divider"></li>
+							</ul>
 						</li>
 						@* @if (User.IsInRole(Roles.Administrator))
 						{ *@
@@ -36,18 +45,30 @@
 									Gerenciador de Conteudo
 								</a>
 								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-									@* <li><a class="dropdown-item" asp-controller="Plan" asp-action="PlanIndex">Planos</a></li>
-								<li><hr class="dropdown-divider"></li>*@
+									<li><a class="dropdown-item" asp-area="" asp-controller="Order" asp-action="OrderIndex">Pedidos</a></li>
+									<li><hr class="dropdown-divider"></li>
 									<li><a class="dropdown-item" asp-controller="Motorcycle" asp-action="MotorcycleIndex">Motocicletas</a></li>
 									<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" asp-controller="Auth" asp-action="Register">Cadastro de Usuários</a></li>
-								<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" asp-controller="Auth" asp-action="Register">Cadastro de Usuários</a></li>
+									<li><hr class="dropdown-divider"></li>
 								</ul>
 							</li>
 						@* } *@
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Minhas Coisas
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" >Pedidos</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" >Detalhes Aluguel</a></li>
+								<li><hr class="dropdown-divider"></li>
+							</ul>
+						</li>
+
 						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Order" asp-action="OrderIndex">
-								Manage Order
+							<a class="nav-link" asp-area="" asp-controller="Rent" asp-action="Index">
+								Alugar Moto
 							</a>
 						</li>
 						<li class="nav-item">
@@ -97,7 +118,13 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+	<script src="~/lib/jqueryui/jquery-ui.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
+
+

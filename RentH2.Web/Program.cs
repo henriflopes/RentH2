@@ -14,6 +14,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 builder.Services.AddHttpClient<IMotorcycleService, MotorcycleService>();
 builder.Services.AddHttpClient<IPlanService, PlanService>();
+builder.Services.AddHttpClient<IRentService, RentService>();
 
 //builder.Services.AddHttpClient<IProductService, ProductService>();
 //builder.Services.AddHttpClient<ICartService, CartService>();
@@ -32,6 +33,7 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<IRentService, RentService>();
 //builder.Services.AddScoped<IProductService, ProductService>();
 //builder.Services.AddScoped<ICartService, CartService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();

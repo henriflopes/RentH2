@@ -10,5 +10,6 @@ namespace RentH2.Services.AuthAPI.Service.IService
         Task<bool> AssignRole(string email, string roleName);
         Task<List<ApplicationUser>> GetRiders();
         Task<string> UpdateUser(RegistrationRequestDto request, bool register = true);
+        Task<ApplicationUser?> GetUserDetailsByUserId(string userName);
 	}
 }

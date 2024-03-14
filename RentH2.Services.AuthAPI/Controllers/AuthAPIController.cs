@@ -63,7 +63,7 @@ namespace RentH2.Services.AuthAPI.Controllers
             if (loginResponse.User == null)
             {
                 _response.IsSuccess = false;
-                _response.Message = "Username or password is incorrect";
+                _response.Message = "Usuário ou Senha incorreta";
                 return BadRequest(_response);
             }
 
@@ -78,7 +78,7 @@ namespace RentH2.Services.AuthAPI.Controllers
             if (!assignRoleSuccessful)
             {
                 _response.IsSuccess = false;
-                _response.Message = "Error encountered";
+                _response.Message = "Erro encontrado";
                 return BadRequest(_response);
             }
             return Ok(_response);
@@ -91,11 +91,26 @@ namespace RentH2.Services.AuthAPI.Controllers
 			if (riders == null)
 			{
 				_response.IsSuccess = false;
-				_response.Message = "Error encountered";
+				_response.Message = "Erro encontrado";
 				return BadRequest(_response);
 			}
 			_response.Result = _mapper.Map<List<ApplicationUserDto>>(riders);
 			return Ok(_response);
 		}
+
+		[HttpGet("GetUserDetailsByUserId")]
+		public async Task<IActionResult> GetUserDetailsByUserId(string userId)
+		{
+			var user = await _authService.GetUserDetailsByUserId(userId);
+			if (user == null)
+			{
+				_response.IsSuccess = false;
+				_response.Message = "Erro encontrado";
+				return BadRequest(_response);
+			}
+			_response.Result = _mapper.Map<ApplicationUserDto>(user);
+			return Ok(_response);
+		}
+		
 	}
 }

@@ -28,7 +28,7 @@ namespace RentH2.Services.RentAPI.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ResponseDto> Get()
+		public async Task<ResponseDto> GetAllRent()
 		{
 			try
 			{
@@ -67,8 +67,10 @@ namespace RentH2.Services.RentAPI.Controllers
 		{
 			try
 			{
-				var rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
+				List<RentAgendaDto> RentAgendaDtoResult = [];
+				RentAgendaDto resultItem;
 
+				var rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
 				var plans = await _planService.GetAllByStatusAsync([RentStatus.Available]);
 
 				foreach (var plan in plans.OrderBy(o => o.TotalDays))
@@ -79,9 +81,21 @@ namespace RentH2.Services.RentAPI.Controllers
 					{
 						plan.Status = RentStatus.Unavailable;
 					}
+
+					resultItem = new RentAgendaDto
+					{
+						StartDate = rentAgenda.StartDate,
+						EndDate = rentAgenda.EndDate,
+						TotalDaysInRow = plan.TotalDays,
+						MotorcycleId = motorcycle?.Id,
+						MotorcycleStatus = motorcycle?.Status,
+						Plan = plan
+					};
+
+					RentAgendaDtoResult.Add(resultItem);
 				}
 
-				_response.Result = plans;
+				_response.Result = RentAgendaDtoResult;
 			}
 			catch (Exception ex)
 			{

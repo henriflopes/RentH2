@@ -1,0 +1,44 @@
+[
+	{
+	  "Year": "2012",
+	  "Type": "CRF 232",
+	  "NumberPlate": "XEE 101",
+	  "Location": "Guararema",
+	  "Status": "Disponível"
+	},
+	{
+	  "Year": "2012",
+	  "Type": "CG 125",
+	  "NumberPlate": "ZFE 121",
+	  "Location": "Diadema",
+	  "Status": "Disponível"
+	},
+	{
+	  "Year": "2018",
+	  "Type": "BROS 125",
+	  "NumberPlate": "EFE 321",
+	  "Location": "Santos",
+	  "Status": "Disponível"
+	},
+	{
+	  "Year": "2024",
+	  "Type": "FAZER 125",
+	  "NumberPlate": "MOH 541",
+	  "Location": "São Paulo",
+	  "Status": "Disponível"
+	},
+	{
+	  "Year": "2024",
+	  "Type": "CG 125",
+	  "NumberPlate": "ASW 658",
+	  "Location": "São Paulo",
+	  "Status": "Disponível"
+	},
+	{
+	  "Year": "2024",
+	  "Type": "NMAX 135",
+	  "NumberPlate": "FCK 699",
+	  "Location": "São Paulo",
+	  "Status": "Disponível"
+	}
+]

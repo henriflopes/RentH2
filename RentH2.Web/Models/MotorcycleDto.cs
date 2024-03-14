@@ -8,7 +8,7 @@ namespace RentH2.Web.Models
         public string? Id { get; set; }
 
         [Required(ErrorMessage = "Você deve informar o tipo da motocicleta")]
-        [Display(Name = "Type")]
+        [Display(Name = "Modelo")]
         public string? Type { get; set; }
 
 		[Required(ErrorMessage = "Informar o ano de fabricação")]
@@ -16,11 +16,12 @@ namespace RentH2.Web.Models
 		public string Year { get; set; }
 
 		[Required(ErrorMessage = "O numero da placa é necessário para identificar a motocicleta")]
-        [Display(Name = "Number Plate")]
+        [Display(Name = "Placa")]
         public string NumberPlate { get; set; }
 
         [Required(ErrorMessage = "Você deve informar a localização da motocicleta")]
-        public string? Location { get; set; }
+		[Display(Name = "Localização")]
+		public string? Location { get; set; }
 
         [Required(ErrorMessage = "Um status deve ser informado")]
         public string Status { get; set; } = RentStatus.Available;

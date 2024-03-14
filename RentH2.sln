@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{7143
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Web", "RentH2.Web\RentH2.Web.csproj", "{89D5FA95-296B-4A78-ABC2-3B66B1A46154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentH2.Services.PlanAPI", "RentH2.Services.PlanAPI\RentH2.Services.PlanAPI.csproj", "{01429E9F-8E05-4326-8C2C-C8F8ACC7EA82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.PlanAPI", "RentH2.Services.PlanAPI\RentH2.Services.PlanAPI.csproj", "{01429E9F-8E05-4326-8C2C-C8F8ACC7EA82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentH2.Services.RentAPI", "RentH2.Services.RentAPI\RentH2.Services.RentAPI.csproj", "{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.RentAPI", "RentH2.Services.RentAPI\RentH2.Services.RentAPI.csproj", "{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

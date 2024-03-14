@@ -1,0 +1,80 @@
+﻿@using Newtonsoft.Json
+@using RentH2.Web.Utility
+@model List<RentAgendaDto>?
+@{
+	int i = 0;
+	string ativoInativo;
+
+	foreach (var agenda in Model)
+	{
+		switch (agenda?.Plan?.TotalDays)
+		{
+			case 7:
+				agenda.Plan.ImgUrl = "/images/rent7c.jpeg";
+				break;
+			case 15:
+				agenda.Plan.ImgUrl = "/images/rent15c.jpeg";
+				break;
+			case 30:
+				agenda.Plan.ImgUrl = "/images/rent30c.jpeg";
+				break;
+		}
+	}
+}
+<div class="card-header ml-0 py-3">
+	<div class="row">
+		<div class="col-12 text-center">
+			<h1 class="text-white">Escolha o seu Plano</h1>
+			<p>Com a <b>Rent H2</b> quem não fica na mão é você. Temos planos para todos os bolsos e gostos!</p>
+		</div>
+	</div>
+</div>
+<div class="text-center h-100">
+	<form name="rentForm" id="rentForm" asp-action="RentReview" asp-controller="Rent" method="post">
+		<input type="hidden" id="rentAgendaDto" name="rentAgendaDto" value="A" />
+		<div class="row">
+			@foreach (var agenda in Model)
+			{
+				if (agenda?.Plan?.Status == RentStatus.Unavailable)
+					ativoInativo = "disabled";
+				else
+					ativoInativo = string.Empty;
+
+				<div class="col-4">
+					
+					<p>@JsonConvert.SerializeObject(agenda)</p>
+					<img src="@agenda?.Plan?.ImgUrl" style="max-width: 100%;" />
+					<br /><br />
+
+					@if (!string.IsNullOrEmpty(ativoInativo))
+					{
+						<p>
+							Infelizmente não temos motos disponíneis para a quantidade de dias que esse planos abrange.
+							<br /><br />
+							Volte e tente selecionar uma outra data.
+						</p>
+					}
+					else
+					{
+						<p><b>V</b>alor diário apenas @agenda?.Plan?.DailyPrice.ToString("c")</p>
+						@* <a id="btnPlan" class="btn btn-outline-primary @ativoInativo" asp-action="RentReview" asp-route-planId="@agenda?.Plan?.Id">@agenda?.Plan?.Description</a> *@
+						<input id="btnPlan_@i" onclick="submitObject(@JsonConvert.SerializeObject(agenda));" value="@agenda?.Plan?.Description" class="btn btn-outline-primary @ativoInativo" />
+						<br />
+						<br />
+						<p><b>V</b>alor total @agenda?.Plan?.TotalPrice.ToString("c")</p>
+					}
+				</div>
+				i = i + 1;
+			}
+		</div>
+	</form>
+</div>
+
+@section Scripts {
+	<script type="text/javascript">
+		function submitObject(json) {
+			$("#rentAgendaDto").val(JSON.stringify(json));
+			$("#rentForm").submit();
+		}
+	</script>
+}

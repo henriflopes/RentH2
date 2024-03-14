@@ -23,7 +23,16 @@ namespace RentH2.Web.Services
             });
         }
 
-        public async Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto)
+		public async Task<ResponseDto?> GetUserDetailsByUserId(string userId)
+		{
+            return await _baseService.SendAsync(new RequestDto()
+            {
+                ApiType = SD.ApiType.GET,
+                Url = SD.AuthAPIBase + "GetUserDetailsByUserId?userId=" + userId
+            });
+		}
+
+		public async Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto()
             {

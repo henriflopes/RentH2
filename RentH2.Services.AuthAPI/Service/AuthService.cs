@@ -4,6 +4,7 @@ using RentH2.Services.AuthAPI.Models.Dto;
 using RentH2.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Identity;
 using RentH2.Services.AuthAPI.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace RentH2.Services.AuthAPI.Service
 {
@@ -40,12 +41,11 @@ namespace RentH2.Services.AuthAPI.Service
 			return false;
 		}
 
-		public async Task<List<ApplicationUser>> GetRiders()
-		{
-			var riders = (await _userManager.GetUsersInRoleAsync(Roles.Rider)).ToList();
+		public async Task<ApplicationUser?> GetUserDetailsByUserId(string userId) => await
+			_context.ApplicationUsers.FirstOrDefaultAsync(q => q.Id == userId);
 
-			return riders;
-		}
+		public async Task<List<ApplicationUser>> GetRiders() => (await _userManager.GetUsersInRoleAsync(Roles.Rider)).ToList();
+		
 
 		public async Task<LoginResponseDto> Login(LoginRequestDto request)
 		{

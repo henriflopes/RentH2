@@ -11,7 +11,8 @@ namespace RentH2.Web.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage = "É necessário informar o total de dias.")]
-        public int TotalDays { get; set; }
+		[Display(Name = "Locação Total Prevista")]
+		public int TotalDays { get; set; }
 
         [Required(ErrorMessage = "É necessário informar o preço diário.")]
         public double DailyPrice { get; set; }
@@ -23,6 +24,8 @@ namespace RentH2.Web.Models
 
         [Required(ErrorMessage = "É necessário informar uma multa por atraso.")]
         public double FineDelayed { get; set; }
+
+        public string ImgUrl { get; set; }
 
         public string Status { get; set; } = RentStatus.Available;
     }

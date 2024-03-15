@@ -136,21 +136,19 @@ namespace RentH2.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> MotorcycleDelete(MotorcycleDto motorcycleDto)
 		{
-			if (ModelState.IsValid)
-			{
-				ResponseDto? response = await _motorcycleService.DeleteMotorcycleAsync(motorcycleDto.Id);
+			ResponseDto? response = await _motorcycleService.DeleteMotorcycleAsync(motorcycleDto.Id);
 
-				if (response != null && response.IsSuccess)
-				{
-					TempData["success"] = "Motocicleta excluida com sucesso!";
-					return RedirectToAction(nameof(MotorcycleIndex));
-				}
-				else
-				{
-					TempData["error"] = response?.Message;
-					SeedStatusType();
-				}
+			if (response != null && response.IsSuccess)
+			{
+				TempData["success"] = "Motocicleta excluida com sucesso!";
+				return RedirectToAction(nameof(MotorcycleIndex));
 			}
+			else
+			{
+				TempData["error"] = response?.Message;
+				SeedStatusType();
+			}
+
 			return NotFound(motorcycleDto);
 		}
 

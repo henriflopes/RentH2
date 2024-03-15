@@ -1,13 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.EntityFrameworkCore;
-
-namespace RentH2.Services.RentAPI.Models.Dto
+﻿namespace RentH2.Services.RentAPI.Models.Dto
 {
-    public class RidersRentsDto
+	public class RidersRentsDto
 	{
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
         public string RentId { get; set; }
 		public string PlanId { get; set; }

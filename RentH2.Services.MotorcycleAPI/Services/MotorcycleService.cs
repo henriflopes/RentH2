@@ -4,13 +4,13 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using RentH2.Services.MotorcycleAPI.Models;
 using System;
-using RentH2.Services.MotorcycleAPI.Services.IService;
 using MongoDB.Bson;
 using System.Linq;
+using RentH2.Services.MotorcycleAPI.Services.IService;
 
 namespace RentH2.Services.MotorcycleAPI.Services
 {
-	public class MotorcycleService : IMotorcycleService
+    public class MotorcycleService : IMotorcycleService
 	{
 		private readonly IMongoCollection<Motorcycle> _motorcycleCollection;
 

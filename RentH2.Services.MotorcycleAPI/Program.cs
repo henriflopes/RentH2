@@ -4,18 +4,23 @@ using Microsoft.OpenApi.Models;
 using RentH2.Services.MotorcycleAPI.Extensions;
 using RentH2.Services.MotorcycleAPI.Utility;
 using RentH2.Services.MotorcycleAPI;
-using RentH2.Services.MotorcycleAPI.Services.IService;
 using RentH2.Services.MotorcycleAPI.Services;
+using RentH2.Services.MotorcycleAPI.Services.IService;
+using RentH2.Web.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
-builder.Services.AddSingleton<IMotorcycleService, MotorcycleService>();
+builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
+builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
+builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

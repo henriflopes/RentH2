@@ -135,5 +135,23 @@ namespace RentH2.Services.RentAPI.Controllers
 
 			return _response;
 		}
+
+		[HttpGet("GetOneByMotorcycleIdAsync")]
+		public async Task<ResponseDto> GetOneByMotorcycleIdAsync(string motorcycleId)
+		{
+			try
+			{
+				RidersRents ridersRents = await _ridersRentsService.GetOneByMotorcycleIdAsync(motorcycleId);
+				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+
+		}
 	}
 }

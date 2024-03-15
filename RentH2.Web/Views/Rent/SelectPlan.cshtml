@@ -1,6 +1,7 @@
 ﻿@using Newtonsoft.Json
 @using RentH2.Web.Utility
 @model List<RentAgendaDto>?
+
 @{
 	int i = 0;
 	string ativoInativo;
@@ -24,7 +25,7 @@
 <div class="card-header ml-0 py-3">
 	<div class="row">
 		<div class="col-12 text-center">
-			<h1 class="text-white">Escolha o seu Plano</h1>
+			<h1 class="text-white">Escolha o seu plano com data de iníco em @Model[0].StartDate.ToString("dd MMMM 'de' yyyy")</h1>
 			<p>Com a <b>Rent H2</b> quem não fica na mão é você. Temos planos para todos os bolsos e gostos!</p>
 		</div>
 	</div>
@@ -41,8 +42,6 @@
 					ativoInativo = string.Empty;
 
 				<div class="col-4">
-					
-					<p>@JsonConvert.SerializeObject(agenda)</p>
 					<img src="@agenda?.Plan?.ImgUrl" style="max-width: 100%;" />
 					<br /><br />
 
@@ -57,7 +56,6 @@
 					else
 					{
 						<p><b>V</b>alor diário apenas @agenda?.Plan?.DailyPrice.ToString("c")</p>
-						@* <a id="btnPlan" class="btn btn-outline-primary @ativoInativo" asp-action="RentReview" asp-route-planId="@agenda?.Plan?.Id">@agenda?.Plan?.Description</a> *@
 						<input id="btnPlan_@i" onclick="submitObject(@JsonConvert.SerializeObject(agenda));" value="@agenda?.Plan?.Description" class="btn btn-outline-primary @ativoInativo" />
 						<br />
 						<br />

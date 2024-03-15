@@ -38,9 +38,9 @@
 								<li><hr class="dropdown-divider"></li>
 							</ul>
 						</li>
-						@* @if (User.IsInRole(Roles.Administrator))
-						{ *@
-						<li class="nav-item dropdown">
+						@if (User.IsInRole(Roles.Administrator))
+						{
+							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 									Gerenciador de Conteudo
 								</a>
@@ -53,29 +53,31 @@
 									<li><hr class="dropdown-divider"></li>
 								</ul>
 							</li>
-						@* } *@
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Minhas Coisas
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<li><a class="dropdown-item" >Pedidos</a></li>
-								<li><hr class="dropdown-divider"></li>
-								<li><a class="dropdown-item" >Detalhes Aluguel</a></li>
-								<li><hr class="dropdown-divider"></li>
-							</ul>
-						</li>
-
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Rent" asp-action="Index">
-								Alugar Moto
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="CartIndex">
-								&nbsp; <i class="bi bi-cart"></i>&nbsp;
-							</a>
-						</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="CartIndex">
+									&nbsp; <i class="bi bi-cart"></i>&nbsp;
+								</a>
+							</li>
+						}
+						@if (User.IsInRole(Roles.Rider))
+						{
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Minhas Coisas
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<li><a class="dropdown-item">Pedidos</a></li>
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item">Detalhes Aluguel</a></li>
+									<li><hr class="dropdown-divider"></li>
+								</ul>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Rent" asp-action="Index">
+									Alugar Moto
+								</a>
+							</li>
+						}
 					</ul>
 					<ul class="navbar-nav">
 						@if (!User.Identity.IsAuthenticated)
@@ -116,6 +118,7 @@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/sweetalert/sweetalert.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 	<script src="~/lib/jqueryui/jquery-ui.js"></script>

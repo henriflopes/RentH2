@@ -32,5 +32,7 @@ namespace RentH2.Services.RentAPI.Services
 
 		public async Task<DeleteResult> RemoveAsync(string id) => await _ridersRentsCollection.DeleteOneAsync(x => x.Id == id);
 
+		public async Task<RidersRents> GetOneByMotorcycleIdAsync(string motorcycleId) => 
+			await _ridersRentsCollection.Find(x => x.MotorcycleId == motorcycleId).FirstOrDefaultAsync();
 	}
 }

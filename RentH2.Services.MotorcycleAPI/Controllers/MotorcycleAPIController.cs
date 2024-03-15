@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using RentH2.MotorcycleAPI.Utility;
 using RentH2.Services.MotorcycleAPI.Models;
 using RentH2.Services.MotorcycleAPI.Models.Dto;
 using RentH2.Services.MotorcycleAPI.Services.IService;
 using RentH2.Services.MotorcycleAPI.Utility;
+using RentH2.Web.Services.IServices;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
-	[Route("api/motorcycle")]
+    [Route("api/motorcycle")]
 	[ApiController]
 	//[Authorize(Roles = Roles.Administrator)]
 	public class MotorcycleAPIController : ControllerBase
@@ -17,10 +19,12 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 		private readonly IMapper _mapper;
 		private readonly ResponseDto _response;
 		private readonly IMotorcycleService _motorcycleService;
+		private readonly IRidersRentsService _ridersRentsService;
 
-		public MotorcycleAPIController(IMotorcycleService motorcycleService, IMapper mapper) 
+		public MotorcycleAPIController(IMotorcycleService motorcycleService, IRidersRentsService ridersRentsService,IMapper mapper) 
 		{
 			_motorcycleService = motorcycleService;
+			_ridersRentsService = ridersRentsService;
 			_mapper = mapper;
 			_response = new ResponseDto();
 		}
@@ -136,7 +140,27 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			{
 				if (motorcycle != null)
 				{
-					await _motorcycleService.RemoveAsync(id);
+					try
+					{
+						var existsHist = await _ridersRentsService.GetOneByMotorcycleIdAsync(id);
+
+						if (existsHist != null)
+						{
+
+							motorcycle.Status = RentStatus.Deleted;
+							await _motorcycleService.UpdateAsync(motorcycle);
+						}
+						else
+						{
+							await _motorcycleService.RemoveAsync(id);
+						}
+
+					}
+					catch (MongoException ex)
+					{
+
+						throw;
+					}
 				}
 				else
 				{

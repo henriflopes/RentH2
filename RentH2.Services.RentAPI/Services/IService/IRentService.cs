@@ -8,7 +8,7 @@ namespace RentH2.Services.RentAPI.Services.IService
 	{
 		Task<List<Rent>> GetAsync();
 		Task<Rent> GetAsync(string id);
-		Task CreateAsync(Rent rent);
+		Task<Rent> CreateAsync(Rent rent);
 		Task<ReplaceOneResult> UpdateAsync(Rent rent);
 		Task<DeleteResult> RemoveAsync(string id);
 		Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda);

@@ -16,13 +16,15 @@ namespace RentH2.Services.RentAPI.Controllers
 		private readonly IRentService _rentService;
 		private readonly IMotorcycleService _motorcycleService;
 		private readonly IPlanService _planService;
+		private readonly IRidersRentsService _ridersRentsService;
 		private readonly IMapper _mapper;
 
-		public RentAPIController(IRentService rentService, IMotorcycleService motorcycleService, IPlanService planService,IMapper mapper)
+		public RentAPIController(IRentService rentService, IMotorcycleService motorcycleService, IPlanService planService, IRidersRentsService ridersRentsService,IMapper mapper)
 		{
 			_rentService = rentService;
 			_motorcycleService = motorcycleService;
 			_planService = planService;
+			_ridersRentsService = ridersRentsService;
 			_mapper = mapper;
 			_response = new ResponseDto();
 		}
@@ -129,7 +131,19 @@ namespace RentH2.Services.RentAPI.Controllers
 				await _motorcycleService.UpdateAsync(motorcycleDto);
 				rent.Motorcycle = motorcycleDto;
 
-				await _rentService.CreateAsync(rent);
+				var result = await _rentService.CreateAsync(rent);
+
+				RidersRents ridersRents = new RidersRents
+				{
+					RentId = result.Id,
+					MotorcycleId = rent.Motorcycle.Id,
+					PlanId = rent.Plan.Id,
+					UserId = rent.User.Id,
+					TimeStamp = DateTime.UtcNow
+				};
+
+				await _ridersRentsService.CreateAsync(ridersRents);
+
 				_response.Result = _mapper.Map<RentDto>(rent);
 			}
 			catch (Exception ex)

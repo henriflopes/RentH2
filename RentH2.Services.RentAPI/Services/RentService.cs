@@ -25,8 +25,10 @@ namespace RentH2.Services.RentAPI.Services
 		public async Task<Rent> GetAsync(string id) =>
 			await _rentCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-		public async Task CreateAsync(Rent rent) =>
+		public async Task<Rent> CreateAsync(Rent rent) { 
 			await _rentCollection.InsertOneAsync(rent);
+			return rent;
+		}
 
 		public async Task<ReplaceOneResult> UpdateAsync(Rent rent) =>
 			await _rentCollection.ReplaceOneAsync(x => x.Id == rent.Id, rent, new ReplaceOptions { IsUpsert = true });

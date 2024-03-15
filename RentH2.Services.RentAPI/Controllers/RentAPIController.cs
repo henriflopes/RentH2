@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Services.RentAPI.Models;
 using RentH2.Services.RentAPI.Models.Dto;
@@ -9,7 +10,7 @@ namespace RentH2.Services.RentAPI.Controllers
 {
 	[Route("api/rent")]
 	[ApiController]
-	//[Authorize]
+	[Authorize]
 	public class RentAPIController : ControllerBase
 	{
 		private readonly ResponseDto _response;

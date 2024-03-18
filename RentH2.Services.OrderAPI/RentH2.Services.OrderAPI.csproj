@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="SeedPlans.json" />
+    <Content Remove="Configurations\Entities\SeedOrders.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +16,7 @@
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
 	  <PackageReference Include="MongoDB.EntityFrameworkCore" Version="7.0.0-preview.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
 		  <PrivateAssets>all</PrivateAssets>
@@ -24,7 +25,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Configurations\Entities\SeedPlans.json" />
+    <None Include="Configurations\Entities\SeedOrders.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

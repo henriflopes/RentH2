@@ -1,4 +1,4 @@
-﻿using RentH2.Services.RentAPI.Models.Dto;
+﻿using RentH2.Services.MotorcycleAPI.Models.Dto;
 
 namespace RentH2.Web.Services.IServices
 {

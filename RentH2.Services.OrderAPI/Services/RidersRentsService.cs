@@ -1,8 +1,8 @@
-﻿using RentH2.Services.MotorcycleAPI.Models.Dto;
-using RentH2.Web.Services.IServices;
+﻿using RentH2.Services.OrderAPI.Models.Dto;
 using Newtonsoft.Json;
+using RentH2.Services.OrderAPI.Services.IServices;
 
-namespace RentH2.Services.MotorcycleAPI.Services
+namespace RentH2.Services.OrderAPI.Services
 {
 	public class RidersRentsService : IRidersRentsService
     {
@@ -14,20 +14,20 @@ namespace RentH2.Services.MotorcycleAPI.Services
 			_httpClientFactory = httpClientFactory;
 		}
 
-		public async Task<RidersRentsDto> GetOneByMotorcycleIdAsync(string motorcycleId)
+		public async Task<List<RidersRentsDto>> GetAllUserWithRentedMotorcycleAsync()
         {
 			var client = _httpClientFactory.CreateClient("RidersRents");
-			var response = await client.GetAsync($"/api/ridersrents/GetOneByMotorcycleIdAsync?motorcycleId={motorcycleId}");
+			var response = await client.GetAsync($"/api/ridersrents/GetAllUserWithRentedMotorcycleAsync");
 			var apiContent = await response.Content.ReadAsStringAsync();
 
 			var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
 
 			if (resp != null && resp.IsSuccess)
 			{
-				return JsonConvert.DeserializeObject<RidersRentsDto>(Convert.ToString(resp.Result));
+				return JsonConvert.DeserializeObject<List<RidersRentsDto>>(Convert.ToString(resp.Result));
 			}
 
-			return new RidersRentsDto();
+			return [];
 		}
     }
 }

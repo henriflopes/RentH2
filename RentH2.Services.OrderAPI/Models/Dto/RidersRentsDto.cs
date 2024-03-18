@@ -1,4 +1,4 @@
-﻿namespace RentH2.Services.MotorcycleAPI.Models.Dto
+﻿namespace RentH2.Services.OrderAPI.Models.Dto
 {
 	public class RidersRentsDto
 	{

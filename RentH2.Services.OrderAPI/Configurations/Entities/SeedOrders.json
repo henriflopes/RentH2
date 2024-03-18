@@ -1,0 +1,17 @@
+[
+    {
+        "timeStamp": "2024-03-10 01:00:20",
+        "shipping": 20.00,
+        "status": "Disponível"
+    },
+    {
+        "timeStamp": "2024-03-11 01:00:20",
+        "shipping": 10.00,
+        "status": "Disponível"
+    },
+    {
+        "timeStamp": "2024-03-10 01:00:20",
+        "shipping": 5.00,
+        "status": "Disponível"
+    }
+]

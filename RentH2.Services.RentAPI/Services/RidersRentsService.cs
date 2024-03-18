@@ -15,7 +15,7 @@ namespace RentH2.Services.RentAPI.Services
 		{
 			var mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
 			var mongoDb = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
-			_ridersRentsCollection = mongoDb.GetCollection<RidersRents>(databaseSettings.Value.CollectionName);
+			_ridersRentsCollection = mongoDb.GetCollection<RidersRents>("RidersRents");
 		}
 
 		public async Task<List<RidersRents>> GetAsync() =>

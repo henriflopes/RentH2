@@ -13,7 +13,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 {
     [Route("api/motorcycle")]
 	[ApiController]
-	//[Authorize(Roles = Roles.Administrator)]
+	[Authorize(Roles = Roles.Administrator)]
 	public class MotorcycleAPIController : ControllerBase
 	{
 		private readonly IMapper _mapper;

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.PlanAPI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.RentAPI", "RentH2.Services.RentAPI\RentH2.Services.RentAPI.csproj", "{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentH2.Services.OrderAPI", "RentH2.Services.OrderAPI\RentH2.Services.OrderAPI.csproj", "{0D5A8D79-41A7-4D57-8B2C-9908197C390C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D5A8D79-41A7-4D57-8B2C-9908197C390C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5A8D79-41A7-4D57-8B2C-9908197C390C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5A8D79-41A7-4D57-8B2C-9908197C390C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5A8D79-41A7-4D57-8B2C-9908197C390C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{89D5FA95-296B-4A78-ABC2-3B66B1A46154} = {E5372BA2-5EE8-46F4-A64C-DA7F2B3EF716}
 		{01429E9F-8E05-4326-8C2C-C8F8ACC7EA82} = {24CFB6D4-AA5F-4021-9EBA-6A9C2E558B01}
 		{73AEF4AB-3F75-496F-85DD-E2DCB86C996C} = {24CFB6D4-AA5F-4021-9EBA-6A9C2E558B01}
+		{0D5A8D79-41A7-4D57-8B2C-9908197C390C} = {24CFB6D4-AA5F-4021-9EBA-6A9C2E558B01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2D97447-8D41-44FD-828D-41A87E35F3EA}

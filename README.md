@@ -8,6 +8,7 @@ This app has been built with the following technologies:
   - Microservice
 
   Development Technologies
+  - Copilot
   - .Net Core 8
   - Razor Pages
   - Bootstrap 5

@@ -19,3 +19,5 @@ This app has been built with those following technologies:
   - Entity Framework Core 8
 
   Repository Guit Hub
+
+  FYI: To feed the MongoDB database with documents. In each project folder, you'll find a file with a name that contains "seeder". You should use it to make things work.

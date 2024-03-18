@@ -8,8 +8,6 @@ using System.Reflection;
 
 namespace RentH2.Web.Controllers
 {
-
-
 	public class RentController : Controller
 	{
 		private readonly IRentService _rentService;
@@ -30,16 +28,50 @@ namespace RentH2.Web.Controllers
 			return View(userDetails);
 		}
 
+		public async Task<IActionResult> RentUserDetails()
+		{
+			var userDetails = await UserDetails();
+
+			var response = await _rentService.GetRentByUserIdAsync(userDetails.Id, RentStatus.Available);
+			if (response != null && response.IsSuccess)
+			{
+				RentDto result = JsonConvert.DeserializeObject<RentDto>(Convert.ToString(response.Result));
+
+				if (result?.EndDate < result?.EndDateExpected)
+				{
+					result.UsedDays = Math.Ceiling((result.EndDate - result.StartDate).TotalDays);
+					var totalUsedDailies = result.Plan.DailyPrice * result.UsedDays;
+					var totalNotUsedDailies = (result.Plan.DailyPrice * (result.Plan.TotalDays - result.UsedDays)) * (1 + result.Plan.FineAntecipated);
+
+					result.Total = totalNotUsedDailies + totalUsedDailies;
+				}
+
+				if (result?.EndDate > result?.EndDateExpected)
+				{
+					var excededDays = Math.Ceiling((result.EndDate - result.EndDateExpected).TotalDays);
+					result.UsedDays = Math.Ceiling((result.EndDate - result.StartDate).TotalDays);
+					result.Total = (result.Plan.TotalPrice) + (excededDays * result.Plan.DailyPrice) + (excededDays + result.Plan.FineDelayed);
+				}
+
+				return View(result);
+			}
+			else
+			{
+				TempData["error"] = "Ocorreu algum erro ao recuperar os detalhes.";
+				return NotFound();
+			}
+		}
+
 		public async Task<IActionResult> RentReview(string rentAgendaDto)
 		{
 			var selectedPlan = JsonConvert.DeserializeObject<RentAgendaDto>(rentAgendaDto);
 			var rentAgenda = GetAvalaiblePlans(selectedPlan.StartDate).GetAwaiter().GetResult()
-				.Where( x => x.Plan.TotalDays == selectedPlan.Plan.TotalDays).FirstOrDefault();
-			
+				.Where(x => x.Plan.TotalDays == selectedPlan.Plan.TotalDays).FirstOrDefault();
+
 			var userDetails = await UserDetails();
-			
+
 			var motorcycle = await GetMotorcycleByIdAsync(rentAgenda.MotorcycleId);
-			
+
 			if (motorcycle == null || userDetails == null || rentAgenda == null)
 				return RedirectToAction(nameof(Index));
 
@@ -58,6 +90,67 @@ namespace RentH2.Web.Controllers
 			return View(rentDto);
 		}
 
+		[HttpPost("Order")]
+		public async Task<IActionResult> Order(string jsonData)
+		{
+			RentDto rentDto = JsonConvert.DeserializeObject<RentDto>(jsonData);
+
+			var responseUserRent = await _rentService.GetRentByUserIdAsync(rentDto.User.Id, RentStatus.Available);
+
+			if (responseUserRent != null && responseUserRent.IsSuccess)
+			{
+				RentDto rentUserDto = JsonConvert.DeserializeObject<RentDto>(Convert.ToString(responseUserRent.Result));
+				if (rentUserDto != null)
+				{
+					TempData["error"] = "Já existe uma locação ativa para o usuário.";
+					return RedirectToAction(nameof(Index));
+				}
+			}
+
+			var response = await _rentService.RentAsync(rentDto);
+
+			if (response != null && response.IsSuccess)
+			{
+				var result = JsonConvert.DeserializeObject<RentDto>(Convert.ToString(response.Result));
+				return View("Confirmation", result);
+			}
+			else
+			{
+				TempData["error"] = "Ocorreu algum erro ao efetuar a contratação.";
+				return NotFound();
+			}
+		}
+
+		[HttpPost("FinalizeOrder")]
+		public async Task<IActionResult> FinalizeOrder(string jsonData)
+		{
+			RentDto rentDto = JsonConvert.DeserializeObject<RentDto>(jsonData);
+
+			var responseMotorcycle = await _motorcycleService.GetMotorcycleByIdAsync(rentDto.Motorcycle.Id);
+			if (responseMotorcycle != null && responseMotorcycle.IsSuccess)
+			{
+				MotorcycleDto motorcycleDto = JsonConvert.DeserializeObject<MotorcycleDto>(Convert.ToString(responseMotorcycle.Result));
+				motorcycleDto.Status = RentStatus.Available;
+				var respUpMotorcycle = await _motorcycleService.UpdateMotorcycleAsync(motorcycleDto);
+				if (respUpMotorcycle != null && respUpMotorcycle.IsSuccess)
+				{
+					rentDto.Status = RentStatus.Ended;
+					var respUpRent = await _rentService.UpdateRentAsync(rentDto);
+					if (respUpRent != null && respUpRent.IsSuccess)
+					{
+						TempData["success"] = "Locação finalizada com sucesso!";
+						return RedirectToAction(nameof(Index));
+					}
+				}
+			}
+			else
+			{
+				TempData["error"] = "Ocorreu algum erro ao tentar encontrar a moto locada.";
+				return NotFound();
+			}
+
+			return NotFound();
+		}
 
 		[HttpGet]
 		public async Task<IActionResult> SelectPlan(DateTime startDate)
@@ -67,7 +160,7 @@ namespace RentH2.Web.Controllers
 
 			if (plans != null)
 			{
-				if (!plans.Where(x => x.Plan?.Status == RentStatus.Available).Any()) 
+				if (!plans.Where(x => x.Plan?.Status == RentStatus.Available).Any())
 				{
 					TempData["error"] = "Não existe motos disponíveis para esta data. Por favor selecione uma outra.";
 					return RedirectToAction(nameof(Index));

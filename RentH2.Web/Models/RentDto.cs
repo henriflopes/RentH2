@@ -19,7 +19,9 @@ namespace RentH2.Web.Models
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
         public DateTime EndDateExpected { get; set; }
-        [Display(Name = "Valor Total")]
+		[Display(Name = "Dias utilizados até o momento.")]
+		public double UsedDays { get; set; }
+		[Display(Name = "Valor Total hoje")]
         [DisplayFormat(DataFormatString = "{0:C}")]
         public double Total { get; set; }
         public double TotalExpected { get; set; }

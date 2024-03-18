@@ -78,9 +78,6 @@ function loadDataTable() {
                     return '<div class="w-55 btn-group text-center" role="group">' +
                         '<a href="/motorcycle/MotorcycleEdit?id=' + data + '" class="btn btn-primary mx-2"><i class="bi bi-pencil-square" style="color:#63E6BE;"></i></a>' +
                         '<a onclick="deleteQuestion(\'' + data + '\')" class="btn btn-primary mx-2"><i class="bi bi-trash" style="color:#ff0550;"></i></a>' +
-                        /*'<button data-id=' + data + '" class="btn btn-primary mx-2 deleteBtn" type="button"><i class="bi bi-trash" style="color:#ff0550;"></i></button>' +
-                        '<button onclick="deleteQuestion(\'' + data + '\')" class="btn btn-danger deleteBtn" type="button"><i class="fa-regular fa-trash-can"></i></button>' +*/
-
                         '</div>'
                 },
                 "width": "10%"

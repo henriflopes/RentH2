@@ -35,7 +35,6 @@
 								<li><a class="dropdown-item" asp-controller="Home" asp-action="Privacy">Privacidade</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" asp-controller="Home" asp-action="History">História</a></li>
-								<li><hr class="dropdown-divider"></li>
 							</ul>
 						</li>
 						@if (User.IsInRole(Roles.Administrator))
@@ -50,7 +49,6 @@
 									<li><a class="dropdown-item" asp-controller="Motorcycle" asp-action="MotorcycleIndex">Motocicletas</a></li>
 									<li><hr class="dropdown-divider"></li>
 									<li><a class="dropdown-item" asp-controller="Auth" asp-action="Register">Cadastro de Usuários</a></li>
-									<li><hr class="dropdown-divider"></li>
 								</ul>
 							</li>
 							<li class="nav-item">
@@ -68,8 +66,7 @@
 								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 									<li><a class="dropdown-item">Pedidos</a></li>
 									<li><hr class="dropdown-divider"></li>
-									<li><a class="dropdown-item">Detalhes Aluguel</a></li>
-									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" asp-action="RentUserDetails" asp-controller="Rent">Detalhes Aluguel</a></li>
 								</ul>
 							</li>
 							<li class="nav-item">

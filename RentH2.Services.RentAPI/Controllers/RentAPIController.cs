@@ -156,6 +156,23 @@ namespace RentH2.Services.RentAPI.Controllers
 			return _response;
 		}
 
+		[HttpGet("GetRentByUserIdAsync")]
+		public async Task<ResponseDto> GetRentByUserIdAsync(string userId, string status) {
+
+			try
+			{
+				Rent rent = await _rentService.GetRentByUserIdAsync(userId, status);
+				_response.Result = rent;
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
+
+			return _response;
+		}
+
 		[HttpGet]
 		[Route("{id}")]
 		public async Task<ResponseDto> Get(string id)

@@ -39,7 +39,26 @@ namespace RentH2.Web.Services
 			{
 				ApiType = SD.ApiType.POST,
 				Data = rentDto,
+				Url = SD.RentAPIBase + "RentAsync"
+			});
+		}
+
+		public async Task<ResponseDto?> UpdateRentAsync(RentDto rentDto)
+		{
+			return await _baseService.SendAsync(new RequestDto()
+			{
+				ApiType = SD.ApiType.PUT,
+				Data = rentDto,
 				Url = SD.RentAPIBase
+			});
+		}
+
+		public async Task<ResponseDto?> GetRentByUserIdAsync(string userId, string status)
+		{
+			return await _baseService.SendAsync(new RequestDto()
+			{
+				ApiType = SD.ApiType.GET,
+				Url = SD.RentAPIBase + "GetRentByUserIdAsync?userId=" + userId + "&status=" + status
 			});
 		}
 	}

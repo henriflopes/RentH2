@@ -17,7 +17,9 @@ namespace RentH2.Web.Models
         [Required(ErrorMessage = "É necessário informar o preço diário.")]
         public double DailyPrice { get; set; }
 
-        public double TotalPrice { get; set; }
+		[Display(Name = "Valor Total fim contrato.")]
+		[DisplayFormat(DataFormatString = "{0:C}")]
+		public double TotalPrice { get; set; }
 
         [Required(ErrorMessage = "É necessário informar uma multa por antecipação.")]
         public double FineAntecipated { get; set; }

@@ -1,0 +1,204 @@
+﻿@using Newtonsoft.Json
+@model RentDto
+
+<div>
+	<div class="container border p-3">
+
+		@if (Model == null)
+		{
+			<div class="row">
+				<div class="col-12 pb-3">
+					<h1>Não existe locação registrada no momento.</h1>
+					<br />
+					<p>Lamentamos, mas você pode mudar isso!</p>
+					<p>Basta apenas realizar uma locação e retornar aqui mais tarde!</p>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-10 pb-3">
+					<img src="~/images/Confirmation.jpg" width="90%" />
+				</div>
+				<div class="col-2 pb-3 text-start align-self-end">
+					<a asp-action="Index" class="btn btn-outline-warning form-control">Voltar</a>
+				</div>
+		
+			</div>
+		}
+		else
+		{
+			<div class="col-md-7 col-12">
+				<span style="font-size:25px;" class="text-warning mb-2">Locação Ativa</span>
+			</div>
+			<h1 class="text-white text-center">Motorista</h1>
+			<hr />
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.Name)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.Name)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.Email)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.Email)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.PhoneNumber)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.PhoneNumber)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.DateBirth)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.DateBirth)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.DocumentId)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.DocumentId)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.DriverLicenseId)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.DriverLicenseId)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.User.DriverLicenseClass)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.User.DriverLicenseClass)
+				</div>
+			</div>
+
+			<h1 class="text-white text-center">Moto</h1>
+			<hr />
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Motorcycle.Location)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.Motorcycle.Location)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Motorcycle.Type)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.Motorcycle.Type)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Motorcycle.Year)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.Motorcycle.Year)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Motorcycle.NumberPlate)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.Motorcycle.NumberPlate)
+				</div>
+			</div>
+
+			<h1 class="text-white text-center">Situação atual do Aluguel</h1>
+			<hr />
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.StartDate)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.StartDate)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.EndDate)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.EndDate)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Plan.TotalDays)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.Plan.TotalDays) dias.
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.UsedDays)
+				</div>
+				<div class="col-6 pb-3">
+					@Html.DisplayFor(model => model.UsedDays) dias.
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Total)
+				</div>
+				<div class="col-6 pb-3 fw-bold">
+					@Html.DisplayFor(model => model.Total)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.Plan.TotalPrice)
+				</div>
+				<div class="col-6 pb-3 fw-bold">
+					@Html.DisplayFor(model => model.Plan.TotalPrice)
+				</div>
+			</div>
+			<div class="row">
+				<div class="h5 col-6 text-end">
+					@Html.DisplayNameFor(model => model.TimeStamp)
+				</div>
+				<div class="col-2 pb-3">
+					@Html.DisplayFor(model => model.TimeStamp)
+				</div>
+				<div class="col-2 pb-3">
+					<a asp-action="Index" class="btn btn-outline-warning form-control">Voltar</a>
+				</div>
+				<div class="col-2 pb-3">
+					<button onclick="placeAnOrder(@JsonConvert.SerializeObject(@Model))" class="btn btn-success form-control ">
+						<span>Encerrar Locação</span>
+					</button>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+<form method="post" id="rentUserDetailsForm" asp-action="FinalizeOrder">
+	<input type="hidden" id="jsonData" name="jsonData" value="empty" />
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script src="~/js/rentUserDetails.js"></script>
+}

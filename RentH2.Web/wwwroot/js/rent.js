@@ -2,6 +2,7 @@
 
 $(function () {
 	$("#datepicker").datepicker({
+		minDate: 1,
 		showOn: "focus",
 		dateFormat: "yy-mm-dd",
 		dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],

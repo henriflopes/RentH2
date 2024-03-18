@@ -1,0 +1,14 @@
+﻿@model RentDto
+
+<div class="text-center">
+	<h1 class="text-info pt-4">Parabens! Você está muito proximo de curtir a liberdade!</h1>
+	<p class="pb-3">Recebemos o seu pedido e estamos preparando a moto @Model.Motorcycle.Type para você pegar ela amanhã!</p>
+	<h4 class="text-warning pb-3">Código da Locação - @Model.Id</h4>
+	<img src="/images/Confirmation.jpg" width="60%" />
+</div>
+
+<div class="card-header bg-dark text-light ml-0 row ">
+	<div class="col-11 text-end">
+		<a asp-action="Index" asp-controller="Home" class="btn btn-outline-warning mt-2 btn-sm">Detalhes da Locação</a>
+	</div>
+</div>

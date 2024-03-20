@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.AuthAPI", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{24CFB6D4-AA5F-4021-9EBA-6A9C2E558B01}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{31C98771-DA40-4666-8218-3E0BF3B17B4C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{E5372BA2-5EE8-46F4-A64C-DA7F2B3EF716}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{71434C2A-DB44-413E-9CC2-DEE0A22C177C}"
@@ -21,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.PlanAPI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.RentAPI", "RentH2.Services.RentAPI\RentH2.Services.RentAPI.csproj", "{73AEF4AB-3F75-496F-85DD-E2DCB86C996C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentH2.Services.OrderAPI", "RentH2.Services.OrderAPI\RentH2.Services.OrderAPI.csproj", "{0D5A8D79-41A7-4D57-8B2C-9908197C390C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.OrderAPI", "RentH2.Services.OrderAPI\RentH2.Services.OrderAPI.csproj", "{0D5A8D79-41A7-4D57-8B2C-9908197C390C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -26,16 +26,14 @@ Casos de uso - OK
 	Para plano de 15 dias o valor da multa é de 40% sobre o valor das diárias não efetivadas. OK
 	Para plano de 30 dias o valor da multa é de 60% sobre o valor das diárias não efetivadas. OK
 	Quando a data informada for superior a data prevista do término, será cobrado um valor adicional de R$50,00 por diária adicional. OK
+	Eu como admin quero cadastrar um pedido na plataforma e disponibilizar para os entregadores aptos efetuarem a entrega. OK
+	Os dados obrigatórios do pedido são: identificador, data de criacao, valor da corrida, situacao. OK
+	As situações válidas são disponivel, aceito e entregue. OK
+	Quando o pedido entrar na plataforma a aplicação deverá notificar os entregadores sobre a existencia desse pedido. - OK
+	A notificação deverá ser publicada por mensageria. - OK	
 	
-	 
 Casos de uso - Não OK
-		
-	Eu como admin quero cadastrar um pedido na plataforma e disponibilizar para os entregadores aptos efetuarem a entrega.
-	Os dados obrigatórios do pedido são: identificador, data de criacao, valor da corrida, situacao.
-	As situações válidas são disponivel, aceito e entregue.
 	
-	Quando o pedido entrar na plataforma a aplicação deverá notificar os entregadores sobre a existencia desse pedido.
-	A notificação deverá ser publicada por mensageria.
 	Somente entregadores com locação ativa e que não estejam com um pedido já aceito deverão ser notificados.
 	
 	Criar um consumidor para notificação de pedido disponível.
@@ -45,21 +43,3 @@ Casos de uso - Não OK
 	Eu como entregador quero aceitar um pedido.
 	Somente entregadores que tenham sido notificados podem aceitar o pedido.
 	Eu como entregador quero efetuar a entrega do pedido.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,6 +6,7 @@ using RentH2.Services.OrderAPI.Utility;
 using RentH2.Services.OrderAPI;
 using RentH2.Services.OrderAPI.Services.IServices;
 using RentH2.Services.OrderAPI.Services;
+using RentH2.Services.OrderAPI.RabbitMQSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
+builder.Services.AddScoped<IRabbitMQOrderProducer, RabbitMQOrderProducer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

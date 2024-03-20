@@ -14,6 +14,7 @@ namespace RentH2.Services.RentAPI.Models
 		public string PlanId { get; set; }
 		public string UserId { get; set; }
 		public string MotorcycleId { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime TimeStamp { get; set; } = DateTime.Now;
 	}
 }

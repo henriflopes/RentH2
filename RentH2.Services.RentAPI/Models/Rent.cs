@@ -11,9 +11,12 @@ namespace RentH2.Services.RentAPI.Models
 		[BsonId]
 		[BsonRepresentation(BsonType.ObjectId)]
 		public string? Id { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public DateTime EndDateExpected { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime EndDate { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
+        public DateTime EndDateExpected { get; set; }
         public double Total { get; set; }
 		public double TotalExpected { get; set; }
 		public string Status { get; set; } = RentStatus.Available;

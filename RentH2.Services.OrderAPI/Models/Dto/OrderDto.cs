@@ -15,7 +15,9 @@ namespace RentH2.Services.OrderAPI.Models.Dto
 		[Required(ErrorMessage = "Você deve informar o valor.")]
 		public double ShippingTax { get; set; }
 
-		[Display(Name = "Data de Criação")]
+        public string? Description { get; set; }
+
+        [Display(Name = "Data de Criação")]
 		public DateTime Timestamp { get; set; } = DateTime.Now;
 
 		[Display(Name = "Status")]

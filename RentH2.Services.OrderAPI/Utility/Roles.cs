@@ -1,4 +1,4 @@
-﻿namespace RentH2.OrderAPI.Utility
+﻿namespace RentH2.Services.OrderAPI.Utility
 {
     public static class Roles
     {

@@ -1,0 +1,62 @@
+﻿@model OrderDto
+
+<form asp-action="OrderEdit" id="editOrderForm">
+    <input asp-for="Id" hidden />
+    <input asp-for="UserId" hidden id="userId" />
+    <input asp-for="Timestamp" hidden id="timestamp" />
+    <br />
+    <div class="container border p-3">
+        <h1 class="text-white text-center">Alteração de Pedido</h1>
+        <hr />
+        <div class="row">
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">@Html.DisplayNameFor(model => model.ShippingTax)</label>
+            </div>
+            <div class="col-10 pb-3">
+                <div class="input-group">
+                    <span class="input-group-text">R$</span>
+                    <input asp-for="ShippingTaxTemp" class="form-control" id="shippingTaxTemp" />
+                    <input asp-for="ShippingTax" hidden class="form-control" id="shippingTax" />
+                </div>
+                <span asp-validation-for="ShippingTaxTemp" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">@Html.DisplayNameFor(model => model.Description)</label>
+            </div>
+            <div class="col-10 pb-3">
+                <textarea asp-for="Description" id="description" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">@Html.DisplayNameFor(model => model.Status)</label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="Status" class="form-select w-50" asp-items="@ViewBag.OrderStatus">
+                </select>
+            </div>
+            <div class="col-5 offset-2">
+                <a asp-action="OrderIndex" class="btn-primary btn form-control ">Retornar</a>
+            </div>
+            <div class="col-5">
+                <input value="Alterar" onclick="submitObject()" class="btn btn-warning form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="text/javascript">
+        $(function () {
+            $('#shippingTaxTemp').maskMoney().maskMoney({ thousands: '.', decimal: ',' });
+        })
+
+        function submitObject() {
+            var currencyValue = $("#shippingTaxTemp").val();
+            if (currencyValue != '') {
+                var unmakedValue = $("#shippingTaxTemp").maskMoney('unmasked')[0];
+                $("#shippingTax").val(unmakedValue);
+            }
+            $("#editOrderForm").submit();
+        }
+    </script>
+}

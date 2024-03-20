@@ -18,7 +18,7 @@ namespace RentH2.Services.OrderAPI.Services
 		}
 
 		public async Task<List<Order>> GetAsync() =>
-			await _orderCollection.Find(_ => true).ToListAsync();
+			await _orderCollection.Find(x => x.Status != OrderStatus.Deleted).ToListAsync();
 
 		public async Task<Order> GetAsync(string id) =>
 			await _orderCollection.Find(x => x.Id == id).FirstOrDefaultAsync();

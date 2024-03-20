@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserOrdersService, UserOrdersService>();
-builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
-builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+//builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
+//builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);

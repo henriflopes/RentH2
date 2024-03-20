@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using RentH2.Services.OrderAPI.Models;
@@ -10,18 +11,18 @@ namespace RentH2.Services.OrderAPI.Controllers
 {
 	[Route("api/order")]
 	[ApiController]
-	//[Authorize(Roles = Roles.Administrator)]
+	[Authorize(Roles = Roles.Administrator)]
 	public class OrderAPIController : ControllerBase
 	{
 		private readonly IMapper _mapper;
 		private readonly ResponseDto _response;
 		private readonly IOrderService _orderService;
-		private readonly IRidersRentsService _ridersRentsService;
+		private readonly IUserOrdersService _userOrdersService;
 
-		public OrderAPIController(IOrderService orderService, IRidersRentsService ridersRentsService,IMapper mapper) 
+		public OrderAPIController(IOrderService orderService, IUserOrdersService userOrdersService, IMapper mapper)
 		{
 			_orderService = orderService;
-			_ridersRentsService = ridersRentsService;
+			_userOrdersService = userOrdersService;
 			_mapper = mapper;
 			_response = new ResponseDto();
 		}
@@ -40,7 +41,7 @@ namespace RentH2.Services.OrderAPI.Controllers
 				_response.Message = ex.Message;
 			}
 
-			return _response;
+            return _response;
 		}
 
 		[HttpGet]
@@ -131,49 +132,46 @@ namespace RentH2.Services.OrderAPI.Controllers
         [Route("{id}")]
         public async Task<ResponseDto> Delete(string id)
 		{
-			//Order order = await _orderService.GetAsync(id);
+			Order order = await _orderService.GetAsync(id);
 
-			//try
-			//{
-			//	if (order != null)
-			//	{
-			//		try
-			//		{
-			//			var existsHist = await _ridersRentsService.GetOneByOrderIdAsync(id);
+			try
+			{
+				if (order != null)
+				{
+					try
+					{
+						UserOrders userOrders  = await _userOrdersService.GetAsync(id);
+						if (userOrders != null)
+						{
+							order.Status = OrderStatus.Deleted;
+							userOrders?.Orders?.Remove(order);
+							userOrders?.Orders?.Add(order);
+							await _orderService.UpdateAsync(order);
+						}
+						else
+						{
+							await _orderService.RemoveAsync(id);
+						}
 
-			//			if (existsHist != null)
-			//			{
+					}
+					catch (MongoException ex)
+					{
+						throw;
+					}
+				}
+				else
+				{
+					_response.IsSuccess = false;
+					_response.Message = "Not Found";
+				}
+			}
+			catch (Exception ex)
+			{
+				_response.IsSuccess = false;
+				_response.Message = ex.Message;
+			}
 
-			//				order.Status = RentStatus.Deleted;
-			//				await _orderService.UpdateAsync(order);
-			//			}
-			//			else
-			//			{
-			//				await _orderService.RemoveAsync(id);
-			//			}
-
-			//		}
-			//		catch (MongoException ex)
-			//		{
-
-			//			throw;
-			//		}
-			//	}
-			//	else
-			//	{
-			//		_response.IsSuccess = false;
-			//		_response.Message = "Not Found";
-			//	}
-			//}
-			//catch (Exception ex)
-			//{
-			//	_response.IsSuccess = false;
-			//	_response.Message = ex.Message;
-			//}
-
-			//return _response;
-
-			return new();
+			return _response;
 		}
 	}
 }

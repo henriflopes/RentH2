@@ -1,1 +1,38 @@
-﻿<h4>Esta página está em construção</h4>
+﻿@model IEnumerable<List<OrderDto>>
+
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="text-white">Relatório de Pedidos</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-12 text-end">
+				<a asp-action="OrderCreate" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Criar um novo Pedido</a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<table id="tblData" class="table table-bordered table-striped pt-3" style="width:100%">
+			<thead>
+				<tr>
+					<th>@Html.DisplayNameFor(model => model[0].Id)</th>
+					<th>@Html.DisplayNameFor(model => model[0].ShippingTax)</th>
+					<th>@Html.DisplayNameFor(model => model[0].Timestamp)</th>
+					<th>@Html.DisplayNameFor(model => model[0].Status)</th>
+					<th>Ações</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<form id="deleteForm" asp-action="OrderDelete">
+	<input type="hidden" id="Id" name="Id" value="empty" />
+</form>
+
+@section Scripts {
+	<script src="~/js/order.js"></script>
+}

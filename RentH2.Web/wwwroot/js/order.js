@@ -1,40 +1,83 @@
 ﻿var dataTable;
 
 $(document).ready(() => {
-    var url = window.location.search;
-    if (url.includes("approved")) {
-        loadDataTable("approved");
-    }
-    else {
-        if (url.includes("readyforpickup")) {
-            loadDataTable("readyforpickup");
-        }
-        else {
-            if (url.includes("cancelled")) {
-                loadDataTable("cancelled");
-            }
-            else {
-                loadDataTable("all");
-            }
-        }
-    }
+    loadDataTable();
 });
 
-function loadDataTable(status) {
+function deleteQuestion(id) {
+    swal({
+        title: "Você tem certeza?",
+        text: "Você tem certeza que quer deletar este pedido?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((confirm) => {
+        if (confirm) {
+            $('#Id').val(id);
+            $('#deleteForm').submit();
+        }
+    });
+};
+
+function loadDataTable() {
     dataTable = $('#tblData').DataTable({
-        order: [[0, 'desc']],
-        "ajax": { url: "/order/getall?status=" + status },
-        "columns": [
-            { data: 'orderHeaderId', "width": "5%" },
-            { data: 'email', "width": "25%" },
-            { data: 'name', "width": "20%" },
-            { data: 'phone', "width": "10%" },
-            { data: 'status', "width": "10%" },
-            { data: 'orderTotal', "width": "10%" },
+        columnDefs: [
             {
-                data: 'orderHeaderId',
+                targets: 0,
+                className: 'dt-center'
+            },
+            {
+                targets: 1,
+                render: DataTable.render.number('.', ',', 2, 'R$ '),
+                className: 'dt-center'
+            },
+            {
+                targets: 2,
+                render: DataTable.render.moment("YYYY-MM-DDTHH:mm:ss.SSS-03:00", "DD/MM/YYYY HH:mm:ss"),
+                className: 'dt-center'
+            },
+            {
+                targets: 3,
+                className: 'dt-center'
+            },
+            {
+                targets: 4,
+                className: 'dt-center'
+            }
+        ],
+        language: {
+            "info": 'Exibindo páginas _PAGE_ de _PAGES_',
+            "infoEmpty": 'Nenhum informação disponível',
+            "infoFiltered": '(filtrado de _MAX_ registros)',
+            "lengthMenu": 'Mostrando _MENU_ registros por página',
+            "zeroRecords": 'Nenhuma informação encontrada',
+            "loadingRecords": "Carregando...",
+            "processing": "",
+            "search": "Procurar:",
+            "paginate": {
+                "first": "Primeiro",
+                "last": "Último",
+                "next": "Próximo",
+                "previous": "Anterior"
+            },
+        },
+        order: [[0, 'desc']],
+        "ajax": { url: "/order/getall" },
+        "columns": [
+            { data: 'id', "width": "30%" },
+            {
+                data: 'shippingTax',
+                "width": "25%"
+            },
+            { data: 'timestamp', "width": "20%" },
+            { data: 'status', "width": "15%" },
+            {
+                data: 'id',
                 "render": function (data) {
-                    return '<div class="w-75 btn-group" role="group"><a href="/order/OrderDetail?orderId=' + data + '" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a></div>' 
+                    return '<div class="w-55 btn-group text-center" role="group">' +
+                        '<a href="/order/OrderEdit?id=' + data + '" class="btn btn-primary mx-2"><i class="bi bi-pencil-square" style="color:#63E6BE;"></i></a>' +
+                        '<a onclick="deleteQuestion(\'' + data + '\')" class="btn btn-primary mx-2"><i class="bi bi-trash" style="color:#ff0550;"></i></a>' +
+                        '</div>'
                 },
                 "width": "10%"
             }

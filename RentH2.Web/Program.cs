@@ -4,8 +4,15 @@ using RentH2.Web.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using RentH2.Web.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMvc()
+        .AddViewLocalization()
+        .AddDataAnnotationsLocalization();
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,10 +22,10 @@ builder.Services.AddHttpClient<IAuthService, AuthService>();
 builder.Services.AddHttpClient<IMotorcycleService, MotorcycleService>();
 builder.Services.AddHttpClient<IPlanService, PlanService>();
 builder.Services.AddHttpClient<IRentService, RentService>();
-
+builder.Services.AddHttpClient<IOrderService, OrderService>();
 //builder.Services.AddHttpClient<IProductService, ProductService>();
 //builder.Services.AddHttpClient<ICartService, CartService>();
-//builder.Services.AddHttpClient<IOrderService, OrderService>();
+
 
 SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"] + "/api/product/" ;
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"] + "/api/auth/";
@@ -34,9 +41,12 @@ builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<IRentService, RentService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+
 //builder.Services.AddScoped<IProductService, ProductService>();
 //builder.Services.AddScoped<ICartService, CartService>();
-//builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(options =>
 	{
@@ -61,9 +71,19 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+//SetCulture();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+//static void SetCulture()
+//{
+//    CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
+//    var culture = CultureInfo.CreateSpecificCulture("pt-BR");
+
+//    Thread.CurrentThread.CurrentCulture = culture;
+//    Thread.CurrentThread.CurrentUICulture = culture;
+//}

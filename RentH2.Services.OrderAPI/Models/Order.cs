@@ -15,7 +15,9 @@ namespace RentH2.Services.OrderAPI.Models
 		public string? UserId { get; set; }
 		
 		public double ShippingTax { get; set; }
+        public string? Description { get; set; }
 
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime Timestamp { get; set; }
 
 		public string Status { get; set; }

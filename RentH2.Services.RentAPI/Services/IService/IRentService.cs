@@ -13,6 +13,6 @@ namespace RentH2.Services.RentAPI.Services.IService
 		Task<ReplaceOneResult> UpdateAsync(Rent rent);
 		Task<DeleteResult> RemoveAsync(string id);
 		Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda);
-
-	}
+		Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids);
+    }
 }

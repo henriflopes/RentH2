@@ -60,7 +60,7 @@ if (app.Environment.IsDevelopment())
 else
 {
 	app.UseSwaggerUI(c => {
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Plan API");
 		c.RoutePrefix = string.Empty;
 	});
 }

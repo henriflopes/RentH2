@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Microsoft.Extensions.Options;
 using RentH2.Services.RentAPI.Models;
 using RentH2.Services.RentAPI.Services.IService;
+using MongoDB.Bson;
 
 namespace RentH2.Services.RentAPI.Services
 {
@@ -34,5 +35,10 @@ namespace RentH2.Services.RentAPI.Services
 
 		public async Task<RidersRents> GetOneByMotorcycleIdAsync(string motorcycleId) => 
 			await _ridersRentsCollection.Find(x => x.MotorcycleId == motorcycleId).FirstOrDefaultAsync();
-	}
+
+		public async Task<List<RidersRents>> GetRentedMotorcyclesByIdAsync(List<string> ids) {
+            var filter = Builders<RidersRents>.Filter.In("_id", ids);
+            return await _ridersRentsCollection.Find(filter).ToListAsync();
+        }    
+    }
 }

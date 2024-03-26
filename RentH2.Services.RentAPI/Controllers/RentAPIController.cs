@@ -246,5 +246,39 @@ namespace RentH2.Services.RentAPI.Controllers
 
 			return _response;
 		}
-	}
+        
+		[HttpGet("GetAllUsersWithRentedMotorcycleAsync")]
+        public async Task<ResponseDto> GetAllUsersWithRentedMotorcycleAsync()
+        {
+            try
+            {
+                List<MotorcycleDto> motorcycles = await _motorcycleService.GetAllByStatusAsync([RentStatus.Rented]);
+                List<string?> motorcycleIds = motorcycles.Select(s => s.Id).ToList();
+                if (motorcycleIds == null)
+                {
+                    _response.IsSuccess = false;
+                    _response.Message = "Não existe motos com locação";
+
+                    return _response;
+                }
+                else
+                {
+                    List<RidersRents> ridersRents = await _ridersRentsService.GetRentedMotorcyclesByIdAsync(motorcycleIds);
+                    List<string> rentsIds = ridersRents.Select(s => s.RentId).ToList();
+                    List<Rent> rents = await _rentService.GetAllRentByIdsAsync(rentsIds);
+
+                    List<Rent> userWithRentedMotorcycle = rents.Where(x => x.Status == RentStatus.Rented).ToList();
+                    _response.Result = _mapper.Map<RentDto>(userWithRentedMotorcycle);
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+
+            return _response;
+        }
+
+    }
 }

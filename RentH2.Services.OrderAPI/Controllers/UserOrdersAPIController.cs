@@ -15,9 +15,9 @@ namespace RentH2.Services.UserOrdersAPI.Controllers
 		private readonly IMapper _mapper;
 		private readonly ResponseDto _response;
 		private readonly IUserOrdersService _userOrdersService;
-		private readonly IRidersRentsService _ridersRentsService;
+		private readonly IRentService _ridersRentsService;
 
-		public UserOrdersAPIController(IUserOrdersService userOrdersService, IRidersRentsService ridersRentsService,IMapper mapper) 
+		public UserOrdersAPIController(IUserOrdersService userOrdersService, IRentService ridersRentsService,IMapper mapper) 
 		{
 			_userOrdersService = userOrdersService;
 			_ridersRentsService = ridersRentsService;

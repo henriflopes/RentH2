@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserOrdersService, UserOrdersService>();
-//builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
-//builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+builder.Services.AddScoped<IRentService, RentService>();
+builder.Services.AddHttpClient("Rent", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
@@ -67,7 +67,7 @@ if (app.Environment.IsDevelopment())
 else
 {
 	app.UseSwaggerUI(c => {
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+		c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order API");
 		c.RoutePrefix = string.Empty;
 	});
 }

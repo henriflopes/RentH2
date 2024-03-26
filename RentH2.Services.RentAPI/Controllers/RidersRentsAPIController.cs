@@ -3,24 +3,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Services.RentAPI.Models;
 using RentH2.Services.RentAPI.Models.Dto;
-using RentH2.Services.RentAPI.Services;
 using RentH2.Services.RentAPI.Services.IService;
 
 namespace RentH2.Services.RentAPI.Controllers
 {
-	[Route("api/ridersrents")]
+    [Route("api/ridersrents")]
 	[ApiController]
 	[Authorize]
 	public class RidersRentsAPIController : ControllerBase
 	{
 		private readonly ResponseDto _response;
 		private readonly IRidersRentsService _ridersRentsService;
-		private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
 		public RidersRentsAPIController(IRidersRentsService ridersRentsService, IMapper mapper)
 		{
 			_ridersRentsService = ridersRentsService;
-			_mapper = mapper;
+            _mapper = mapper;
 			_response = new ResponseDto();
 		}
 
@@ -151,7 +150,6 @@ namespace RentH2.Services.RentAPI.Controllers
 			}
 
 			return _response;
-
 		}
-	}
+    }
 }

@@ -1,6 +1,6 @@
-﻿using RentH2.Services.OrderAPI.Models.Dto;
+﻿using RentH2.Services.NotificationAPI.Models.Dto;
 
-namespace RentH2.Services.OrderAPI.Services.IServices
+namespace RentH2.Services.NotificationAPI.Services.IServices
 {
 	public interface IRidersRentsService
 	{

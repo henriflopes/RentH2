@@ -11,5 +11,6 @@ namespace RentH2.Services.RentAPI.Services.IService
 		Task CreateAsync(RidersRents ridersRents);
 		Task<ReplaceOneResult> UpdateAsync(RidersRents ridersRents);
 		Task<DeleteResult> RemoveAsync(string id);
-	}
+		Task<List<RidersRents>> GetRentedMotorcyclesByIdAsync(List<string> ids);
+    }
 }

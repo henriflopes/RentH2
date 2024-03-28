@@ -11,7 +11,8 @@ namespace RentH2.Services.MotorcycleAPI
 			var mappingConfig = new MapperConfiguration(config =>
 			{
 				config.CreateMap<MotorcycleDto, Motorcycle>().ReverseMap();
-			});
+                config.CreateMap<Infra.Models.MotorcycleModel, Domain.Entities.Motorcycle>().ReverseMap();
+            });
 
 			return mappingConfig;
 		}

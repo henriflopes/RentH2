@@ -15,34 +15,22 @@ namespace RentH2.Infra.Repositories
             _motorcycleRepository = motorcycleRepository;
         }
 
-        public Task CreateAsync(Motorcycle motorcycle)
-        {
-            return _motorcycleRepository.CreateAsync(motorcycle);
-        }
+        public Task CreateAsync(Motorcycle motorcycle) 
+            => _motorcycleRepository.InsertOneAsync(motorcycle);
 
         public async Task<List<Motorcycle>> GetAllByStatusAsync(List<string> rentStatus)
-        {
-            return await _motorcycleRepository.GetAllByStatusAsync(rentStatus);
-        }
+            => await _motorcycleRepository.GetAllByStatusAsync(rentStatus);
 
         public async Task<List<Motorcycle>> GetAsync()
-        {
-            return await _motorcycleRepository.GetAsync();
-        }
+            => (await _motorcycleRepository.FilterByAsync(filter => 1 == 1)).ToList();
 
         public async Task<Motorcycle> GetAsync(string id)
-        {
-            return await _motorcycleRepository.GetAsync(id);
-        }
+            => await _motorcycleRepository.FindByIdAsync(id);
 
-        public Task RemoveAsync(string id)
-        {
-            return _motorcycleRepository.RemoveAsync(id);
-        }
+        public Task RemoveAsync(string id) 
+            => _motorcycleRepository.DeleteByIdAsync(id);
 
-        public Task UpdateAsync(Motorcycle motorcycle)
-        {
-            return _motorcycleRepository.UpdateAsync(motorcycle);
-        }
+        public Task UpdateAsync(Motorcycle motorcycle) 
+            => _motorcycleRepository.ReplaceOneAsync(motorcycle);
     }
 }

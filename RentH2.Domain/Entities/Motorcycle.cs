@@ -1,10 +1,9 @@
 ﻿using RentH2.Domain.Entities.Base;
-using MongoDB.EntityFrameworkCore;
 
 namespace RentH2.Domain.Entities
 {
-    [Collection("Motorcycles")]
-    public class Motorcycle : Entity
+    [BsonCollection("Motorcycles")]
+    public class Motorcycle : Document
 	{
 		public string Year { get; set; }
 

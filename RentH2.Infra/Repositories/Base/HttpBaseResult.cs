@@ -17,7 +17,7 @@
             Erros = errors;
         }
 
-        public List<string> Erros { get; set; }
+        public List<string>? Erros { get; set; }
         public bool IsValid() => Erros.Any();
     }
 }

@@ -7,11 +7,24 @@ using RentH2.Services.MotorcycleAPI;
 using RentH2.Services.MotorcycleAPI.Services;
 using RentH2.Services.MotorcycleAPI.Services.IService;
 using RentH2.Web.Services.IServices;
+using RentH2.Application;
+using RentH2.Domain.Contracts;
+using RentH2.Infra.Repositories;
+using RentH2.Infra.Repositories.Interfaces;
+using Microsoft.Extensions.Options;
+using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Infra.Repositories.Base.MongoDB;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("MongoDataBase"));
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSingleton<IMongoDbSettings>(serviceProvider =>
+    serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
+builder.Services.AddScoped<IMotorcycleGateway, MotorcycleGateway>();
+
 builder.Services.AddScoped<IMotorcycleService, MotorcycleService>();
 builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
 builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
@@ -49,6 +62,8 @@ builder.Services.AddSwaggerGen(option =>
 		}
 	});
 });
+
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<ApplicationMediatREntryPoint>());
 
 builder.AddAppAuthentication();
 

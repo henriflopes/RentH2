@@ -1,15 +1,11 @@
 ﻿using RentH2.Domain.Entities;
-using RentH2.Domain.Entities.Base;
+using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
 
 namespace RentH2.Domain.Contracts
 {
-    public interface IMotorcycleRepository
+    public interface IMotorcycleRepository : IRepository<Motorcycle>
     {
-        Task<List<Motorcycle>> GetAsync();
-        Task<Motorcycle> GetAsync(string id);
-        Task CreateAsync(Motorcycle motorcycle);
-        Task UpdateAsync(Motorcycle motorcycle);
-        Task RemoveAsync(string id);
+        Task<Motorcycle> GetByNumberPlateAsync(string numberPlate);
         Task<List<Motorcycle>> GetAllByStatusAsync(List<string> rentStatus);
     }
 }

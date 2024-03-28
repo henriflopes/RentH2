@@ -1,7 +1,11 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
+using RentH2.Application.Commands;
+using RentH2.Application.Queries;
+using RentH2.Infra.Models;
 using RentH2.MotorcycleAPI.Utility;
 using RentH2.Services.MotorcycleAPI.Models;
 using RentH2.Services.MotorcycleAPI.Models.Dto;
@@ -13,20 +17,22 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 {
     [Route("api/motorcycle")]
 	[ApiController]
-	[Authorize(Roles = Roles.Administrator)]
+	//[Authorize(Roles = Roles.Administrator)]
 	public class MotorcycleAPIController : ControllerBase
 	{
 		private readonly IMapper _mapper;
-		private readonly ResponseDto _response;
+        private readonly IMediator _mediator;
+        private readonly ResponseDto _response;
 		private readonly IMotorcycleService _motorcycleService;
 		private readonly IRidersRentsService _ridersRentsService;
 
-		public MotorcycleAPIController(IMotorcycleService motorcycleService, IRidersRentsService ridersRentsService,IMapper mapper) 
+		public MotorcycleAPIController(IMotorcycleService motorcycleService, IRidersRentsService ridersRentsService,IMapper mapper, IMediator mediator) 
 		{
 			_motorcycleService = motorcycleService;
 			_ridersRentsService = ridersRentsService;
 			_mapper = mapper;
-			_response = new ResponseDto();
+            _mediator = mediator;
+            _response = new ResponseDto();
 		}
 
 		[HttpGet]
@@ -34,9 +40,12 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 		{
 			try
 			{
-				List<Motorcycle> motorcycles = await _motorcycleService.GetAsync();
-				_response.Result = _mapper.Map<IEnumerable<MotorcycleDto>>(motorcycles);
-			}
+                //List<Motorcycle> motorcycles = await _motorcycleService.GetAsync();
+                //_response.Result = _mapper.Map<IEnumerable<MotorcycleDto>>(motorcycles);
+
+                _response.Result = await _mediator.Send(new GetMotorcycleListQuery());
+
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -52,9 +61,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 		{
 			try
 			{
-				Motorcycle motorcycle = await _motorcycleService.GetAsync(id);
-				_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
-			}
+				//Motorcycle motorcycle = await _motorcycleService.GetAsync(id);
+				//_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
+
+                _response.Result = await _mediator.Send(new GetMotorcycleByIdQuery(id));
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -64,34 +75,38 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			return _response;
 		}
 
-		[HttpPost("GetAllByStatusAsync")]
-		public async Task<ResponseDto> GetAllByStatusAsync([FromBody] List<string> rentStatus)
-		{
-			try
-			{
-				List<Motorcycle> motorcycles = await _motorcycleService.GetAllByStatusAsync(rentStatus);
-				_response.Result = _mapper.Map<List<MotorcycleDto>>(motorcycles);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+		//[HttpPost("GetAllByStatusAsync")]
+		//public async Task<ResponseDto> GetAllByStatusAsync([FromBody] List<string> rentStatus)
+		//{
+		//	try
+		//	{
+		//		List<Motorcycle> motorcycles = await _motorcycleService.GetAllByStatusAsync(rentStatus);
+		//		_response.Result = _mapper.Map<List<MotorcycleDto>>(motorcycles);
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_response.IsSuccess = false;
+		//		_response.Message = ex.Message;
+		//	}
 
-			return _response;
-		}
+		//	return _response;
+		//}
 
 
 		[HttpPost]
-		public async Task<ResponseDto> Post(MotorcycleDto motorcycleDto)
-		{
+        //public async Task<ResponseDto> Post(MotorcycleDto motorcycleDto)
+        public async Task<ResponseDto> Post(MotorcycleModel motorcycleModel)
+        {
 			try
 			{
-				Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
-				await _motorcycleService.CreateAsync(motorcycle);
-				_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
+				//Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
+				//await _motorcycleService.CreateAsync(motorcycle);
+				//_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
 
-			}
+                await _mediator.Send(new CreateMotorcycleCommand(motorcycleModel));
+                _response.IsSuccess = true;
+
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -101,80 +116,80 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 			return _response;
 		}
 
-		[HttpPut]
-		public async Task<ResponseDto> Put(MotorcycleDto motorcycleDto)
-		{
-			try
-			{
-				Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
+		//[HttpPut]
+		//public async Task<ResponseDto> Put(MotorcycleDto motorcycleDto)
+		//{
+		//	try
+		//	{
+		//		Motorcycle motorcycle = _mapper.Map<Motorcycle>(motorcycleDto);
 
-				Motorcycle exists = await _motorcycleService.GetAsync(motorcycle.Id);
+		//		Motorcycle exists = await _motorcycleService.GetAsync(motorcycle.Id);
 
-				if (exists != null)
-				{
-					await _motorcycleService.UpdateAsync(motorcycle);
-					_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = HandleErrors.Message(ex.Message);
-			}
+		//		if (exists != null)
+		//		{
+		//			await _motorcycleService.UpdateAsync(motorcycle);
+		//			_response.Result = _mapper.Map<MotorcycleDto>(motorcycle);
+		//		}
+		//		else
+		//		{
+		//			_response.IsSuccess = false;
+		//			_response.Message = "Not Found";
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_response.IsSuccess = false;
+		//		_response.Message = HandleErrors.Message(ex.Message);
+		//	}
 
-			return _response;
-		}
+		//	return _response;
+		//}
 
-		[HttpDelete]
-        [Route("{id}")]
-        public async Task<ResponseDto> Delete(string id)
-		{
-			Motorcycle motorcycle = await _motorcycleService.GetAsync(id);
+		//[HttpDelete]
+		//      [Route("{id}")]
+		//      public async Task<ResponseDto> Delete(string id)
+		//{
+		//	Motorcycle motorcycle = await _motorcycleService.GetAsync(id);
 
-			try
-			{
-				if (motorcycle != null)
-				{
-					try
-					{
-						var existsHist = await _ridersRentsService.GetOneByMotorcycleIdAsync(id);
+		//	try
+		//	{
+		//		if (motorcycle != null)
+		//		{
+		//			try
+		//			{
+		//				var existsHist = await _ridersRentsService.GetOneByMotorcycleIdAsync(id);
 
-						if (existsHist != null)
-						{
+		//				if (existsHist != null)
+		//				{
 
-							motorcycle.Status = RentStatus.Deleted;
-							await _motorcycleService.UpdateAsync(motorcycle);
-						}
-						else
-						{
-							await _motorcycleService.RemoveAsync(id);
-						}
+		//					motorcycle.Status = RentStatus.Deleted;
+		//					await _motorcycleService.UpdateAsync(motorcycle);
+		//				}
+		//				else
+		//				{
+		//					await _motorcycleService.RemoveAsync(id);
+		//				}
 
-					}
-					catch (MongoException ex)
-					{
+		//			}
+		//			catch (MongoException ex)
+		//			{
 
-						throw;
-					}
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+		//				throw;
+		//			}
+		//		}
+		//		else
+		//		{
+		//			_response.IsSuccess = false;
+		//			_response.Message = "Not Found";
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		_response.IsSuccess = false;
+		//		_response.Message = ex.Message;
+		//	}
 
-			return _response;
-		}
+		//	return _response;
+		//}
 	}
 }

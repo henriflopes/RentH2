@@ -1,8 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using RentH2.Services.MotorcycleAPI.Services;
-using RentH2.Web.Services.IServices;
 using RentH2.Application;
 using RentH2.Domain.Contracts;
 using RentH2.Infra.Repositories;
@@ -13,6 +11,8 @@ using RentH2.Infra.Repositories.Base.MongoDB;
 using RentH2.Common.Utility;
 using RentH2.Common;
 using RentH2.Common.Extensions;
+using RentH2.Infra.Services;
+using RentH2.Infra.Services.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 

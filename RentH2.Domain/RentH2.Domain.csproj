@@ -11,8 +11,4 @@
 	<PackageReference Include="MongoDB.EntityFrameworkCore" Version="7.0.0-preview.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RentH2.Common\RentH2.Common.csproj" />
-  </ItemGroup>
-
 </Project>

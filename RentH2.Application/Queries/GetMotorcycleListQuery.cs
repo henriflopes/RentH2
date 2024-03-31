@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RentH2.Infra.Models;
+using RentH2.Common.Models;
 
 namespace RentH2.Application.Queries
 {

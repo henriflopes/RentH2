@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using RentH2.Web.Models;
+using RentH2.Common.Models;
 using RentH2.Web.Services.IServices;
 using RentH2.Web.Utility;
 
 namespace RentH2.Web.Controllers
 {
-	public class MotorcycleController : Controller
+    public class MotorcycleController : Controller
 	{
 		private readonly IMotorcycleService _motorcycleService;
 
@@ -24,13 +24,13 @@ namespace RentH2.Web.Controllers
 		[HttpGet]
 		public IActionResult GetAll()
 		{
-			List<MotorcycleDto>? motorcycles = new();
+			List<MotorcycleModel>? motorcycles = new();
 
-			ResponseDto? response = _motorcycleService.GetAllMotorcyclesAsync().GetAwaiter().GetResult();
+			ResponseModel? response = _motorcycleService.GetAllMotorcyclesAsync().GetAwaiter().GetResult();
 
 			if (response != null && response.IsSuccess)
 			{
-				motorcycles = JsonConvert.DeserializeObject<List<MotorcycleDto>?>(Convert.ToString(response.Result));
+				motorcycles = JsonConvert.DeserializeObject<List<MotorcycleModel>?>(Convert.ToString(response.Result));
 			}
 			else
 			{
@@ -52,11 +52,11 @@ namespace RentH2.Web.Controllers
 
 
 		[HttpPost]
-		public async Task<IActionResult> MotorcycleCreate(MotorcycleDto model)
+		public async Task<IActionResult> MotorcycleCreate(MotorcycleModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				ResponseDto? response = await _motorcycleService.CreateMotorcycleAsync(model);
+				ResponseModel? response = await _motorcycleService.CreateMotorcycleAsync(model);
 
 				if (response != null && response.IsSuccess)
 				{
@@ -76,11 +76,11 @@ namespace RentH2.Web.Controllers
 		public async Task<IActionResult> MotorcycleEdit(string id)
 		{
 
-			ResponseDto? response = await _motorcycleService.GetMotorcycleByIdAsync(id);
+			ResponseModel? response = await _motorcycleService.GetMotorcycleByIdAsync(id);
 
 			if (response != null && response.IsSuccess)
 			{
-				MotorcycleDto? model = JsonConvert.DeserializeObject<MotorcycleDto?>(Convert.ToString(response.Result));
+				MotorcycleModel? model = JsonConvert.DeserializeObject<MotorcycleModel?>(Convert.ToString(response.Result));
 				SeedStatusType();
 				return View(model);
 			}
@@ -93,11 +93,11 @@ namespace RentH2.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> MotorcycleEdit(MotorcycleDto model)
+		public async Task<IActionResult> MotorcycleEdit(MotorcycleModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				ResponseDto? response = await _motorcycleService.UpdateMotorcycleAsync(model);
+				ResponseModel? response = await _motorcycleService.UpdateMotorcycleAsync(model);
 
 				if (response != null && response.IsSuccess)
 				{
@@ -117,11 +117,11 @@ namespace RentH2.Web.Controllers
 		public async Task<IActionResult> MotorcycleDelete(string id)
 		{
 
-			ResponseDto? response = await _motorcycleService.GetMotorcycleByIdAsync(id);
+			ResponseModel? response = await _motorcycleService.GetMotorcycleByIdAsync(id);
 
 			if (response != null && response.IsSuccess)
 			{
-				MotorcycleDto? model = JsonConvert.DeserializeObject<MotorcycleDto?>(Convert.ToString(response.Result));
+				MotorcycleModel? model = JsonConvert.DeserializeObject<MotorcycleModel?>(Convert.ToString(response.Result));
 				SeedStatusType();
 				return View(model);
 			}
@@ -134,9 +134,9 @@ namespace RentH2.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> MotorcycleDelete(MotorcycleDto motorcycleDto)
+		public async Task<IActionResult> MotorcycleDelete(MotorcycleModel motorcycleModel)
 		{
-			ResponseDto? response = await _motorcycleService.DeleteMotorcycleAsync(motorcycleDto.Id);
+			ResponseModel? response = await _motorcycleService.DeleteMotorcycleAsync(motorcycleModel.Id);
 
 			if (response != null && response.IsSuccess)
 			{
@@ -149,7 +149,7 @@ namespace RentH2.Web.Controllers
 				SeedStatusType();
 			}
 
-			return NotFound(motorcycleDto);
+			return NotFound(motorcycleModel);
 		}
 
 		private void SeedStatusType()

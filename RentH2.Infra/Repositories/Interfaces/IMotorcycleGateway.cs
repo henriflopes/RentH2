@@ -6,9 +6,10 @@ namespace RentH2.Infra.Repositories.Interfaces
     {
         Task<List<Motorcycle>> GetAsync();
         Task<Motorcycle> GetAsync(string id);
-        Task CreateAsync(Motorcycle motorcycle);
-        Task UpdateAsync(Motorcycle motorcycle);
+        Task<Motorcycle> CreateAsync(Motorcycle motorcycle);
+        Task<Motorcycle> UpdateAsync(Motorcycle motorcycle);
         Task RemoveAsync(string id);
         Task<List<Motorcycle>> GetAllByStatusAsync(List<string> rentStatus);
+        Task<Motorcycle> GetByNumberPlateAsync(string numberPlate);
     }
 }

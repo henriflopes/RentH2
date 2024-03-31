@@ -24,19 +24,17 @@ namespace RentH2.Infra.Repositories.Base.MongoDB.Interfaces
 
         Task<TDocument> FindByIdAsync(string id);
 
-        
+        TDocument InsertOne(TDocument document);
 
-        void InsertOne(TDocument document);
-
-        Task InsertOneAsync(TDocument document);
+        Task<TDocument> InsertOneAsync(TDocument document);
 
         void InsertMany(ICollection<TDocument> documents);
 
         Task InsertManyAsync(ICollection<TDocument> documents);
 
-        void ReplaceOne(TDocument document);
+        TDocument ReplaceOne(TDocument document);
 
-        Task ReplaceOneAsync(TDocument document);
+        Task<TDocument> ReplaceOneAsync(TDocument document);
 
         void DeleteOne(Expression<Func<TDocument, bool>> filterExpression);
 

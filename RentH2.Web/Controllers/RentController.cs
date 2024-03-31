@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RentH2.Common.Models;
 using RentH2.Web.Models;
 using RentH2.Web.Services.IServices;
 using RentH2.Web.Utility;
@@ -83,7 +84,7 @@ namespace RentH2.Web.Controllers
 				TotalExpected = rentAgenda.Plan.TotalPrice,
 				User = userDetails,
 				Plan = rentAgenda.Plan,
-				Motorcycle = motorcycle
+				//Motorcycle = motorcycle
 			};
 			rentDto.EndDateExpected = rentDto.EndDate;
 
@@ -129,9 +130,9 @@ namespace RentH2.Web.Controllers
 			var responseMotorcycle = await _motorcycleService.GetMotorcycleByIdAsync(rentDto.Motorcycle.Id);
 			if (responseMotorcycle != null && responseMotorcycle.IsSuccess)
 			{
-				MotorcycleDto motorcycleDto = JsonConvert.DeserializeObject<MotorcycleDto>(Convert.ToString(responseMotorcycle.Result));
-				motorcycleDto.Status = RentStatus.Available;
-				var respUpMotorcycle = await _motorcycleService.UpdateMotorcycleAsync(motorcycleDto);
+                MotorcycleModel motorcycleModel = JsonConvert.DeserializeObject<MotorcycleModel>(Convert.ToString(responseMotorcycle.Result));
+                motorcycleModel.Status = RentStatus.Available;
+				var respUpMotorcycle = await _motorcycleService.UpdateMotorcycleAsync(motorcycleModel);
 				if (respUpMotorcycle != null && respUpMotorcycle.IsSuccess)
 				{
 					rentDto.Status = RentStatus.Ended;
@@ -205,12 +206,12 @@ namespace RentH2.Web.Controllers
 			}
 		}
 
-		private async Task<MotorcycleDto> GetMotorcycleByIdAsync(string motorcycleId)
+		private async Task<MotorcycleModel> GetMotorcycleByIdAsync(string motorcycleId)
 		{
-			ResponseDto responsePlan = await _motorcycleService.GetMotorcycleByIdAsync(motorcycleId);
+			ResponseModel responsePlan = await _motorcycleService.GetMotorcycleByIdAsync(motorcycleId);
 			if (responsePlan != null && responsePlan.IsSuccess)
 			{
-				var motorcycle = JsonConvert.DeserializeObject<MotorcycleDto>(Convert.ToString(responsePlan.Result));
+				var motorcycle = JsonConvert.DeserializeObject<MotorcycleModel>(Convert.ToString(responsePlan.Result));
 				return motorcycle;
 			}
 			else

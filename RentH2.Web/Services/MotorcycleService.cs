@@ -1,6 +1,6 @@
-﻿using RentH2.Web.Models;
+﻿using RentH2.Common.Models;
+using RentH2.Common.Utility;
 using RentH2.Web.Services.IServices;
-using RentH2.Web.Utility;
 
 namespace RentH2.Web.Services
 {
@@ -13,49 +13,49 @@ namespace RentH2.Web.Services
             _baseService = baseService;
 		}
 
-		public async Task<ResponseDto?> CreateMotorcycleAsync(MotorcycleDto motorcycleDto)
+		public async Task<ResponseModel?> CreateMotorcycleAsync(MotorcycleModel motorcycleModel)
         {
-			return await _baseService.SendAsync(new RequestDto()
+			return await _baseService.SendAsync(new RequestModel()
 			{
 				ApiType = SD.ApiType.POST,
-				Data = motorcycleDto,
+				Data = motorcycleModel,
 				Url = SD.MotorcycleAPIBase
 			});
 		}
 
-		public async Task<ResponseDto?> DeleteMotorcycleAsync(string id)
+		public async Task<ResponseModel?> DeleteMotorcycleAsync(string id)
         {
-			return await _baseService.SendAsync(new RequestDto()
+			return await _baseService.SendAsync(new RequestModel()
 			{
 				ApiType = SD.ApiType.DELETE,
 				Url = SD.MotorcycleAPIBase + id
 			});
 		}
 
-        public async Task<ResponseDto?> GetAllMotorcyclesAsync()
+        public async Task<ResponseModel?> GetAllMotorcyclesAsync()
         {
-            return await _baseService.SendAsync(new RequestDto()
+            return await _baseService.SendAsync(new RequestModel()
             {
                 ApiType = SD.ApiType.GET,
                 Url = SD.MotorcycleAPIBase
 			});
         }
 
-        public async Task<ResponseDto?> GetMotorcycleByIdAsync(string id)
+        public async Task<ResponseModel?> GetMotorcycleByIdAsync(string id)
         {
-			return await _baseService.SendAsync(new RequestDto()
+			return await _baseService.SendAsync(new RequestModel()
 			{
 				ApiType = SD.ApiType.GET,
                 Url = SD.MotorcycleAPIBase + id
             });
 		}
 
-		public async Task<ResponseDto?> UpdateMotorcycleAsync(MotorcycleDto motorcycleDto)
+		public async Task<ResponseModel?> UpdateMotorcycleAsync(MotorcycleModel motorcycleModel)
         {
-			return await _baseService.SendAsync(new RequestDto()
+			return await _baseService.SendAsync(new RequestModel()
 			{
 				ApiType = SD.ApiType.PUT,
-				Data = motorcycleDto,
+				Data = motorcycleModel,
 				Url = SD.MotorcycleAPIBase
 			});
 		}

@@ -1,9 +1,9 @@
-﻿using RentH2.Services.MotorcycleAPI.Models.Dto;
+﻿using RentH2.Common.Models;
 
 namespace RentH2.Web.Services.IServices
 {
-	public interface IRidersRentsService
+    public interface IRidersRentsService
 	{
-		Task<RidersRentsDto> GetOneByMotorcycleIdAsync(string motorcycleId);
+		Task<RidersRentsModel> GetOneByMotorcycleIdAsync(string motorcycleId);
 	}
 }

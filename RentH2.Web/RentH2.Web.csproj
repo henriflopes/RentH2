@@ -13,4 +13,8 @@
 	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RentH2.Common\RentH2.Common.csproj" />
+  </ItemGroup>
+
 </Project>

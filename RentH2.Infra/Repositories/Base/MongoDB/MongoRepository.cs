@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Operations;
 using RentH2.Domain.Entities.Base;
 using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
 using System.Linq.Expressions;
@@ -76,15 +77,16 @@ namespace RentH2.Infra.Repositories.Base.MongoDB
             });
         }
 
-
-        public virtual void InsertOne(TDocument document)
+        public virtual TDocument InsertOne(TDocument document)
         {
             _collection.InsertOne(document);
+            return document;
         }
 
-        public virtual Task InsertOneAsync(TDocument document)
+        public async virtual Task<TDocument> InsertOneAsync(TDocument document)
         {
-            return Task.Run(() => _collection.InsertOneAsync(document));
+            await _collection.InsertOneAsync(document);
+            return document;
         }
 
         public void InsertMany(ICollection<TDocument> documents)
@@ -97,16 +99,18 @@ namespace RentH2.Infra.Repositories.Base.MongoDB
             await _collection.InsertManyAsync(documents);
         }
 
-        public void ReplaceOne(TDocument document)
+        public TDocument ReplaceOne(TDocument document)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
             _collection.FindOneAndReplace(filter, document);
+            return document;
         }
 
-        public virtual async Task ReplaceOneAsync(TDocument document)
+        public virtual async Task<TDocument> ReplaceOneAsync(TDocument document)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
             await _collection.FindOneAndReplaceAsync(filter, document);
+            return document;
         }
 
         public void DeleteOne(Expression<Func<TDocument, bool>> filterExpression)

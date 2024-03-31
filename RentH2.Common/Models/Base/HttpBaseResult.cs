@@ -1,4 +1,4 @@
-﻿namespace RentH2.Infra.Repositories.Base
+﻿namespace RentH2.Common.Models.Base
 {
     public class HttpBaseResult
     {
@@ -18,6 +18,6 @@
         }
 
         public List<string>? Erros { get; set; }
-        public bool IsValid() => Erros.Any();
+        public bool IsValid() => Erros != null ? !Erros.Any() : true;
     }
 }

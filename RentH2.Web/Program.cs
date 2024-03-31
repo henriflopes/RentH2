@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using RentH2.Web.Services;
 using System.Globalization;
+using System.Security.AccessControl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"] + "/api/auth/";
 SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"] + "/api/shoppingcart/";
 SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"] + "/api/order/";
 SD.RentAPIBase = builder.Configuration["ServiceUrls:RentAPI"] + "/api/rent/";
-SD.MotorcycleAPIBase = builder.Configuration["ServiceUrls:MotorcycleAPI"] + "/api/motorcycle/";
+RentH2.Common.Utility.SD.MotorcycleAPIBase = builder.Configuration["ServiceUrls:MotorcycleAPI"] + "/api/motorcycle/";
 SD.PlanAPIBase = builder.Configuration["ServiceUrls:PlanAPI"] + "/api/plan/";
 
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();

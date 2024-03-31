@@ -1,20 +1,20 @@
 ﻿using Newtonsoft.Json;
-using RentH2.Infra.Repositories.Base;
+using RentH2.Common.Models.Base;
 
-namespace RentH2.Infra.Models
+namespace RentH2.Common.Models
 {
-	public class MotorcycleModel : HttpBaseResult
+    public class MotorcycleModel : HttpBaseResult
     {
         [JsonProperty("id")]
         public string? Id { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonProperty("year")]
-        public string Year { get; set; }
+        public string? Year { get; set; }
 
-        [JsonProperty("number_plate")]
+        [JsonProperty("numberPlate")]
         public string NumberPlate { get; set; }
 
         [JsonProperty("location")]
@@ -22,5 +22,5 @@ namespace RentH2.Infra.Models
 
         [JsonProperty("status")]
         public string Status { get; set; }
-	}
+    }
 }

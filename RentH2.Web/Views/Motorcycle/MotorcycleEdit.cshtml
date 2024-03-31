@@ -1,10 +1,12 @@
-﻿@model MotorcycleDto
+﻿@using RentH2.Common.Models
+@model MotorcycleModel
 
 <form asp-action="MotorcycleEdit">
     <input asp-for="Id" hidden />
     <input asp-for="Type" hidden />
     <input asp-for="Location" hidden />
     <input asp-for="Status" hidden />
+    <input asp-for="Year" hidden />
     <br />
     <div class="container border p-3">
         <h1 class="text-white text-center">Alteração de Moto</h1>
@@ -23,6 +25,13 @@
             <div class="col-10 pb-3">
                 <input asp-for="NumberPlate" class="form-control" />
                 <span asp-validation-for="NumberPlate" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label class="control-label pt-2" style="font-size:20px;">Ano de Fabricação</label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="Year" disabled class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
             </div>
             <div class="col-2">
                 <label class="control-label pt-2" style="font-size:20px;">Localização</label>

@@ -1,8 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 
-namespace RentH2.Services.MotorcycleAPI.Utility
+namespace RentH2.Common.Utility
 {
     public class BackEndApiAuthenticationHttpClientHandler : DelegatingHandler
     {

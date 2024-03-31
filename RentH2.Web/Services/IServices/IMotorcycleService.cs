@@ -1,13 +1,13 @@
-﻿using RentH2.Web.Models;
+﻿using RentH2.Common.Models;
 
 namespace RentH2.Web.Services.IServices
 {
-	public interface IMotorcycleService
+    public interface IMotorcycleService
 	{
-		Task<ResponseDto?> GetAllMotorcyclesAsync();
-		Task<ResponseDto?> GetMotorcycleByIdAsync(string id);
-		Task<ResponseDto?> CreateMotorcycleAsync(MotorcycleDto motorcycleDto);
-		Task<ResponseDto?> DeleteMotorcycleAsync(string id);
-		Task<ResponseDto?> UpdateMotorcycleAsync(MotorcycleDto motorcycleDto);
+		Task<ResponseModel?> GetAllMotorcyclesAsync();
+		Task<ResponseModel?> GetMotorcycleByIdAsync(string id);
+		Task<ResponseModel?> CreateMotorcycleAsync(MotorcycleModel motorcycleModel);
+		Task<ResponseModel?> DeleteMotorcycleAsync(string id);
+		Task<ResponseModel?> UpdateMotorcycleAsync(MotorcycleModel motorcycleModel);
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.Queries;
-using RentH2.Infra.Models;
+using RentH2.Common.Models;
 using RentH2.Infra.Repositories.Interfaces;
 
 namespace RentH2.Application.Handlers

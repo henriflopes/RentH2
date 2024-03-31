@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 using RentH2.Application.Commands;
 using RentH2.Application.Queries;
 using RentH2.Common.Models;
-using RentH2.Services.MotorcycleAPI.Utility;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
@@ -14,13 +14,13 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
     public class MotorcycleAPIController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ResponseModel _response;
+        private ResponseModel _response;
 
 
         public MotorcycleAPIController(IMediator mediator)
         {
             _mediator = mediator;
-            _response = new ResponseModel();
+            _response = new();
         }
 
         [HttpGet]
@@ -28,7 +28,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                _response.Result = await _mediator.Send(new GetMotorcycleListQuery());
+                _response = await _mediator.Send(new GetMotorcycleListQuery());
             }
             catch (Exception ex)
             {
@@ -45,15 +45,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new GetMotorcycleByIdQuery(id));
-
-                if (!result.IsValid())
-                {
-                    _response.Message = result.Erros.FirstOrDefault();
-                    _response.IsSuccess = false;
-                }
-
-                _response.Result = result;
+                _response = await _mediator.Send(new GetMotorcycleByIdQuery(id));
             }
             catch (Exception ex)
             {
@@ -69,7 +61,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                _response.Result = await _mediator.Send(new GetMotorcycleListByStatusQuery(rentStatus));
+                _response = await _mediator.Send(new GetMotorcycleListByStatusQuery(rentStatus));
             }
             catch (Exception ex)
             {
@@ -86,15 +78,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new CreateMotorcycleCommand(motorcycleModel));
-
-                if (!result.IsValid())
-                {
-                    _response.Message = result.Erros.FirstOrDefault();
-                    _response.IsSuccess = false;
-                }
-
-                _response.Result = result;
+                _response = await _mediator.Send(new CreateMotorcycleCommand(motorcycleModel));
             }
             catch (Exception ex)
             {
@@ -110,23 +94,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new UpdateMotorcycleCommand(motorcycleModel));
-
-                if (result != null)
-                {
-                    if (!result.IsValid()) 
-                    {
-                        _response.Message = result.Erros.FirstOrDefault();
-                        _response.IsSuccess = false;
-                    }
-
-                    _response.Result = result;
-                }
-                else
-                {
-                    _response.IsSuccess = false;
-                    _response.Message = "Not Found";
-                }
+                _response = await _mediator.Send(new UpdateMotorcycleCommand(motorcycleModel));
             }
             catch (Exception ex)
             {
@@ -143,7 +111,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         {
             try
             {
-                await _mediator.Send(new DeleteMotorcycleCommand(id));
+                _response = await _mediator.Send(new DeleteMotorcycleCommand(id));
             }
             catch (Exception ex)
             {

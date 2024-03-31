@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.Commands;
+using RentH2.Application.Queries;
 using RentH2.Application.Validators;
 using RentH2.Common.Models;
 using RentH2.Domain.Entities;
@@ -8,37 +9,47 @@ using RentH2.Infra.Repositories.Interfaces;
 
 namespace RentH2.Application.Handlers
 {
-    public class CreateMotorcycleHandler : IRequestHandler<CreateMotorcycleCommand, MotorcycleModel>
+    public class CreateMotorcycleHandler : IRequestHandler<CreateMotorcycleCommand, ResponseModel>
     {
         private readonly IMotorcycleGateway _motorcycleGateway;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly ResponseModel _responseModel;
 
         public CreateMotorcycleHandler(IMotorcycleGateway motorcycleGateway, IMapper mapper, IMediator mediator)
         {
             _motorcycleGateway = motorcycleGateway;
             _mapper = mapper;
             _mediator = mediator;
+            _responseModel = new();
         }
 
-        public async Task<MotorcycleModel> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseModel> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
             var validator = await new NewMotorcycleValidator().ValidateAsync(request.MotorcycleModel, cancellationToken);
             if (!validator.IsValid)
             {
-                request.MotorcycleModel.Erros = validator.Errors.Select( x => x.ErrorMessage).ToList();
-                return request.MotorcycleModel;
+                request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = request.MotorcycleModel.Erros.FirstOrDefault();
+                _responseModel.Result = request.MotorcycleModel;
+
+                return _responseModel;
             }
 
-            var result = await _motorcycleGateway.GetByNumberPlateAsync(request.MotorcycleModel.NumberPlate);
+            var result = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(request.MotorcycleModel.NumberPlate));
             if (result != null)
             {
-                request.MotorcycleModel.Erros = ["Esta placa já existe em nosso sistema!"];
-                return request.MotorcycleModel;
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = "Esta placa já existe em nosso sistema!";
+
+                return _responseModel;
             }
 
-            return _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
+            _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
+
+            return _responseModel;
         }
-        
     }
 }

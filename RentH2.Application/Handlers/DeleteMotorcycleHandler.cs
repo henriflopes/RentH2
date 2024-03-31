@@ -8,30 +8,41 @@ using RentH2.Infra.Repositories.Interfaces;
 
 namespace RentH2.Application.Handlers
 {
-    public class DeleteMotorcycleHandler : IRequestHandler<DeleteMotorcycleCommand>
+    public class DeleteMotorcycleHandler : IRequestHandler<DeleteMotorcycleCommand, ResponseModel>
     {
         private readonly IMediator _mediator;
         private readonly IMotorcycleGateway _motorcycleGateway;
         private readonly IMapper _mapper;
+        private readonly ResponseModel _responseModel;
 
         public DeleteMotorcycleHandler(IMediator mediator,IMotorcycleGateway motorcycleGateway, IMapper mapper)
         {
             _mediator = mediator;
             _motorcycleGateway = motorcycleGateway;
             _mapper = mapper;
+            _responseModel = new();
         }
 
-        public async Task Handle(DeleteMotorcycleCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseModel> Handle(DeleteMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            //var validator = await new DeleteMotorcycleValidator().ValidateAsync(request.id);
-            //if (!validator.IsValid)
-            //{
-            //    request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-            //    return request.MotorcycleModel;
-            //}
+            var motorcycleModel = (MotorcycleModel)(await _mediator.Send(new GetMotorcycleByIdQuery(request.id))).Result;
+            _responseModel.Result = motorcycleModel;
 
+            if (motorcycleModel == null)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = "Not Found";
+                return _responseModel;
+            }
 
-            MotorcycleModel motorcycleModel = await _mediator.Send(new GetMotorcycleByIdQuery(request.id));
+            var validator = await new DeleteMotorcycleValidator().ValidateAsync(motorcycleModel, cancellationToken);
+            if (!validator.IsValid)
+            {
+                motorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = motorcycleModel.Erros.FirstOrDefault();
+                return _responseModel;
+            }
 
             if (motorcycleModel != null)
             {
@@ -48,12 +59,15 @@ namespace RentH2.Application.Handlers
                     //{
                         await _motorcycleGateway.RemoveAsync(request.id);
                     //}
+
                 }
                 catch (Exception ex)
                 {
                     throw;
                 }
             }
+
+            return _responseModel;
         }
     }
 }

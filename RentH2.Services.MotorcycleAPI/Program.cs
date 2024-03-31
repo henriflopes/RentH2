@@ -1,7 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using RentH2.Services.MotorcycleAPI.Extensions;
 using RentH2.Services.MotorcycleAPI.Services;
 using RentH2.Web.Services.IServices;
 using RentH2.Application;
@@ -13,6 +12,7 @@ using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
 using RentH2.Infra.Repositories.Base.MongoDB;
 using RentH2.Common.Utility;
 using RentH2.Common;
+using RentH2.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,7 +64,7 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<ApplicationMediatREntryPoint>());
 
-builder.AddAppAuthentication();
+WebApplicationBuilderExtensions.AddAppAuthentication(builder);
 
 builder.Services.AddAuthorization();
 

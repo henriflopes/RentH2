@@ -27,27 +27,27 @@ namespace RentH2.Application.Handlers
         public async Task<ResponseModel> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
             var validator = await new NewMotorcycleValidator().ValidateAsync(request.MotorcycleModel, cancellationToken);
-            if (!validator.IsValid)
+            if (validator.IsValid)
             {
-                request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+                var result = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(request.MotorcycleModel.NumberPlate));
+                if (result != null)
+                {
+                    _responseModel.IsSuccess = false;
+                    _responseModel.Message = "Esta placa já existe em nosso sistema!";
 
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = request.MotorcycleModel.Erros.FirstOrDefault();
-                _responseModel.Result = request.MotorcycleModel;
+                    return _responseModel;
+                }
+
+                _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
 
                 return _responseModel;
             }
 
-            var result = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(request.MotorcycleModel.NumberPlate));
-            if (result != null)
-            {
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = "Esta placa já existe em nosso sistema!";
+            request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
 
-                return _responseModel;
-            }
-
-            _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
+            _responseModel.IsSuccess = false;
+            _responseModel.Message = request.MotorcycleModel.Erros.FirstOrDefault();
+            _responseModel.Result = request.MotorcycleModel;
 
             return _responseModel;
         }

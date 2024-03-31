@@ -23,14 +23,22 @@ namespace RentH2.Application.Handlers
         {
             var result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetAsync(request.Id));
 
-            if (!result.IsValid())
+            if (result != null)
             {
-                _responseModel.Message = result.Erros.FirstOrDefault();
-                _responseModel.IsSuccess = false;
+                if (!result.IsValid())
+                {
+                    _responseModel.Message = result.Erros.FirstOrDefault();
+                    _responseModel.IsSuccess = false;
+                    return _responseModel;
+                }
+
+                _responseModel.Result = result;
+
+                return _responseModel;
             }
 
-            _responseModel.Result = result;
-
+            _responseModel.Message = "Not Found";
+            _responseModel.IsSuccess = false;
             return _responseModel;
         }
     }

@@ -28,45 +28,45 @@ namespace RentH2.Application.Handlers
             var motorcycleModel = (MotorcycleModel)(await _mediator.Send(new GetMotorcycleByIdQuery(request.id))).Result;
             _responseModel.Result = motorcycleModel;
 
-            if (motorcycleModel == null)
-            {
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = "Not Found";
-                return _responseModel;
-            }
-
-            var validator = await new DeleteMotorcycleValidator().ValidateAsync(motorcycleModel, cancellationToken);
-            if (!validator.IsValid)
-            {
-                motorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = motorcycleModel.Erros.FirstOrDefault();
-                return _responseModel;
-            }
-
             if (motorcycleModel != null)
             {
-                try
+                var validator = await new DeleteMotorcycleValidator().ValidateAsync(motorcycleModel, cancellationToken);
+                if (!validator.IsValid)
                 {
-                    //var existsHist = await _ridersRentsService.GetOneByMotorcycleIdAsync(id);
+                    motorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+                    _responseModel.IsSuccess = false;
+                    _responseModel.Message = motorcycleModel.Erros.FirstOrDefault();
+                    return _responseModel;
+                }
 
-                    //if (existsHist != null)
-                    //{
-                    //    motorcycleModel.Status = RentStatus.Deleted;
-                    //    await _mediator.Send(new UpdateMotorcycleCommand(motorcycleModel));
-                    //}
-                    //else
-                    //{
+                if (motorcycleModel != null)
+                {
+                    try
+                    {
+                        //var existsHist = await _ridersRentsService.GetOneByMotorcycleIdAsync(id);
+
+                        //if (existsHist != null)
+                        //{
+                        //    motorcycleModel.Status = RentStatus.Deleted;
+                        //    await _mediator.Send(new UpdateMotorcycleCommand(motorcycleModel));
+                        //}
+                        //else
+                        //{
                         await _motorcycleGateway.RemoveAsync(request.id);
-                    //}
+                        //}
 
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+
+                return _responseModel;
             }
 
+            _responseModel.IsSuccess = false;
+            _responseModel.Message = "Not Found";
             return _responseModel;
         }
     }

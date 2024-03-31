@@ -1,38 +1,14 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using RentH2.Application;
-using RentH2.Domain.Contracts;
-using RentH2.Infra.Repositories;
-using RentH2.Infra.Repositories.Interfaces;
-using Microsoft.Extensions.Options;
-using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
-using RentH2.Infra.Repositories.Base.MongoDB;
-using RentH2.Common.Utility;
-using RentH2.Common;
-using RentH2.Common.Extensions;
-using RentH2.Infra.Services;
-using RentH2.Infra.Services.Contracts;
+using RentH2.Infra;
+using RentH2.Application.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
-builder.Services.AddSingleton<IMongoDbSettings>(serviceProvider =>
-    serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value
-);
-builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
-builder.Services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
-builder.Services.AddScoped<IMotorcycleGateway, MotorcycleGateway>();
-
-builder.Services.AddScoped<IRidersRentsService, RidersRentsService>();
-builder.Services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
-
-IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-builder.Services.AddSingleton(mapper);
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
+builder.Services
+	.AddApplication()
+	.AddInfrastructure(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -62,9 +38,7 @@ builder.Services.AddSwaggerGen(option =>
 	});
 });
 
-builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblyContaining<ApplicationMediatREntryPoint>());
-
-WebApplicationBuilderExtensions.AddAppAuthentication(builder);
+builder.AddAppAuthentication();
 
 builder.Services.AddAuthorization();
 

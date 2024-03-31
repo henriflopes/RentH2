@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Services.Notificatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{37702A52-468E-498A-A839-5BD672DA39CF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Infra", "RentH2.Infra\RentH2.Infra.csproj", "{42488CC0-3DE7-42F0-8B24-86E0C312B552}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Infrastructure", "RentH2.Infra\RentH2.Infrastructure.csproj", "{42488CC0-3DE7-42F0-8B24-86E0C312B552}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Domain", "RentH2.Domain\RentH2.Domain.csproj", "{3F675C43-1851-4528-88B6-FB4C8F248068}"
 EndProject

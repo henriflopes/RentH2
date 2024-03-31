@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 
-namespace RentH2.Infra.Utility
+namespace RentH2.Infrastructure.Utility
 {
     public class BackEndApiAuthenticationHttpClientHandler : DelegatingHandler
     {

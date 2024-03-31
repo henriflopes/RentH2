@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RentH2.Infra\RentH2.Infra.csproj" />
+    <ProjectReference Include="..\RentH2.Infra\RentH2.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

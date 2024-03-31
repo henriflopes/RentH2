@@ -1,17 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using RentH2.Application;
-using RentH2.Infra;
+using RentH2.Infrastructure;
 using RentH2.Application.Extensions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-	.AddApplication()
-	.AddInfrastructure(builder);
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
 {
@@ -38,13 +34,19 @@ builder.Services.AddSwaggerGen(option =>
 	});
 });
 
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder);
+
+builder.Host.UseSerilog((context, configuration) => 
+	configuration.ReadFrom.Configuration(context.Configuration));
+
 builder.AddAppAuthentication();
 
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseSwagger();
 if (app.Environment.IsDevelopment())
 {
@@ -58,6 +60,7 @@ else
 	});
 }
 
+app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

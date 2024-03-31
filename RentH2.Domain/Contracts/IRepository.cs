@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using RentH2.Domain.Entities.Base;
 
-namespace RentH2.Infra.Repositories.Base.MongoDB.Interfaces
+namespace RentH2.Domain.Repositories.Base.MongoDB.Interfaces
 {
     public interface IRepository<TDocument> where TDocument : IDocument
     {

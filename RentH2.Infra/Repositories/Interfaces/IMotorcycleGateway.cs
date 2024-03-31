@@ -1,6 +1,6 @@
 ﻿using RentH2.Domain.Entities;
 
-namespace RentH2.Infra.Repositories.Interfaces
+namespace RentH2.Infrastructure.Repositories.Interfaces
 {
     public interface IMotorcycleGateway
     {

@@ -1,4 +1,4 @@
-﻿namespace RentH2.Infra.Repositories.Base
+﻿namespace RentH2.Infrastructure.Repositories.Base
 {
     public sealed class HttpParam : IHttpParam
     {

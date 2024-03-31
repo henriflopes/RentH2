@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using RentH2.Common.Models;
-using RentH2.Infra.Services.Contracts;
+using RentH2.Infrastructure.Services.Contracts;
 
-namespace RentH2.Infra.Services
+namespace RentH2.Infrastructure.Services
 {
     public class RidersRentsService : IRidersRentsService
     {

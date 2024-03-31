@@ -2,7 +2,7 @@
 using RentH2.Common.Models;
 using RentH2.Domain.Entities;
 
-namespace RentH2.Infra.Configuration
+namespace RentH2.Infrastructure.Configuration
 {
     public class MappingConfig
     {

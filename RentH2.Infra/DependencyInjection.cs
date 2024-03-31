@@ -3,16 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RentH2.Domain.Contracts;
-using RentH2.Infra.Configuration;
-using RentH2.Infra.Repositories;
-using RentH2.Infra.Repositories.Base.MongoDB;
-using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
-using RentH2.Infra.Repositories.Interfaces;
-using RentH2.Infra.Services;
-using RentH2.Infra.Services.Contracts;
-using RentH2.Infra.Utility;
+using RentH2.Domain.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Infrastructure.Configuration;
+using RentH2.Infrastructure.Repositories;
+using RentH2.Infrastructure.Repositories.Base.MongoDB;
+using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Infrastructure.Repositories.Interfaces;
+using RentH2.Infrastructure.Services;
+using RentH2.Infrastructure.Services.Contracts;
+using RentH2.Infrastructure.Utility;
 
-namespace RentH2.Infra
+namespace RentH2.Infrastructure
 {
     public static class DependencyInjection
     {

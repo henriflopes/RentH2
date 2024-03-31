@@ -1,6 +1,6 @@
 ﻿using RentH2.Common.Models;
 
-namespace RentH2.Infra.Services.Contracts
+namespace RentH2.Infrastructure.Services.Contracts
 {
     public interface IRidersRentsService
     {

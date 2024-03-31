@@ -1,6 +1,6 @@
-﻿using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
+﻿using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;
 
-namespace RentH2.Infra.Repositories.Base.MongoDB
+namespace RentH2.Infrastructure.Repositories.Base.MongoDB
 {
     public class MongoDbSettings : IMongoDbSettings
     {

@@ -1,4 +1,4 @@
-﻿namespace RentH2.Infra.Repositories.Base.MongoDB.Interfaces
+﻿namespace RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces
 {
     public interface IMongoDbSettings
     {

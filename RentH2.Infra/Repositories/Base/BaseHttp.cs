@@ -2,7 +2,7 @@
 using RentH2.Common.Models.Base;
 using RestSharp;
 
-namespace RentH2.Infra.Repositories.Base
+namespace RentH2.Infrastructure.Repositories.Base
 {
     public class BaseHttp<HttpParam, HttpResult> where HttpParam : IHttpParam
                                                   where HttpResult : HttpBaseResult, new()

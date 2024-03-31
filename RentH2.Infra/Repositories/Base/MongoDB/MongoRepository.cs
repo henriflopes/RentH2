@@ -1,11 +1,11 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Operations;
 using RentH2.Domain.Entities.Base;
-using RentH2.Infra.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Domain.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;
 using System.Linq.Expressions;
 
-namespace RentH2.Infra.Repositories.Base.MongoDB
+namespace RentH2.Infrastructure.Repositories.Base.MongoDB
 {
     public class MongoRepository<TDocument> : IRepository<TDocument>
     where TDocument : IDocument

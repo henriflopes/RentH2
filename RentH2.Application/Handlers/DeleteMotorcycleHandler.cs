@@ -4,7 +4,7 @@ using RentH2.Application.Commands;
 using RentH2.Application.Queries;
 using RentH2.Application.Validators;
 using RentH2.Common.Models;
-using RentH2.Infra.Repositories.Interfaces;
+using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.Handlers
 {

@@ -4,6 +4,7 @@ using RentH2.Application;
 using RentH2.Infrastructure;
 using RentH2.Application.Extensions;
 using Serilog;
+using RentH2.Common.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +37,7 @@ builder.Services.AddSwaggerGen(option =>
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure(builder);
+    .AddInfrastructure(builder, SD.DataBaseType.MongoDB);
 
 builder.Host.UseSerilog((context, configuration) => 
 	configuration.ReadFrom.Configuration(context.Configuration));

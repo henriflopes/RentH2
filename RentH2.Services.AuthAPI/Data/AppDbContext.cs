@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RentH2.Services.AuthAPI.Configurations.Entities;
 using RentH2.Services.AuthAPI.Models;
-using System.Reflection.Emit;
-using System.Xml;
 
 namespace RentH2.Services.AuthAPI.Data
 {

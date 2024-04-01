@@ -24,5 +24,13 @@
             Json,
             MultipartFormData
         }
+
+        public enum DataBaseType
+        {
+            MongoDB,
+            PostgreSQL,
+            MSSQL,
+            REDIS
+        }
     }
 }

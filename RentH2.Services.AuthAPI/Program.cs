@@ -2,7 +2,6 @@ using RentH2.Services.AuthAPI.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RentH2.Services.AuthAPI.Models;
-using RentH2.Services.AuthAPI.RabbitMQSender;
 using RentH2.Services.AuthAPI.Service;
 using RentH2.Services.AuthAPI.Service.IService;
 using AutoMapper;
@@ -24,8 +23,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFramework
 builder.Services.AddControllers();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IRabbitMQAuthMessageSender, RabbitMQAuthMessageSender>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -35,7 +33,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
-//// Configure the HTTP request pipeline.
 app.UseSwagger();
 if (app.Environment.IsDevelopment())
 {
@@ -49,15 +46,10 @@ else
 	});
 }
 
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 ApplyMigration();
-
 app.Run();
 
 void ApplyMigration()

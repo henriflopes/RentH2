@@ -1,16 +1,15 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Driver;
-using RentH2.Application.Commands;
-using RentH2.Application.Queries;
+using RentH2.Application.CQRSMotorcycle.Commands;
+using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Common.Models;
+using RentH2.Common.Utility;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
     [Route("api/motorcycle")]
     [ApiController]
-    //[Authorize(Roles = Roles.Administrator)]
     public class MotorcycleAPIController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,6 +23,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ResponseModel> Get()
         {
             try
@@ -41,6 +41,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize]
         public async Task<ResponseModel> Get(string id)
         {
             try
@@ -57,6 +58,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpPost("GetAllByStatusAsync")]
+        [Authorize]
         public async Task<ResponseModel> GetAllByStatusAsync([FromBody] List<string> rentStatus)
         {
             try
@@ -74,6 +76,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Post(MotorcycleModel motorcycleModel)
         {
             try
@@ -90,6 +93,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Put(MotorcycleModel motorcycleModel)
         {
             try
@@ -107,6 +111,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Delete(string id)
         {
             try

@@ -11,6 +11,9 @@ namespace RentH2.Infrastructure.Configuration
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<MotorcycleModel, Motorcycle>().ReverseMap();
+                config.CreateMap<PlanModel, Plan>().ReverseMap();
+                config.CreateMap<RentModel, Rent>().ReverseMap();
+                config.CreateMap<ApplicationUserModel, ApplicationUser>().ReverseMap();
             });
 
             return mappingConfig;

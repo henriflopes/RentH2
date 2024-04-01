@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RentH2.Common.Models;
 using RentH2.Services.RentAPI.Models.Dto;
 using RentH2.Services.RentAPI.Services.IService;
 using System.Text;
@@ -14,7 +15,7 @@ namespace RentH2.Services.RentAPI.Services
 			_httpClientFactory = httpClientFactory;
 		}
 
-		public async Task<List<PlanDto>> GetAllByStatusAsync(List<string> rentStatus)
+		public async Task<List<PlanModel>> GetAllByStatusAsync(List<string> rentStatus)
 		{
 			var json = JsonConvert.SerializeObject(rentStatus);
 			var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -22,14 +23,14 @@ namespace RentH2.Services.RentAPI.Services
 			var client = _httpClientFactory.CreateClient("Plan");
 			var response = await client.PostAsync($"/api/plan/GetAllByStatusAsync", stringContent);
 			var apiContent = await response.Content.ReadAsStringAsync();
-			var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+			var resp = JsonConvert.DeserializeObject<ResponseModel>(apiContent);
 
 			if (resp != null && resp.IsSuccess)
 			{
-				return JsonConvert.DeserializeObject<List<PlanDto>>(Convert.ToString(resp.Result));
+				return JsonConvert.DeserializeObject<List<PlanModel>>(Convert.ToString(resp.Result));
 			}
 
-			return new List<PlanDto>();
+			return new List<PlanModel>();
 		}
 
 	}

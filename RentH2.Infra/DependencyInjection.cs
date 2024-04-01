@@ -22,10 +22,10 @@ namespace RentH2.Infrastructure
             IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddHttpContextAccessor();
             services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 
-            // Add services to the container.
             services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
             services.AddSingleton<IMongoDbSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value
@@ -33,9 +33,12 @@ namespace RentH2.Infrastructure
             services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
             services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
             services.AddScoped<IMotorcycleGateway, MotorcycleGateway>();
+            services.AddScoped<IPlanRepository, PlanRepository>();
+            services.AddScoped<IPlanGateway, PlanGateway>();
 
-            services.AddScoped<IRidersRentsService, RidersRentsService>();
-            services.AddHttpClient("RidersRents", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RidersRentsAPI"])).AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+            services.AddScoped<IRentService, RentService>();
+            services.AddHttpClient("Rent", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]))
+                .AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
             return services;
         }

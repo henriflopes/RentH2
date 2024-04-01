@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RentH2.Common.Models;
 using RentH2.Services.RentAPI.Models;
 using RentH2.Services.RentAPI.Models.Dto;
 
@@ -19,7 +20,9 @@ namespace RentH2.Services.RentAPI
 				config.CreateMap<RentAgendaDto, RentAgenda>().ReverseMap();
 				config.CreateMap<Rent, RentAgenda>().ReverseMap();
 
-			});
+                config.CreateMap<RentAgendaModel, RentAgenda>().ReverseMap();
+
+            });
 
 			return mappingConfig;
 		}

@@ -1,37 +1,33 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RentH2.Services.PlanAPI.Models;
-using RentH2.Services.PlanAPI.Models.Dto;
-using RentH2.Services.PlanAPI.Services.IService;
+using RentH2.Application.CQRSPlan.Commands;
+using RentH2.Application.CQRSPlan.Queries;
+using RentH2.Common.Models;
 
 namespace RentH2.Services.PlanAPI.Controllers
 {
-	[Route("api/plan")]
+    [Route("api/plan")]
 	[ApiController]
 	//[Authorize]
 	public class PlanAPIController : ControllerBase
 	{
-		private readonly ResponseDto _response;
-		private readonly IPlanService _planService;
-		private readonly IMapper _mapper;
+		private ResponseModel _response;
+        private readonly IMediator _mediator;
 
-		public PlanAPIController(IPlanService planService, IMapper mapper)
+        public PlanAPIController(IMediator mediator)
 		{
-			_planService = planService;
-			_mapper = mapper;
-			_response = new ResponseDto();
-		}
+			_response = new ResponseModel();
+            _mediator = mediator;
+        }
 
 
 		[HttpGet]
-		public async Task<ResponseDto> Get()
+		public async Task<ResponseModel> Get()
 		{
 			try
 			{
-				List<Plan> plans = await _planService.GetAsync();
-				_response.Result = _mapper.Map<IEnumerable<PlanDto>>(plans);
-			}
+                _response = await _mediator.Send(new GetPlanListQuery());
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -42,13 +38,12 @@ namespace RentH2.Services.PlanAPI.Controllers
 		}
 
 		[HttpPost("GetAllByStatusAsync")]
-		public async Task<ResponseDto> GetAllByStatusAsync([FromBody] List<string> rentStatus)
+		public async Task<ResponseModel> GetAllByStatusAsync([FromBody] List<string> rentStatus)
 		{
 			try
 			{
-				List<Plan> motorcycles = await _planService.GetAllByStatusAsync(rentStatus);
-				_response.Result = _mapper.Map<List<PlanDto>>(motorcycles);
-			}
+                _response = await _mediator.Send(new GetPlanListByStatusQuery(rentStatus));
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -60,12 +55,11 @@ namespace RentH2.Services.PlanAPI.Controllers
 
 		[HttpGet]
 		[Route("{id}")]
-		public async Task<ResponseDto> Get(string id)
+		public async Task<ResponseModel> Get(string id)
 		{
 			try
 			{
-				Plan plan = await _planService.GetAsync(id);
-				_response.Result = _mapper.Map<PlanDto>(plan);
+                _response = await _mediator.Send(new GetPlanByIdQuery(id));
 			}
 			catch (Exception ex)
 			{
@@ -78,15 +72,13 @@ namespace RentH2.Services.PlanAPI.Controllers
 
 
 		[HttpPost]
-		public async Task<ResponseDto> Post(PlanDto planDto)
+		public async Task<ResponseModel> Post(PlanModel planModel)
 		{
 			try
 			{
-				Plan plan = _mapper.Map<Plan>(planDto);
-				await _planService.CreateAsync(plan);
-				_response.Result = _mapper.Map<PlanDto>(plan);
+                _response = await _mediator.Send(new CreatePlanCommand(planModel));
 
-			}
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -97,25 +89,12 @@ namespace RentH2.Services.PlanAPI.Controllers
 		}
 
 		[HttpPut]
-		public async Task<ResponseDto> Put(PlanDto planDto)
+		public async Task<ResponseModel> Put(PlanModel planModel)
 		{
 			try
 			{
-				Plan plan = _mapper.Map<Plan>(planDto);
-
-				Plan exists = await _planService.GetAsync(plan.Id);
-
-				if (exists != null)
-				{
-					await _planService.UpdateAsync(plan);
-					_response.Result = _mapper.Map<PlanDto>(plan);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
+                _response = await _mediator.Send(new UpdatePlanCommand(planModel));
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;
@@ -127,22 +106,12 @@ namespace RentH2.Services.PlanAPI.Controllers
 
 		[HttpDelete]
 		[Route("{id}")]
-		public async Task<ResponseDto> Delete(string id)
+		public async Task<ResponseModel> Delete(string id)
 		{
-			Plan plan = await _planService.GetAsync(id);
-
 			try
 			{
-				if (plan != null)
-				{
-					await _planService.RemoveAsync(id);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
+                _response = await _mediator.Send(new DeletePlanCommand(id));
+            }
 			catch (Exception ex)
 			{
 				_response.IsSuccess = false;

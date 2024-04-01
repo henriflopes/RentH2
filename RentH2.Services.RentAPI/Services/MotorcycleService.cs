@@ -6,6 +6,7 @@ using RentH2.Services.RentAPI.Utility;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver;
 using RentH2.Services.RentAPI.Models;
+using RentH2.Common.Models;
 
 namespace RentH2.Services.RentAPI.Services
 {
@@ -21,7 +22,7 @@ namespace RentH2.Services.RentAPI.Services
 			_rentService = rentService;
 		}
 
-		public async Task<List<MotorcycleDto>> GetAllAvailable(RentAgenda rentAgenda)
+		public async Task<List<MotorcycleModel>> GetAllAvailable(RentAgenda rentAgenda)
 		{
 			var unavailableAgendas = await _rentService.GetAllRentedByExpectedDateAsync(rentAgenda);
 			var availableMotorcycles = await GetAllByStatusAsync([RentStatus.Available]);
@@ -42,7 +43,7 @@ namespace RentH2.Services.RentAPI.Services
 			return result;
 		}
 
-		public async Task<MotorcycleDto> GetOneAvailable(RentAgenda rentAgenda)
+		public async Task<MotorcycleModel> GetOneAvailable(RentAgenda rentAgenda)
 		{
 			var unavailableAgendas = await _rentService.GetAllRentedByExpectedDateAsync(rentAgenda);
 			var availableMotorcycles = await GetAllByStatusAsync([RentStatus.Available]);
@@ -63,7 +64,7 @@ namespace RentH2.Services.RentAPI.Services
 			return result;
 		}
 
-		public async Task<List<MotorcycleDto>> GetAllByStatusAsync(List<string> rentStatus)
+		public async Task<List<MotorcycleModel>> GetAllByStatusAsync(List<string> rentStatus)
 		{
 			var json = JsonConvert.SerializeObject(rentStatus);
 			var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -71,14 +72,14 @@ namespace RentH2.Services.RentAPI.Services
 			var client = _httpClientFactory.CreateClient("Motorcycle");
 			var response = await client.PostAsync($"/api/motorcycle/GetAllByStatusAsync", stringContent);
 			var apiContent = await response.Content.ReadAsStringAsync();
-			var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+			var resp = JsonConvert.DeserializeObject<ResponseModel>(apiContent);
 
 			if (resp != null && resp.IsSuccess)
 			{
-				return JsonConvert.DeserializeObject<List<MotorcycleDto>>(Convert.ToString(resp.Result));
+				return JsonConvert.DeserializeObject<List<MotorcycleModel>>(Convert.ToString(resp.Result));
 			}
 
-			return new List<MotorcycleDto>();
+			return new List<MotorcycleModel>();
 		}
 
 		public async Task UpdateAsync(Motorcycle motorcycle)
@@ -89,7 +90,7 @@ namespace RentH2.Services.RentAPI.Services
 			var client = _httpClientFactory.CreateClient("Motorcycle");
 			var response = await client.PutAsync($"/api/motorcycle", stringContent);
 			var apiContent = await response.Content.ReadAsStringAsync();
-			var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+			var resp = JsonConvert.DeserializeObject<ResponseModel>(apiContent);
 
 			if (resp != null && resp.IsSuccess)
 			{

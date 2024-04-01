@@ -1,4 +1,6 @@
-﻿namespace RentH2.Common.Models.Base
+﻿using Newtonsoft.Json;
+
+namespace RentH2.Common.Models.Base
 {
     public class HttpBaseResult
     {
@@ -17,6 +19,8 @@
             Erros = errors;
         }
 
+        [JsonProperty("id")]
+        public string? Id { get; set; }
         public List<string>? Erros { get; set; }
         public bool IsValid() => Erros != null ? !Erros.Any() : true;
     }

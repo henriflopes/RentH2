@@ -12,8 +12,10 @@ This app has been built with the following technologies:
   Patterns
   - CQRS
   - Repository
-  - DDD
-  - TDD
+
+  Development Methodology
+  - DDD (Domain-Driven Design)
+  - TDD (Test-Driven Design)
 
   Development Technologies
   - Copilot

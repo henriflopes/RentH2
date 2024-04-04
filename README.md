@@ -1,11 +1,19 @@
 # Welcome to Rent H2 🏍️
 
-Rev up your engines and get ready for an exhilarating ride with Rent H2! Whether you're a seasoned rider or a curious newbie, our app is your gateway to motorcycle adventures.
+Rev up your engines and prepare for an exhilarating ride with Rent H2! Whether a seasoned rider or a curious newbie, our app is your gateway to motorcycle adventures.
 
 This app has been built with the following technologies:
 
   Architecture
   - Microservice
+  - MVC
+  - Clean Architecture
+
+  Patterns
+  - CQRS
+  - Repository
+  - DDD
+  - TDD
 
   Development Technologies
   - Copilot
@@ -13,6 +21,12 @@ This app has been built with the following technologies:
   - Razor Pages
   - Bootstrap 5
   - Jquery
+  - Fluent Validation
+  - Mediator
+
+  Test
+  - Xunit
+  - Bogus
 
   Security Frameworks:
    - Identity Framework Core 8

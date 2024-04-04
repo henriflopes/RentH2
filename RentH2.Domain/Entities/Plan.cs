@@ -1,4 +1,4 @@
-﻿using RentH2.Domain.Entities.Base;
+﻿using RentH2.Domain.Base;
 
 namespace RentH2.Domain.Entities
 {

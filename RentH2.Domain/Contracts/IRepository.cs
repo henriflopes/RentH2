@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using RentH2.Domain.Entities.Base;
+using RentH2.Domain.Base;
 
 namespace RentH2.Domain.Repositories.Base.MongoDB.Interfaces
 {

@@ -19,6 +19,6 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         }
 
         public async Task<MotorcycleModel> Handle(GetMotorcycleByNumberPlateQuery request, CancellationToken cancellationToken)
-            => _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetAsync(request.numberPlate));
+            => _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetByNumberPlateAsync(request.numberPlate));
     }
 }

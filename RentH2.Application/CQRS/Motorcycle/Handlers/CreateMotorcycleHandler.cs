@@ -5,6 +5,7 @@ using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Application.CQRSMotorcycle.Validators;
 using RentH2.Common.Models;
 using RentH2.Domain.Entities;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSMotorcycle.Handlers
@@ -26,10 +27,14 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
 
         public async Task<ResponseModel> Handle(CreateMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            var validator = await new NewMotorcycleValidator().ValidateAsync(request.MotorcycleModel, cancellationToken);
-            if (validator.IsValid)
+            try
             {
-                var result = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(request.MotorcycleModel.NumberPlate));
+                var motorcycle = _mapper.Map<Motorcycle>(request.MotorcycleModel);
+
+                //var validator = await new NewMotorcycleValidator().ValidateAsync(request.MotorcycleModel, cancellationToken);
+                //if (validator.IsValid)
+                //{
+                var result = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
                 if (result != null)
                 {
                     _responseModel.IsSuccess = false;
@@ -38,18 +43,22 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
                     return _responseModel;
                 }
 
-                _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
+                _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.CreateAsync(motorcycle));
+
+                return _responseModel;
+                //}
+
+                //request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+            }
+            catch (ExceptionDomain exDomain)
+            {
+
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = exDomain.ErrorMessages.FirstOrDefault(); //request.MotorcycleModel.Erros.FirstOrDefault();
+                _responseModel.Result = request.MotorcycleModel;
 
                 return _responseModel;
             }
-
-            request.MotorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-
-            _responseModel.IsSuccess = false;
-            _responseModel.Message = request.MotorcycleModel.Erros.FirstOrDefault();
-            _responseModel.Result = request.MotorcycleModel;
-
-            return _responseModel;
         }
     }
 }

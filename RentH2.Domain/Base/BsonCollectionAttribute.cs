@@ -1,4 +1,4 @@
-﻿namespace RentH2.Domain.Entities.Base
+﻿namespace RentH2.Domain.Base
 {
     public class BsonCollectionAttribute : Attribute
     {

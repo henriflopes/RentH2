@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using RentH2.Common.Models.Base;
+using RentH2.Domain.Base;
 using RentH2.Domain.Entities;
-using RentH2.Domain.Entities.Base;
 
 namespace RentH2.Common.Models
 {

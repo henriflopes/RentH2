@@ -2,7 +2,6 @@
 using RentH2.Domain.Base;
 using RentH2.Domain.Utility;
 
-
 namespace RentH2.Domain.Entities.Validators
 {
     public class MotorcycleValidator : RuleValidator<Motorcycle>
@@ -13,8 +12,31 @@ namespace RentH2.Domain.Entities.Validators
             YearValidate();
             NumberPlateValidate();
             LocationValidate();
-            StatusValidate();
-            
+            StatusValidate();   
+        }
+
+        public MotorcycleValidator(string propertyName)
+        {
+            switch (propertyName)
+            {
+                case "Type":
+                    TypeValidate();
+                    break;
+                case "Year":
+                    YearValidate();
+                    break;
+                case "NumberPlate":
+                    NumberPlateValidate();
+                    break;
+                case "Location":
+                    LocationValidate();
+                    break;
+                case "Status":
+                    StatusValidate();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void TypeValidate()

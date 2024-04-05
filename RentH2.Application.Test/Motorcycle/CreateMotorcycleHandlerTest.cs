@@ -13,7 +13,6 @@ using RentH2.Domain.Test._Builders;
 using RentH2.Domain.Test._Utility;
 using RentH2.Infrastructure.Repositories.Interfaces;
 using RentH2.Domain.Base;
-using Microsoft.AspNetCore.Components.Forms;
 using RentH2.Application.CQRSMotorcycle.Queries;
 
 namespace RentH2.Application.Test.MotorcycleTest
@@ -56,12 +55,17 @@ namespace RentH2.Application.Test.MotorcycleTest
 
             _createMotorcycleHandler.Handle(_createMotorcycleCommand, _cancellationToken);
 
-            _motorcycleGatewayMock.Verify(r => r.CreateAsync(
-                It.Is<Motorcycle>(
-                    c => c.Type == motorcycle.Type &&
-                    c.NumberPlate == motorcycle.NumberPlate
-                )
+            _motorcycleGatewayMock
+                .Verify(r => r.CreateAsync(
+                    It.Is<Motorcycle>(
+                        c => c.Type == motorcycle.Type &&
+                        c.NumberPlate == motorcycle.NumberPlate
+                    )
             ));
+
+            _motorcycleGatewayMock.Verify(r => r.CreateAsync(
+                It.IsAny<Motorcycle>()), Times.Once
+            );
         }
 
         [Fact]
@@ -77,6 +81,10 @@ namespace RentH2.Application.Test.MotorcycleTest
 
             (await Assert.ThrowsAsync<ExceptionDomain>(() => _createMotorcycleHandler.Handle(_createMotorcycleCommand, _cancellationToken)))
                 .WithMessage(Resources.MotorcycleExistsNumberPlate);
+
+            _motorcycleGatewayMock.Verify(r => r.CreateAsync(
+                It.IsAny<Motorcycle>()), Times.Never
+            );
         }
     }
 }

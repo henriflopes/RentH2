@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.CQRSMotorcycle.Commands;
-using RentH2.Application.CQRSPlan.Commands;
+using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Common.Models;
-using RentH2.Domain.Entities;
+using RentH2.Domain.Base;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSMotorcycle.Handlers
@@ -12,34 +13,36 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
     {
         private readonly IMotorcycleGateway _motorcycleGateway;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly ResponseModel _responseModel;
 
-        public UpdateMotorcycleHandler(IMotorcycleGateway motorcycleGateway, IMapper mapper)
+        public UpdateMotorcycleHandler(IMotorcycleGateway motorcycleGateway, IMapper mapper, IMediator mediator)
         {
             _motorcycleGateway = motorcycleGateway;
             _mapper = mapper;
             _responseModel = new();
+            _mediator = mediator;
         }
 
         public async Task<ResponseModel> Handle(UpdateMotorcycleCommand request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.UpdateAsync(_mapper.Map<Motorcycle>(request.MotorcycleModel)));
+            var motorcycle = await _motorcycleGateway.GetAsync(request.MotorcycleModel.Id);
+            MotorcycleValidator.New()
+               .When(motorcycle == null, Resources.MotorcycleNotFound)
+               .ThrowExceptionIfExists();
 
-            if (result != null)
-            {
-                if (!result.IsValid())
-                {
-                    _responseModel.Message = result.Erros.FirstOrDefault();
-                    _responseModel.IsSuccess = false;
-                }
+            var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
+            MotorcycleValidator.New()
+                .When(motorcycleNumberPlate != null, Resources.MotorcycleExistsNumberPlate)
+                .ThrowExceptionIfExists();
 
-                _responseModel.Result = result;
-            }
-            else
-            {
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = "Not Found";
-            }
+            motorcycle.UpdateYear(request.MotorcycleModel.Year);
+            motorcycle.UpdateStatus(request.MotorcycleModel.Status);
+            motorcycle.UpdateLocation(request.MotorcycleModel.Location);
+            motorcycle.UpdateType(request.MotorcycleModel.Type);
+            motorcycle.UpdateNumberPlate(request.MotorcycleModel.NumberPlate);
+
+            _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.UpdateAsync(motorcycle));
 
             return _responseModel;
         }

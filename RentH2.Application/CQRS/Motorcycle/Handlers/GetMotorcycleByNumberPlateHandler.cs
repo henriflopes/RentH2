@@ -3,6 +3,8 @@ using MediatR;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Common.Models;
+using RentH2.Domain.Base;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSMotorcycle.Handlers
@@ -19,6 +21,15 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         }
 
         public async Task<MotorcycleModel> Handle(GetMotorcycleByNumberPlateQuery request, CancellationToken cancellationToken)
-            => _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetByNumberPlateAsync(request.numberPlate));
+        {
+            var result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetByNumberPlateAsync(request.numberPlate));
+
+            MotorcycleValidator.New()
+               .When(result == null, Resources.MotorcycleNumberPlateNotFound)
+               .ThrowExceptionIfExists();
+
+            return result;
+        }
+        
     }
 }

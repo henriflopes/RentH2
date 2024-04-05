@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.CQRSMotorcycle.Queries;
-using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Common.Models;
+using RentH2.Domain.Base;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSMotorcycle.Handlers
@@ -24,22 +25,12 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         {
             var result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetAsync(request.Id));
 
-            if (result != null)
-            {
-                if (!result.IsValid())
-                {
-                    _responseModel.Message = result.Erros.FirstOrDefault();
-                    _responseModel.IsSuccess = false;
-                    return _responseModel;
-                }
+            MotorcycleValidator.New()
+                .When(result == null, Resources.MotorcycleNotFound)
+                .ThrowExceptionIfExists();
 
-                _responseModel.Result = result;
+            _responseModel.Result = result;
 
-                return _responseModel;
-            }
-
-            _responseModel.Message = "Not Found";
-            _responseModel.IsSuccess = false;
             return _responseModel;
         }
     }

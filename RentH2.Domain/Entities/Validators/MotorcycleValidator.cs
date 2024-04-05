@@ -5,7 +5,7 @@ using RentH2.Domain.Utility;
 
 namespace RentH2.Domain.Entities.Validators
 {
-    public class MotorcycleValidator : AbstractValidator<Motorcycle>
+    public class MotorcycleValidator : RuleValidator<Motorcycle>
     {
         public MotorcycleValidator()
         {
@@ -14,6 +14,7 @@ namespace RentH2.Domain.Entities.Validators
             NumberPlateValidate();
             LocationValidate();
             StatusValidate();
+            
         }
 
         private void TypeValidate()

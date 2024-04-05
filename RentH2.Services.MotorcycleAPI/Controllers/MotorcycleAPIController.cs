@@ -1,10 +1,12 @@
-﻿using MediatR;
+﻿using Amazon.Runtime.Internal;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Common.Models;
 using RentH2.Common.Utility;
+using RentH2.Domain.Entities.Validators;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
@@ -23,7 +25,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<ResponseModel> Get()
         {
             try
@@ -41,7 +43,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ResponseModel> Get(string id)
         {
             try
@@ -58,7 +60,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpPost("GetAllByStatusAsync")]
-        [Authorize]
+        //[Authorize]
         public async Task<ResponseModel> GetAllByStatusAsync([FromBody] List<string> rentStatus)
         {
             try
@@ -76,12 +78,17 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = Roles.Administrator)]
+        //[Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Post(MotorcycleModel motorcycleModel)
         {
             try
             {
                 _response = await _mediator.Send(new CreateMotorcycleCommand(motorcycleModel));
+            }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -93,7 +100,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = Roles.Administrator)]
+        //[Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Put(MotorcycleModel motorcycleModel)
         {
             try
@@ -111,7 +118,7 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = Roles.Administrator)]
+        //[Authorize(Roles = Roles.Administrator)]
         public async Task<ResponseModel> Delete(string id)
         {
             try

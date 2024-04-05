@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using RentH2.Application.CQRSRent.Queries;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Common.Models;

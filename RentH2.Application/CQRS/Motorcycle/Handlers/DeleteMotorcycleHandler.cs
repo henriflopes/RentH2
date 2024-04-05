@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using RentH2.Application.CQRSRent.Commands;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
-using RentH2.Application.CQRSMotorcycle.Validators;
 using RentH2.Common.Models;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
@@ -30,14 +30,14 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
 
             if (motorcycleModel != null)
             {
-                var validator = await new DeleteMotorcycleValidator().ValidateAsync(motorcycleModel, cancellationToken);
-                if (!validator.IsValid)
-                {
-                    motorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-                    _responseModel.IsSuccess = false;
-                    _responseModel.Message = motorcycleModel.Erros.FirstOrDefault();
-                    return _responseModel;
-                }
+                //var validator = await new DeleteMotorcycleValidator().ValidateAsync(motorcycleModel, cancellationToken);
+                //if (!validator.IsValid)
+                //{
+                //    motorcycleModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+                //    _responseModel.IsSuccess = false;
+                //    _responseModel.Message = motorcycleModel.Erros.FirstOrDefault();
+                //    return _responseModel;
+                //}
 
                 if (motorcycleModel != null)
                 {

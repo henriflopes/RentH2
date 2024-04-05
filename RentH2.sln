@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{B8E7EB9A-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Domain.Test", "RentH2.Domain.Test\RentH2.Domain.Test.csproj", "{DEB4C3D0-2FF4-4552-AD0A-8C8DF7A54F6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentH2.Application.Test", "RentH2.Application.Test\RentH2.Application.Test.csproj", "{0E9DF280-0013-455F-B9C5-E78A0EE279B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RentH2.Application.Test", "RentH2.Application.Test\RentH2.Application.Test.csproj", "{0E9DF280-0013-455F-B9C5-E78A0EE279B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

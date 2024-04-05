@@ -1,5 +1,4 @@
-﻿using Amazon.Auth.AccessControlPolicy;
-using RentH2.Domain.Base;
+﻿using RentH2.Domain.Base;
 using RentH2.Domain.Entities.Validators;
 namespace RentH2.Domain.Entities
 {

@@ -16,4 +16,10 @@
     <ProjectReference Include="..\RentH2.Infra\RentH2.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CQRS\Auth\" />
+    <Folder Include="CQRS\Notification\" />
+    <Folder Include="CQRS\Order\" />
+  </ItemGroup>
+
 </Project>

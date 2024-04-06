@@ -8,22 +8,22 @@ using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSRent.Handlers
 {
-    public class GetRentByIdHandler : IRequestHandler<GetRentByIdQuery, ResponseModel>
+    public class GetRentedMotorcyclesByIdHandler : IRequestHandler<GetRentedMotorcyclesByIdQuery, ResponseModel>
     {
         private readonly IRentGateway _rentGateway;
         private readonly IMapper _mapper;
         private readonly ResponseModel _responseModel;
 
-        public GetRentByIdHandler(IRentGateway rentGateway, IMapper mapper)
+        public GetRentedMotorcyclesByIdHandler(IRentGateway rentGateway, IMapper mapper)
         {
             _rentGateway = rentGateway;
             _mapper = mapper;
             _responseModel = new();
         }
 
-        public async Task<ResponseModel> Handle(GetRentByIdQuery request, CancellationToken cancellationToken)
+        public async Task<ResponseModel> Handle(GetRentedMotorcyclesByIdQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<RentModel>(await _rentGateway.GetAsync(request.Id));
+            var result = _mapper.Map<RentModel>(await _rentGateway.GetRentedMotorcyclesByIdAsync(request.ids));
 
             RentValidator.New()
                 .When(result == null, Resources.RentNotFound)

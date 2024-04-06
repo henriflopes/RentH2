@@ -6,7 +6,7 @@ using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Infrastructure.Repositories
 {
-    public class RentGateway : BaseHttp<HttpParam, MotorcycleModel>, IRentGateway
+    public class RentGateway : BaseHttp<HttpParam, RentModel>, IRentGateway
     {
         private readonly IRentRepository _rentRepository;
 
@@ -15,11 +15,6 @@ namespace RentH2.Infrastructure.Repositories
             _rentRepository = rentRepository;
         }
 
-        public async Task<List<Rent>> GetAsync()
-            => (await _rentRepository.FilterByAsync(filter => true)).ToList();
-
-        public async Task<Rent> GetAsync(string id)
-            => await _rentRepository.FindByIdAsync(id);
         public async Task<Rent> CreateAsync(Rent rent)
             => await _rentRepository.InsertOneAsync(rent);
 
@@ -28,5 +23,25 @@ namespace RentH2.Infrastructure.Repositories
 
         public async Task<Rent> UpdateAsync(Rent rent)
             => await _rentRepository.ReplaceOneAsync(rent);
+
+        public async Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids)
+            => await _rentRepository.GetAllRentByIdsAsync(ids);
+
+        public async Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda)
+            => await _rentRepository.GetAllRentedByExpectedDateAsync(rentAgenda);
+
+        public async Task<List<Rent>> GetAsync()
+            => (await _rentRepository.FilterByAsync(filter => true)).ToList();
+
+        public async Task<Rent> GetAsync(string id)
+            => await _rentRepository.FindByIdAsync(id);
+
+        public async Task<Rent> GetRentByUserIdAsync(string userId, string status)
+            => await _rentRepository.GetRentByUserIdAsync( userId, status);
+
+        public async Task<List<Rent>> GetRentedMotorcyclesByIdAsync(List<string> ids)
+            => await _rentRepository.GetRentedMotorcyclesByIdAsync(ids);
+
+   
     }
 }

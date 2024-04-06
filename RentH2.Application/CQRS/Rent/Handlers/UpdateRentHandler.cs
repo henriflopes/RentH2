@@ -27,27 +27,24 @@ namespace RentH2.Application.CQRSRent.Handlers
 
         public async Task<ResponseModel> Handle(UpdateRentCommand request, CancellationToken cancellationToken)
         {
-            //var rent = await _rentGateway.GetAsync(request.RentModel.Id);
-            //RentValidator.New()
-            //   .When(rent == null, Resources.RentNotFound)
-            //   .ThrowExceptionIfExists();
+            var rent = await _rentGateway.GetAsync(request.RentModel.Id);
+            RentValidator.New()
+               .When(rent == null, Resources.RentNotFound)
+               .ThrowExceptionIfExists();
 
-            //var rentNumberPlate = await _mediator.Send(new GetRentByNumberPlateQuery(rent.NumberPlate));
-            //RentValidator.New()
-            //    .When(rentNumberPlate != null, Resources.RentExistsNumberPlate)
-            //    .ThrowExceptionIfExists();
+            rent.UpdateStatus(request.RentModel.Status);
+            rent.UpdateStartDate(request.RentModel.StartDate);
+            rent.UpdateEndDate(request.RentModel.EndDate);
+            rent.UpdateEndDateExpected(request.RentModel.EndDateExpected);
+            rent.UpdateMotorcycleId(request.RentModel.MotorcycleId);
+            rent.UpdateUserId(request.RentModel.UserId);
+            rent.UpdateTotal(request.RentModel.Total);
+            rent.UpdateTotalExpected(request.RentModel.TotalExpected);
+            rent.UpdatePlan(request.RentModel.Plan);
 
-            //rent.UpdateYear(request.RentModel.Year);
-            //rent.UpdateStatus(request.RentModel.Status);
-            //rent.UpdateLocation(request.RentModel.Location);
-            //rent.UpdateType(request.RentModel.Type);
-            //rent.UpdateNumberPlate(request.RentModel.NumberPlate);
+            _responseModel.Result = _mapper.Map<RentModel>(await _rentGateway.UpdateAsync(rent));
 
-            //_responseModel.Result = _mapper.Map<RentModel>(await _rentGateway.UpdateAsync(rent));
-
-            //return _responseModel;
-
-            return new ResponseModel();
+            return _responseModel;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace RentH2.Common.Models
         public double Total { get; set; }
         public double TotalExpected { get; set; }
         public string? Status { get; set; }
-        public ObjectId UserId { get; set; }
-        public ObjectId MotorcycleId { get; set; }
+        public string UserId { get; set; }
+        public string MotorcycleId { get; set; }
         public Plan? Plan { get; set; }
     }
 }

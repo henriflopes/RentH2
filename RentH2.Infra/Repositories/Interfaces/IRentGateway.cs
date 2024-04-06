@@ -6,8 +6,12 @@ namespace RentH2.Infrastructure.Repositories.Interfaces
     {
         Task<List<Rent>> GetAsync();
         Task<Rent> GetAsync(string id);
-        Task<Rent> CreateAsync(Rent plan);
-        Task<Rent> UpdateAsync(Rent plan);
+        Task<Rent> CreateAsync(Rent rent);
+        Task<Rent> UpdateAsync(Rent rent);
         Task RemoveAsync(string id);
+        Task<Rent> GetRentByUserIdAsync(string userId, string status);
+        Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda);
+        Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids);
+        Task<List<Rent>> GetRentedMotorcyclesByIdAsync(List<string> ids);
     }
 }

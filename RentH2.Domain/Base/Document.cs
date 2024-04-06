@@ -6,6 +6,8 @@ namespace RentH2.Domain.Base
     public abstract class Document : IDocument
     {
 
+        [BsonId]
+        [BsonRepresentation(BsonType.String)]
         public ObjectId Id { get; set; }
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]

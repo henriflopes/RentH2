@@ -43,7 +43,7 @@ namespace RentH2.Application.CQRSPlan.Handlers
                 {
                     try
                     {
-                        //var existsHist = await _ridersRentsService.GetOneByPlanIdAsync(id);
+                        //var existsHist = await _rentService.GetOneByPlanIdAsync(id);
 
                         //if (existsHist != null)
                         //{

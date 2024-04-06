@@ -2,6 +2,8 @@
 using MediatR;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Common.Models;
+using RentH2.Domain.Base;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSPlan.Handlers
@@ -23,22 +25,13 @@ namespace RentH2.Application.CQRSPlan.Handlers
         {
             var result = _mapper.Map<PlanModel>(await _planGateway.GetAsync(request.Id));
 
-            if (result != null)
-            {
-                if (!result.IsValid())
-                {
-                    _responseModel.Message = result.Erros.FirstOrDefault();
-                    _responseModel.IsSuccess = false;
-                    return _responseModel;
-                }
+            MotorcycleValidator.New()
+                .When(result == null, Resources.PlanNotFound)
+                .ThrowExceptionIfExists();
 
-                _responseModel.Result = result;
+            _responseModel.IsSuccess = true;
+            _responseModel.Result = result;
 
-                return _responseModel;
-            }
-
-            _responseModel.Message = "Not Found";
-            _responseModel.IsSuccess = false;
             return _responseModel;
         }
     }

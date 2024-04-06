@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using RentH2.Application.CQRSRent.Commands;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Common.Models;
@@ -28,12 +27,10 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         public async Task<ResponseModel> Handle(UpdateMotorcycleCommand request, CancellationToken cancellationToken)
         {
             var motorcycle = await _motorcycleGateway.GetAsync(request.MotorcycleModel.Id);
-            MotorcycleValidator.New()
-               .When(motorcycle == null, Resources.MotorcycleNotFound)
-               .ThrowExceptionIfExists();
-
             var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
+
             MotorcycleValidator.New()
+                .When(motorcycle == null, Resources.MotorcycleNotFound)
                 .When(motorcycleNumberPlate != null, Resources.MotorcycleExistsNumberPlate)
                 .ThrowExceptionIfExists();
 

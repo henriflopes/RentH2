@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.CQRSPlan.Commands;
-using RentH2.Application.CQRSPlan.Validators;
 using RentH2.Common.Models;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Interfaces;
@@ -25,19 +24,11 @@ namespace RentH2.Application.CQRSPlan.Handlers
 
         public async Task<ResponseModel> Handle(CreatePlanCommand request, CancellationToken cancellationToken)
         {
-            var validator = await new NewPlanValidator().ValidateAsync(request.planModel, cancellationToken);
-            if (validator.IsValid)
-            {
-                 _responseModel.Result = _mapper.Map<PlanModel>(await _planGateway.CreateAsync(_mapper.Map<Plan>(request.planModel)));
+            var plan = _mapper.Map<Plan>(request.planModel);
+            var result = await _planGateway.CreateAsync(plan);
 
-                return _responseModel;
-            }
-
-            request.planModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-
-            _responseModel.IsSuccess = false;
-            _responseModel.Message = request.planModel.Erros.FirstOrDefault();
-            _responseModel.Result = request.planModel;
+            _responseModel.IsSuccess = true;
+            _responseModel.Result = result;
 
             return _responseModel;
         }

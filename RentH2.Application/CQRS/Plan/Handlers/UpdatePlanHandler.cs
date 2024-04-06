@@ -2,7 +2,8 @@
 using MediatR;
 using RentH2.Application.CQRSPlan.Commands;
 using RentH2.Common.Models;
-using RentH2.Domain.Entities;
+using RentH2.Domain.Base;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSPlan.Handlers
@@ -22,23 +23,22 @@ namespace RentH2.Application.CQRSPlan.Handlers
 
         public async Task<ResponseModel> Handle(UpdatePlanCommand request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<PlanModel>(await _planGateway.UpdateAsync(_mapper.Map<Plan>(request.planModel)));
+            var plan = await _planGateway.GetAsync(request.planModel.Id);
 
-            if (result != null)
-            {
-                if (!result.IsValid())
-                {
-                    _responseModel.Message = result.Erros.FirstOrDefault();
-                    _responseModel.IsSuccess = false;
-                }
+            PlanValidator.New()
+                .When(plan == null, Resources.PlanNotFound)
+                .ThrowExceptionIfExists();
 
-                _responseModel.Result = result;
-            }
-            else
-            {
-                _responseModel.IsSuccess = false;
-                _responseModel.Message = "Not Found";
-            }
+            plan.UpdateDescription(request.planModel.Description);
+            plan.UpdateTotalDays(request.planModel.TotalDays);
+            plan.UpdateStatus(request.planModel.Status);
+            plan.UpdateTotalPrice(request.planModel.TotalPrice);
+            plan.UpdateDailyPrice(request.planModel.DailyPrice);
+            plan.UpdateFineAntecipated(request.planModel.FineAntecipated);
+            plan.UpdateFineDelayed(request.planModel.FineDelayed);
+
+            _responseModel.IsSuccess = true;
+            _responseModel.Result = _mapper.Map<PlanModel>(await _planGateway.UpdateAsync(plan));
 
             return _responseModel;
         }

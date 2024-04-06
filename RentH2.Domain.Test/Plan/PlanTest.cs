@@ -7,58 +7,69 @@ using RentH2.Domain.Entities.Validators;
 using RentH2.Domain.Test._Builders;
 using RentH2.Domain.Base;
 using RentH2.Domain.Test._Utility;
+using MongoDB.Bson.Serialization.Attributes;
+using ExpectedObjects.Strategies;
+using Bogus.DataSets;
 
-namespace RentH2.Domain.Test.MotorcycleTest
+namespace RentH2.Domain.Test.PlanTest
 {
-    public class RentTest
+    public class PlanTest
     {
         private readonly Faker _faker;
 
-        private readonly string _year;
-        private readonly string _type;
-        private readonly string _numberPlate;
-        private readonly string? _location;
-        private readonly string _status;
+        private readonly string? _description;
+        private readonly int _totalDays;
+        private readonly double _dailyPrice;
+        private readonly double _totalPrice;
+        private readonly double _fineAntecipated;
+        private readonly double _fineDelayed;
+        private readonly string? _status;
 
-        public RentTest()
+        public PlanTest()
         {
             _faker = new Faker();
 
-            _year = _faker.Random.Int(2000, 2024).ToString();
-            _type = _faker.Lorem.Paragraph()[..10];
-            _numberPlate = _faker.Vehicle.GbRegistrationPlate(new DateTime(2005, 1, 1), new DateTime(2024, 1, 1));
-            _location = _faker.Address.FullAddress();
+            _description = _faker.Lorem.Paragraph()[..100];
+            _totalDays = _faker.Random.Int(7, 30);
+            _dailyPrice = _faker.Random.Int(15, 30);
+            _totalPrice = _faker.Random.Int(150, 300);
+            _fineAntecipated = _faker.Random.Int(10, 30);
+            _fineDelayed = _faker.Random.Int(10, 50);
             _status = RentStatus.Available;
         }
 
         [Fact]
-        public void ShouldCreateMotorcycle() 
+        public void ShouldCreateRent()
         {
-            var expectedMotorcycle = new
+            var expectedRent = new
             {
-                Year = _year,
-                Type = _type,
-                NumberPlate = _numberPlate,
-                Location = _location,
+                Description = _description,
+                TotalDays = _totalDays,
+                DailyPrice = _dailyPrice,
+                TotalPrice = _totalPrice,
+                FineAntecipated = _fineAntecipated,
+                FineDelayed = _fineDelayed,
                 Status = _status
             };
 
-            var motorcycle = new Motorcycle(expectedMotorcycle.Year, expectedMotorcycle.Type, expectedMotorcycle.NumberPlate, expectedMotorcycle.Location, expectedMotorcycle.Status);
+            var plan = new Plan(expectedRent.Description, expectedRent.TotalDays, expectedRent.DailyPrice, expectedRent.TotalPrice, expectedRent.FineAntecipated, expectedRent.FineDelayed, expectedRent.Status);
 
-            expectedMotorcycle.ToExpectedObject().ShouldMatch(motorcycle);
+            expectedRent.ToExpectedObject().ShouldMatch(plan);
         }
 
+        
         [Theory]
         [InlineData("")]
         [InlineData(null)]
         [InlineData("ABC")]
-        public void ShouldNotHaveInvalidType(string? invalidType) 
+        public void ShouldNotHaveInvalidDescription(string? invalidDescription) 
         {
             Assert.Throws<ExceptionDomain>(() =>
-                MotorcycleBuilder.New().WithType(invalidType).Build())
-                .WithMessage(Resources.MotorcycleInvalidType);
+                PlanBuilder.New().WithDescription(invalidDescription).Build())
+                .WithMessage(Resources.PlanDescriptionInvalid);
         }
 
+        /*
         [Theory]
         [InlineData("")]
         [InlineData(null)]
@@ -106,5 +117,6 @@ namespace RentH2.Domain.Test.MotorcycleTest
                 MotorcycleBuilder.New().WithStatus(invalidStatus).Build())
                 .WithMessage(Resources.MotorcycleInvalidStatus);
         }
+        */
     }
 }

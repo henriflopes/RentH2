@@ -33,8 +33,4 @@
     <ProjectReference Include="..\RentH2.Domain\RentH2.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Plan\" />
-  </ItemGroup>
-
 </Project>

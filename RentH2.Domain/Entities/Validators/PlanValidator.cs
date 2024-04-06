@@ -50,7 +50,7 @@ namespace RentH2.Domain.Entities.Validators
         private void FineDelayedValidate()
         {
             RuleFor(c => c.FineDelayed)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.PlanFineDelayedInvalid)
                 .NotNull()
                 .WithMessage(Resources.PlanFineDelayedInvalid)
@@ -61,7 +61,7 @@ namespace RentH2.Domain.Entities.Validators
         private void FineAntecipatedValidate()
         {
             RuleFor(c => c.FineAntecipated)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.PlanFineAntecipatedInvalid)
                 .NotNull()
                 .WithMessage(Resources.PlanFineAntecipatedInvalid)
@@ -72,7 +72,7 @@ namespace RentH2.Domain.Entities.Validators
         private void TotalPriceValidate()
         {
             RuleFor(c => c.TotalPrice)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.PlanTotalPriceInvalid)
                 .NotNull()
                 .WithMessage(Resources.PlanTotalPriceInvalid)
@@ -83,7 +83,7 @@ namespace RentH2.Domain.Entities.Validators
         private void DailyPriceValidate()
         {
             RuleFor(c => c.DailyPrice)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.PlanDailyPriceInvalid)
                 .NotNull()
                 .WithMessage(Resources.PlanDailyPriceInvalid)
@@ -94,7 +94,7 @@ namespace RentH2.Domain.Entities.Validators
         private void TotalDaysValidate()
         {
             RuleFor(c => c.TotalDays)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.PlanTotalDaysInvalid)
                 .NotNull()
                 .WithMessage(Resources.PlanTotalDaysInvalid)
@@ -104,7 +104,7 @@ namespace RentH2.Domain.Entities.Validators
 
         private void DescriptionValidate()
         {
-            RuleFor(c => c.Status)
+            RuleFor(c => c.Description)
                 .NotEmpty()
                 .WithMessage(Resources.PlanDescriptionInvalid)
                 .NotNull()

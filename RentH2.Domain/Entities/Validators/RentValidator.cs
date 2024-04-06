@@ -16,6 +16,7 @@ namespace RentH2.Domain.Entities.Validators
             StatusValidate();
             UserIdValidate();
             MotorcycleIdValidate();
+            PlanValidate();
         }
 
         public RentValidator(string propertyName)
@@ -94,7 +95,7 @@ namespace RentH2.Domain.Entities.Validators
         private void TotalExpectedValidate()
         {
             RuleFor(c => c.TotalExpected)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.RentTotalExpectedInvalid)
                 .NotNull()
                 .WithMessage(Resources.RentTotalExpectedInvalid)
@@ -105,7 +106,7 @@ namespace RentH2.Domain.Entities.Validators
         private void TotalValidate()
         {
             RuleFor(c => c.Total)
-                .LessThan(0)
+                .GreaterThan(0)
                 .WithMessage(Resources.RentTotalInvalid)
                 .NotNull()
                 .WithMessage(Resources.RentTotalInvalid)

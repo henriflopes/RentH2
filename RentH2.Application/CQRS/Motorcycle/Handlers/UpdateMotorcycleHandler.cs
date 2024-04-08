@@ -27,10 +27,12 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         public async Task<ResponseModel> Handle(UpdateMotorcycleCommand request, CancellationToken cancellationToken)
         {
             var motorcycle = await _motorcycleGateway.GetAsync(request.MotorcycleModel.Id);
-            var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
-
             MotorcycleValidator.New()
                 .When(motorcycle == null, Resources.MotorcycleNotFound)
+                .ThrowExceptionIfExists();
+
+            var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
+            MotorcycleValidator.New()
                 .When(motorcycleNumberPlate != null, Resources.MotorcycleExistsNumberPlate)
                 .ThrowExceptionIfExists();
 
@@ -41,7 +43,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
             motorcycle.UpdateNumberPlate(request.MotorcycleModel.NumberPlate);
 
             _responseModel.Result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.UpdateAsync(motorcycle));
-
+            _responseModel.IsSuccess = true;
             return _responseModel;
         }
     }

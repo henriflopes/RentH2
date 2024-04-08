@@ -24,11 +24,9 @@ namespace RentH2.Infrastructure.Repositories
         public async Task<Rent> UpdateAsync(Rent rent)
             => await _rentRepository.ReplaceOneAsync(rent);
 
-        public async Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids)
-            => await _rentRepository.GetAllRentByIdsAsync(ids);
 
-        public async Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda)
-            => await _rentRepository.GetAllRentedByExpectedDateAsync(rentAgenda);
+        public async Task<List<Rent>> GetAllRentedByExpectedDateAsync(DateTime startDate, DateTime endDate)
+            => await _rentRepository.GetAllRentedByExpectedDateAsync(startDate, endDate);
 
         public async Task<List<Rent>> GetAsync()
             => (await _rentRepository.FilterByAsync(filter => true)).ToList();
@@ -42,6 +40,9 @@ namespace RentH2.Infrastructure.Repositories
         public async Task<List<Rent>> GetRentedMotorcyclesByIdAsync(List<string> ids)
             => await _rentRepository.GetRentedMotorcyclesByIdAsync(ids);
 
-   
+        public async Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids)
+            => await _rentRepository.GetAllRentByIdsAsync(ids);
+
+
     }
 }

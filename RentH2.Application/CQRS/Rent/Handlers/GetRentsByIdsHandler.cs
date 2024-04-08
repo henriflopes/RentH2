@@ -26,7 +26,7 @@ namespace RentH2.Application.CQRSRent.Handlers
             var result = _mapper.Map<List<RentModel>>(await _rentGateway.GetAllRentByIdsAsync(request.Ids));
 
             RentValidator.New()
-                .When(result == null, Resources.RentNotFound)
+                .When(result == null || result.Count == 0, Resources.RentNotFound)
                 .ThrowExceptionIfExists();
 
             _responseModel.IsSuccess = true;

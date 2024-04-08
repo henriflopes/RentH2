@@ -2,7 +2,6 @@
 using MediatR;
 using RentH2.Application.CQRSPlan.Commands;
 using RentH2.Application.CQRSPlan.Queries;
-using RentH2.Application.CQRSPlan.Validators;
 using RentH2.Common.Models;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
@@ -30,14 +29,14 @@ namespace RentH2.Application.CQRSPlan.Handlers
 
             if (planModel != null)
             {
-                var validator = await new DeletePlanValidator().ValidateAsync(planModel, cancellationToken);
-                if (!validator.IsValid)
-                {
-                    planModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
-                    _responseModel.IsSuccess = false;
-                    _responseModel.Message = planModel.Erros.FirstOrDefault();
-                    return _responseModel;
-                }
+                //var validator = await new DeletePlanValidator().ValidateAsync(planModel, cancellationToken);
+                //if (!validator.IsValid)
+                //{
+                //    planModel.Erros = validator.Errors.Select(x => x.ErrorMessage).ToList();
+                //    _responseModel.IsSuccess = false;
+                //    _responseModel.Message = planModel.Erros.FirstOrDefault();
+                //    return _responseModel;
+                //}
 
                 if (planModel != null)
                 {

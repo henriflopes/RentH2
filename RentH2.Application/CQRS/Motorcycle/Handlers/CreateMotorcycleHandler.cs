@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using RentH2.Application.CQRSRent.Commands;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Common.Models;
@@ -38,6 +37,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
 
             var result = await _motorcycleGateway.CreateAsync(motorcycle);
 
+            _responseModel.IsSuccess = true;
             _responseModel.Result = _mapper.Map<MotorcycleModel>(result);
 
             return _responseModel;

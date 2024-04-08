@@ -7,6 +7,7 @@ using RentH2.Domain.Entities.Validators;
 using RentH2.Domain.Test._Builders;
 using RentH2.Domain.Base;
 using RentH2.Domain.Test._Utility;
+using Bogus.DataSets;
 
 namespace RentH2.Domain.Test.MotorcycleTest
 {
@@ -25,7 +26,7 @@ namespace RentH2.Domain.Test.MotorcycleTest
             _faker = new Faker();
 
             _year = _faker.Random.Int(2000, 2024).ToString();
-            _type = _faker.Lorem.Paragraph()[..10];
+            _type = _faker.Random.Words(10)[..10];
             _numberPlate = _faker.Vehicle.GbRegistrationPlate(new DateTime(2005, 1, 1), new DateTime(2024, 1, 1));
             _location = _faker.Address.FullAddress();
             _status = RentStatus.Available;

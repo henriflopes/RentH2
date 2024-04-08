@@ -23,11 +23,30 @@ namespace RentH2.Application.CQRSRent.Handlers
 
         public async Task<ResponseModel> Handle(GetAllRentedByExpectedDateQuery request, CancellationToken cancellationToken)
         {
-            var result = _mapper.Map<List<RentModel>>(await _rentGateway.GetAllRentedByExpectedDateAsync(request.rentAgenda));
+            var result = _mapper.Map<List<RentModel>>(await _rentGateway.GetAllRentedByExpectedDateAsync(request.startDate, request.endDate));
 
             RentValidator.New()
                 .When(result == null, Resources.RentNotFound)
                 .ThrowExceptionIfExists();
+
+
+            //List<RentAgenda> unavailableDates = [];
+            //RentAgenda unavailableDate;
+
+            //resultUnavailableDates.ForEach(x =>
+            //{
+            //    unavailableDate = new RentAgenda
+            //    {
+            //        StartDate = x.StartDate,
+            //        EndDate = x.EndDate,
+            //        TotalDaysInRow = (x.EndDate - x.StartDate).TotalDays,
+            //        MotorcycleId = x.MotorcycleId
+            //    };
+            //    unavailableDate.Plan = x.Plan;
+
+            //    unavailableDates.Add(unavailableDate);
+            //});
+
 
             _responseModel.IsSuccess = true;
             _responseModel.Result = result;

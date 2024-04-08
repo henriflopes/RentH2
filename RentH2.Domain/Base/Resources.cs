@@ -19,7 +19,6 @@
         public static string RentEndDateExpectedInvalid = "End Date Expected inválido. Por favor verificar os dados informados!";
         public static string RentEndDateInvalid = "End Date inválido. Por favor verificar os dados informados!";
         public static string RentStartDateInvalid = "Start Date inválido. Por favor verificar os dados informados!";
-
         public static string UserNullIdInvalid = "O propriedade UserId deve ser informada.";
 
         public static string PlanInvalid = "Plano inválido. Por favor verificar os dados informados!";
@@ -29,9 +28,11 @@
         public static string PlanTotalPriceInvalid = "Valor total inválida. Por favor verificar os dados informados!";
         public static string PlanDailyPriceInvalid = "Preço diário inválido. Por favor verificar os dados informados!";
         public static string PlanTotalDaysInvalid = "Total de dias inválido. Por favor verificar os dados informados!";
-        public static string PlanDescriptionInvalid = "Description inválida. Por favor verificar os dados informados!";
+        public static string PlanDescriptionInvalid = "Descrição inválida. Por favor verificar os dados informados!";
 
         public static string PlanNotFound = "O plano não foi localizado em nosso sistema.";
         public static string RentNotFound = "O aluguel não foi localizado em nosso sistema.";
+
+        
     }
 }

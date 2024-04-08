@@ -21,8 +21,7 @@ namespace RentH2.Domain.Test._Builders
 
             return new PlanBuilder
             {
-                Id = Guid.NewGuid().ToString(),
-                Description = faker.Lorem.Paragraph()[..100],
+                Description = faker.Random.Words(100)[..100],
                 TotalDays = faker.Random.Int(7, 30),
                 DailyPrice = faker.Random.Int(15, 30),
                 TotalPrice = faker.Random.Int(150, 300),

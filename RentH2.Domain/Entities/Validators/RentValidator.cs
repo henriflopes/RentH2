@@ -114,17 +114,19 @@ namespace RentH2.Domain.Entities.Validators
                 .WithMessage(Resources.RentTotalInvalid);
         }
 
-        private void EndDateExpectedValidate()
+        private void StartDateValidate()
         {
-            RuleFor(c => c.EndDateExpected)
+            RuleFor(c => c.StartDate)
                 .NotNull()
-                .WithMessage(Resources.RentEndDateExpectedInvalid)
+                .WithMessage(Resources.RentStartDateInvalid)
                 .NotEmpty()
-                .WithMessage(Resources.RentEndDateExpectedInvalid)
-                .GreaterThan(new DateTime(2024,1,1))
-                .WithMessage(Resources.RentEndDateExpectedInvalid)
-                .GreaterThan( s => s.StartDate)
-                .WithMessage(Resources.RentEndDateExpectedInvalid);
+                .WithMessage(Resources.RentStartDateInvalid)
+                .GreaterThanOrEqualTo(DateTime.Now)
+                .WithMessage(Resources.RentStartDateInvalid)
+                .LessThan(c => c.EndDate)
+                .WithMessage(Resources.RentStartDateInvalid)
+                .LessThan(s => s.EndDateExpected)
+                .WithMessage(Resources.RentStartDateInvalid);
         }
 
         private void EndDateValidate()
@@ -134,27 +136,23 @@ namespace RentH2.Domain.Entities.Validators
                 .WithMessage(Resources.RentEndDateInvalid)
                 .NotEmpty()
                 .WithMessage(Resources.RentEndDateInvalid)
-                .GreaterThan(new DateTime(2024, 1, 1))
+                .GreaterThanOrEqualTo(DateTime.Now)
                 .WithMessage(Resources.RentEndDateInvalid)
                 .GreaterThan(s => s.StartDate)
                 .WithMessage(Resources.RentEndDateInvalid);
         }
 
-        private void StartDateValidate()
+        private void EndDateExpectedValidate()
         {
-            RuleFor(c => c.StartDate)
+            RuleFor(c => c.EndDateExpected)
                 .NotNull()
-                .WithMessage(Resources.RentStartDateInvalid)
+                .WithMessage(Resources.RentEndDateInvalid)
                 .NotEmpty()
-                .WithMessage(Resources.RentStartDateInvalid)
-                .GreaterThan(new DateTime(2024, 1, 1))
-                .WithMessage(Resources.RentStartDateInvalid)
-                .LessThan(s => s.EndDate)
-                .WithMessage(Resources.RentStartDateInvalid)
-                .LessThan(s => s.EndDateExpected)
-                .WithMessage(Resources.RentStartDateInvalid)
-                .GreaterThan(s => DateTime.Now.AddDays(1))
-                .WithMessage(Resources.RentStartDateInvalid);
+                .WithMessage(Resources.RentEndDateInvalid)
+                .GreaterThanOrEqualTo(DateTime.Now)
+                .WithMessage(Resources.RentEndDateInvalid)
+                .GreaterThan(s => s.StartDate)
+                .WithMessage(Resources.RentEndDateInvalid);
         }
     }
 }

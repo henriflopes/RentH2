@@ -30,6 +30,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
                 .When(result == null, Resources.MotorcycleNotFound)
                 .ThrowExceptionIfExists();
 
+            _responseModel.IsSuccess = true;
             _responseModel.Result = result;
 
             return _responseModel;

@@ -7,7 +7,7 @@ namespace RentH2.Domain.Contracts
     public interface IRentRepository : IRepository<Rent>
     {
         Task<Rent> GetRentByUserIdAsync(string userId, string status);
-        Task<List<RentAgenda>> GetAllRentedByExpectedDateAsync(RentAgenda rentAgenda);
+        Task<List<Rent>> GetAllRentedByExpectedDateAsync(DateTime startDate, DateTime endDate);
         Task<List<Rent>> GetAllRentByIdsAsync(List<string> ids);
         Task<List<Rent>> GetRentedMotorcyclesByIdAsync(List<string> ids);
     }

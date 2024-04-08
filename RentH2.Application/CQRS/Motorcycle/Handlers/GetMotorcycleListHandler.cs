@@ -24,6 +24,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         public async Task<ResponseModel> Handle(GetMotorcycleListQuery request, CancellationToken cancellationToken)
         {
             _responseModel.Result = _mapper.Map<List<MotorcycleModel>>(await _motorcycleGateway.GetAsync());
+            _responseModel.IsSuccess = true;
             return _responseModel;
         }
     }

@@ -21,7 +21,7 @@ namespace RentH2.Domain.Test._Builders
             return new MotorcycleBuilder
             {
                 Year = faker.Random.Int(2000, 2024).ToString(),
-                Type = faker.Lorem.Paragraph()[..10],
+                Type = faker.Random.Words(10)[..10],
                 NumberPlate = faker.Vehicle.GbRegistrationPlate(new DateTime(2005, 1, 1), new DateTime(2024, 1, 1)),
                 Location = faker.Address.FullAddress(),
                 Status = RentStatus.Available

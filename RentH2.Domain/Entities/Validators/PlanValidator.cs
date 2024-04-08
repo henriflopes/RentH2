@@ -51,9 +51,11 @@ namespace RentH2.Domain.Entities.Validators
         {
             RuleFor(c => c.FineDelayed)
                 .GreaterThan(0)
-                .WithMessage(Resources.PlanFineDelayedInvalid)
+                .WithMessage(Resources.PlanFineDelayedInvalid);
+            RuleFor(c => c.FineDelayed)
                 .NotNull()
-                .WithMessage(Resources.PlanFineDelayedInvalid)
+                .WithMessage(Resources.PlanFineDelayedInvalid);
+            RuleFor(c => c.FineDelayed)
                 .NotEmpty()
                 .WithMessage(Resources.PlanFineDelayedInvalid);
         }
@@ -77,7 +79,7 @@ namespace RentH2.Domain.Entities.Validators
                 .NotNull()
                 .WithMessage(Resources.PlanTotalPriceInvalid)
                 .NotEmpty()
-                .WithMessage(Resources.PlanTotalPriceInvalid);
+                .WithMessage(Resources.PlanDailyPriceInvalid);
         }
 
         private void DailyPriceValidate()
@@ -97,8 +99,6 @@ namespace RentH2.Domain.Entities.Validators
                 .GreaterThan(0)
                 .WithMessage(Resources.PlanTotalDaysInvalid)
                 .NotNull()
-                .WithMessage(Resources.PlanTotalDaysInvalid)
-                .NotEmpty()
                 .WithMessage(Resources.PlanTotalDaysInvalid);
         }
 
@@ -117,11 +117,13 @@ namespace RentH2.Domain.Entities.Validators
         {
             RuleFor(c => c.Status)
                 .NotEmpty()
-                .WithMessage(Resources.PlanStatusInvalid)
+                .WithMessage(Resources.PlanStatusInvalid);
+
+            RuleFor(c => c.Status)
                 .NotNull()
-                .WithMessage(Resources.PlanStatusInvalid)
-                .Length(10, 120)
-                .WithMessage(Resources.PlanStatusInvalid)
+                .WithMessage(Resources.PlanStatusInvalid);
+
+            RuleFor(c => c.Status)
                 .Must(status => RentStatus.GetAllRentStatus().Contains(status))
                 .WithMessage(Resources.PlanStatusInvalid);
         }

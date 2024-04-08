@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Bogus.Extensions.UnitedKingdom;
 using RentH2.Common.Utility;
 using RentH2.Domain.Entities;
 using ExpectedObjects;
@@ -7,9 +6,6 @@ using RentH2.Domain.Entities.Validators;
 using RentH2.Domain.Test._Builders;
 using RentH2.Domain.Base;
 using RentH2.Domain.Test._Utility;
-using MongoDB.Bson.Serialization.Attributes;
-using ExpectedObjects.Strategies;
-using Bogus.DataSets;
 
 namespace RentH2.Domain.Test.PlanTest
 {
@@ -29,7 +25,7 @@ namespace RentH2.Domain.Test.PlanTest
         {
             _faker = new Faker();
 
-            _description = _faker.Lorem.Paragraph()[..100];
+            _description = _faker.Random.Words(100)[..100];
             _totalDays = _faker.Random.Int(7, 30);
             _dailyPrice = _faker.Random.Int(15, 30);
             _totalPrice = _faker.Random.Int(150, 300);
@@ -69,41 +65,63 @@ namespace RentH2.Domain.Test.PlanTest
                 .WithMessage(Resources.PlanDescriptionInvalid);
         }
 
-        /*
+        
         [Theory]
-        [InlineData("")]
         [InlineData(null)]
-        [InlineData("0")]
-        [InlineData("-2")]
-        [InlineData("-100")]
-        [InlineData("ABCD")]
-        public void ShouldNotHaveInvalidYear(string invalidYear)
+        [InlineData(0)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void ShouldNotHaveInvalidTotalDays(int invalidTotalDays)
         {
             Assert.Throws<ExceptionDomain>(() =>
-                MotorcycleBuilder.New().WithYear(invalidYear).Build())
-                .WithMessage(Resources.MotorcycleInvalidYear);
+                PlanBuilder.New().WithTotalDays(invalidTotalDays).Build())
+                .WithMessage(Resources.PlanTotalDaysInvalid);
+        }
+
+        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void ShouldNotHaveInvalidDailyPrice(double invalidDailyPrice)
+        {
+            Assert.Throws<ExceptionDomain>(() =>
+                PlanBuilder.New().WithDailyPrice(invalidDailyPrice).Build())
+                .WithMessage(Resources.PlanDailyPriceInvalid);
+        }
+
+        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void ShouldNotHaveInvalidTotalPrice(double invalidTotalPrice)
+        {
+            Assert.Throws<ExceptionDomain>(() =>
+                PlanBuilder.New().WithTotalPrice(invalidTotalPrice).Build())
+                .WithMessage(Resources.PlanTotalPriceInvalid);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("ABC")]
-        public void ShouldNotHaveInvalidNumberPlate(string invalidNumberPlate)
+        [InlineData(0)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void ShouldNotHaveInvalidFineAntecipated(double invalidFineAntecipated)
         {
             Assert.Throws<ExceptionDomain>(() =>
-                MotorcycleBuilder.New().WithNumberPlate(invalidNumberPlate).Build())
-                .WithMessage(Resources.MotorcycleInvalidNumberPlate);
+                PlanBuilder.New().WithFineAntecipated(invalidFineAntecipated).Build())
+                .WithMessage(Resources.PlanFineAntecipatedInvalid);
         }
 
         [Theory]
-        [InlineData("")]
-        [InlineData(null)]
-        [InlineData("ABC")]
-        public void ShouldNotHaveInvalidLocation(string invalidLocation)
+        [InlineData(0)]
+        [InlineData(-2)]
+        [InlineData(-100)]
+        public void ShouldNotHaveInvalidFineDelayed(double invalidFineDelayed)
         {
             Assert.Throws<ExceptionDomain>(() =>
-                MotorcycleBuilder.New().WithLocation(invalidLocation).Build())
-                .WithMessage(Resources.MotorcycleInvalidLocation);
+                PlanBuilder.New().WithFineDelayed(invalidFineDelayed).Build())
+                .WithMessage(Resources.PlanFineDelayedInvalid);
         }
 
         [Theory]
@@ -111,12 +129,11 @@ namespace RentH2.Domain.Test.PlanTest
         [InlineData(null)]
         [InlineData("ABC")]
         [InlineData("Enable")]
-        public void ShouldNotHaveInvalidStatus(string invalidStatus)
+        public void ShouldNotHaveInvalidStatus(string? invalidStatus)
         {
             Assert.Throws<ExceptionDomain>(() =>
-                MotorcycleBuilder.New().WithStatus(invalidStatus).Build())
-                .WithMessage(Resources.MotorcycleInvalidStatus);
+                PlanBuilder.New().WithStatus(invalidStatus).Build())
+                .WithMessage(Resources.PlanStatusInvalid);
         }
-        */
     }
 }

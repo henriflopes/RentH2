@@ -1,155 +1,155 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using RentH2.Services.RentAPI.Models;
-using RentH2.Services.RentAPI.Models.Dto;
-using RentH2.Services.RentAPI.Services.IService;
+﻿//using AutoMapper;
+//using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Mvc;
+//using RentH2.Services.RentAPI.Models;
+//using RentH2.Services.RentAPI.Models.Dto;
+//using RentH2.Services.RentAPI.Services.IService;
 
-namespace RentH2.Services.RentAPI.Controllers
-{
-    [Route("api/ridersrents")]
-	[ApiController]
-	[Authorize]
-	public class RidersRentsAPIController : ControllerBase
-	{
-		private readonly ResponseDto _response;
-		private readonly IRidersRentsService _ridersRentsService;
-        private readonly IMapper _mapper;
+//namespace RentH2.Services.RentAPI.Controllers
+//{
+//    [Route("api/ridersrents")]
+//	[ApiController]
+//	[Authorize]
+//	public class RidersRentsAPIController : ControllerBase
+//	{
+//		private readonly ResponseDto _response;
+//		private readonly IRidersRentsService _ridersRentsService;
+//        private readonly IMapper _mapper;
 
-		public RidersRentsAPIController(IRidersRentsService ridersRentsService, IMapper mapper)
-		{
-			_ridersRentsService = ridersRentsService;
-            _mapper = mapper;
-			_response = new ResponseDto();
-		}
-
-
-		[HttpGet]
-		public async Task<ResponseDto> Get()
-		{
-			try
-			{
-				List<RidersRents> rents = await _ridersRentsService.GetAsync();
-				_response.Result = _mapper.Map<IEnumerable<RentDto>>(rents);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-
-		[HttpGet]
-		[Route("{id}")]
-		public async Task<ResponseDto> Get(string id)
-		{
-			try
-			{
-				RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
-				_response.Result = _mapper.Map<RentDto>(ridersRents);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
+//		public RidersRentsAPIController(IRidersRentsService ridersRentsService, IMapper mapper)
+//		{
+//			_ridersRentsService = ridersRentsService;
+//            _mapper = mapper;
+//			_response = new ResponseDto();
+//		}
 
 
-		[HttpPost]
-		public async Task<ResponseDto> Post(RidersRentsDto rentDto)
-		{
-			try
-			{
-				RidersRents ridersRents = _mapper.Map<RidersRents>(rentDto);
-				await _ridersRentsService.CreateAsync(ridersRents);
-				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
+//		[HttpGet]
+//		public async Task<ResponseDto> Get()
+//		{
+//			try
+//			{
+//				List<RidersRents> rents = await _ridersRentsService.GetAsync();
+//				_response.Result = _mapper.Map<IEnumerable<RentDto>>(rents);
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
 
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+//			return _response;
+//		}
 
-			return _response;
-		}
+//		[HttpGet]
+//		[Route("{id}")]
+//		public async Task<ResponseDto> Get(string id)
+//		{
+//			try
+//			{
+//				RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
+//				_response.Result = _mapper.Map<RentDto>(ridersRents);
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
 
-		[HttpPut]
-		public async Task<ResponseDto> Put(RidersRentsDto ridersRentsDto)
-		{
-			try
-			{
-				RidersRents ridersRents = _mapper.Map<RidersRents>(ridersRentsDto);
+//			return _response;
+//		}
 
-				RidersRents exists = await _ridersRentsService.GetAsync(ridersRents.Id);
 
-				if (exists != null)
-				{
-					await _ridersRentsService.UpdateAsync(ridersRents);
-					_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+//		[HttpPost]
+//		public async Task<ResponseDto> Post(RidersRentsDto rentDto)
+//		{
+//			try
+//			{
+//				RidersRents ridersRents = _mapper.Map<RidersRents>(rentDto);
+//				await _ridersRentsService.CreateAsync(ridersRents);
+//				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
 
-			return _response;
-		}
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
 
-		[HttpDelete]
-		[Route("{id}")]
-		public async Task<ResponseDto> Delete(string id)
-		{
-			RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
+//			return _response;
+//		}
 
-			try
-			{
-				if (ridersRents != null)
-				{
-					await _ridersRentsService.RemoveAsync(id);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+//		[HttpPut]
+//		public async Task<ResponseDto> Put(RidersRentsDto ridersRentsDto)
+//		{
+//			try
+//			{
+//				RidersRents ridersRents = _mapper.Map<RidersRents>(ridersRentsDto);
 
-			return _response;
-		}
+//				RidersRents exists = await _ridersRentsService.GetAsync(ridersRents.Id);
 
-		[HttpGet("GetOneByMotorcycleIdAsync")]
-		public async Task<ResponseDto> GetOneByMotorcycleIdAsync(string motorcycleId)
-		{
-			try
-			{
-				RidersRents ridersRents = await _ridersRentsService.GetOneByMotorcycleIdAsync(motorcycleId);
-				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+//				if (exists != null)
+//				{
+//					await _ridersRentsService.UpdateAsync(ridersRents);
+//					_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
+//				}
+//				else
+//				{
+//					_response.IsSuccess = false;
+//					_response.Message = "Not Found";
+//				}
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
 
-			return _response;
-		}
-    }
-}
+//			return _response;
+//		}
+
+//		[HttpDelete]
+//		[Route("{id}")]
+//		public async Task<ResponseDto> Delete(string id)
+//		{
+//			RidersRents ridersRents = await _ridersRentsService.GetAsync(id);
+
+//			try
+//			{
+//				if (ridersRents != null)
+//				{
+//					await _ridersRentsService.RemoveAsync(id);
+//				}
+//				else
+//				{
+//					_response.IsSuccess = false;
+//					_response.Message = "Not Found";
+//				}
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
+
+//			return _response;
+//		}
+
+//		[HttpGet("GetOneByMotorcycleIdAsync")]
+//		public async Task<ResponseDto> GetOneByMotorcycleIdAsync(string motorcycleId)
+//		{
+//			try
+//			{
+//				RidersRents ridersRents = await _ridersRentsService.GetOneByMotorcycleIdAsync(motorcycleId);
+//				_response.Result = _mapper.Map<RidersRentsDto>(ridersRents);
+//			}
+//			catch (Exception ex)
+//			{
+//				_response.IsSuccess = false;
+//				_response.Message = ex.Message;
+//			}
+
+//			return _response;
+//		}
+//    }
+//}

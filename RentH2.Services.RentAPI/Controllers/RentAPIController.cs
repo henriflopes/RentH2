@@ -1,279 +1,162 @@
-﻿using AutoMapper;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentH2.Application.CQRSRent.Commands;
+using RentH2.Application.CQRSRent.Queries;
 using RentH2.Common.Models;
-using RentH2.Services.RentAPI.Models;
-using RentH2.Services.RentAPI.Models.Dto;
-using RentH2.Services.RentAPI.Services.IService;
-using RentH2.Services.RentAPI.Utility;
 
 namespace RentH2.Services.RentAPI.Controllers
 {
-	[Route("api/rent")]
-	[ApiController]
-	[Authorize]
-	public class RentAPIController : ControllerBase
-	{
-		private readonly ResponseDto _response;
-        private readonly ResponseModel _responseModel;
-        private readonly IRentService _rentService;
-		private readonly IMotorcycleService _motorcycleService;
-		private readonly IPlanService _planService;
-		private readonly IRidersRentsService _ridersRentsService;
-		private readonly IMapper _mapper;
+    [Route("api/rent")]
+    [ApiController]
+    [Authorize]
+    public class RentAPIController : ControllerBase
+    {
+        private ResponseModel _responseModel;
+        private readonly IMediator _mediator;
 
-		public RentAPIController(IRentService rentService, IMotorcycleService motorcycleService, IPlanService planService, IRidersRentsService ridersRentsService,IMapper mapper)
-		{
-			_rentService = rentService;
-			_motorcycleService = motorcycleService;
-			_planService = planService;
-			_ridersRentsService = ridersRentsService;
-			_mapper = mapper;
-			_response = new ResponseDto();
-			_responseModel = new();
-
+        public RentAPIController(IMediator mediator)
+        {
+            _responseModel = new ResponseModel();
+            _mediator = mediator;
         }
 
-		[HttpGet]
-		public async Task<ResponseDto> GetAllRent()
-		{
-			try
-			{
-				List<Rent> rents = await _rentService.GetAsync();
-				_response.Result = _mapper.Map<IEnumerable<RentDto>>(rents);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+        [HttpGet]
+        public async Task<ResponseModel> GetAllRent()
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new GetRentListQuery());
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-			return _response;
-		}
+            return _responseModel;
+        }
 
-		[HttpPost("GetAllRentedByExpectedDateAsync")]
-		public async Task<ResponseDto> GetAllRentedByExpectedDateAsync([FromBody] RentAgendaDto rentAgendaDto)
-		{
-			try
-			{
-				RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
-				var rentedAgenda = await _rentService.GetAllRentedByExpectedDateAsync(rentAgenda);
-				_response.Result = _mapper.Map<IEnumerable<RentAgendaDto>>(rentedAgenda);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+        [HttpPost("GetAllRentedByExpectedDateAsync")]
+        public async Task<ResponseModel> GetAllRentedByExpectedDateAsync(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new GetAllRentedByExpectedDateQuery(startDate, endDate));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-			return _response;
-		}
+            return _responseModel;
+        }
 
-		[HttpPost("GetAvalaiblePlans")]
-		public async Task<ResponseDto> GetAvalaiblePlans([FromBody] RentAgendaDto rentAgendaDto)
-		{
-			try
-			{
-				List<RentAgendaModel> RentAgendaDtoResult = [];
-                RentAgendaModel resultItem;
+        [HttpPost("GetAvalaiblePlans")]
+        public async Task<ResponseModel> GetAvalaiblePlans([FromBody] RentAgendaModel rentAgendaModel)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new GetAvalaiblePlansQuery(rentAgendaModel));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-				var rentAgenda = _mapper.Map<RentAgenda>(rentAgendaDto);
-				var plans = await _planService.GetAllByStatusAsync([RentStatus.Available]);
+            return _responseModel;
+        }
 
-				foreach (var plan in plans.OrderBy(o => o.TotalDays))
-				{
-					rentAgenda.EndDate = rentAgenda.StartDate.AddDays(plan.TotalDays);
-					var motorcycle = await _motorcycleService.GetOneAvailable(rentAgenda);
-					if (motorcycle == null)
-					{
-						plan.Status = RentStatus.Unavailable;
-					}
+        [HttpPost("RentAsync")]
+        public async Task<ResponseModel> RentAsync([FromBody] RentModel rentModel)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new CreateRentCommand(rentModel));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-					resultItem = new RentAgendaModel
-                    {
-						StartDate = rentAgenda.StartDate,
-						EndDate = rentAgenda.EndDate,
-						TotalDaysInRow = plan.TotalDays,
-						MotorcycleId = motorcycle?.Id,
-						MotorcycleStatus = motorcycle?.Status,
-						Plan = plan
-					};
+            return _responseModel;
+        }
 
-					RentAgendaDtoResult.Add(resultItem);
-				}
+        [HttpGet("GetRentByUserIdAsync")]
+        public async Task<ResponseModel> GetRentByUserIdAsync(string userId, string status)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new GetRentByUserIdQuery(userId, status));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-				_response.Result = RentAgendaDtoResult;
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            return _responseModel;
+        }
 
-			return _response;
-		}
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ResponseModel> Get(string id)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new GetRentByIdQuery(id));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-		[HttpPost("RentAsync")]
-		public async Task<ResponseDto> RentAsync([FromBody] RentDto rentDto)
-		{
-			try
-			{
-				Rent rent = _mapper.Map<Rent>(rentDto);
+            return _responseModel;
+        }
 
-				RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rent);
+        [HttpPut]
+        public async Task<ResponseModel> Put(RentModel rentModel)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new UpdateRentCommand(rentModel));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-				var motorcycle = await _motorcycleService.GetOneAvailable(rentAgenda);
-				if (motorcycle == null)
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Não há motos disponíveis para este período!";
+            return _responseModel;
+        }
 
-					return _response;
-				}
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<ResponseModel> Delete(string id)
+        {
+            try
+            {
+                _responseModel = await _mediator.Send(new DeleteRentCommand(id));
+            }
+            catch (Exception ex)
+            {
+                _responseModel.IsSuccess = false;
+                _responseModel.Message = ex.Message;
+            }
 
-				var motorcycleDto = _mapper.Map<Motorcycle>(motorcycle);
-				motorcycleDto.Status = RentStatus.Rented;
-				await _motorcycleService.UpdateAsync(motorcycleDto);
-				rent.Motorcycle = motorcycleDto;
+            return _responseModel;
+        }
 
-				var result = await _rentService.CreateAsync(rent);
-
-				RidersRents ridersRents = new RidersRents
-				{
-					RentId = result.Id,
-					MotorcycleId = rent.Motorcycle.Id,
-					PlanId = rent.Plan.Id,
-					UserId = rent.User.Id,
-					TimeStamp = DateTime.UtcNow
-				};
-
-				await _ridersRentsService.CreateAsync(ridersRents);
-
-				_response.Result = _mapper.Map<RentDto>(rent);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-
-		[HttpGet("GetRentByUserIdAsync")]
-		public async Task<ResponseDto> GetRentByUserIdAsync(string userId, string status) {
-
-			try
-			{
-				Rent rent = await _rentService.GetRentByUserIdAsync(userId, status);
-				_response.Result = rent;
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-
-		[HttpGet]
-		[Route("{id}")]
-		public async Task<ResponseDto> Get(string id)
-		{
-			try
-			{
-				Rent rent = await _rentService.GetAsync(id);
-				_response.Result = _mapper.Map<RentDto>(rent);
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-
-		[HttpPut]
-		public async Task<ResponseDto> Put(RentDto rentDto)
-		{
-			try
-			{
-				Rent rent = _mapper.Map<Rent>(rentDto);
-
-				Rent exists = await _rentService.GetAsync(rent.Id);
-
-				if (exists != null)
-				{
-					await _rentService.UpdateAsync(rent);
-					_response.Result = _mapper.Map<RentDto>(rent);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-
-		[HttpDelete]
-		[Route("{id}")]
-		public async Task<ResponseDto> Delete(string id)
-		{
-			Rent rent = await _rentService.GetAsync(id);
-
-			try
-			{
-				if (rent != null)
-				{
-					await _rentService.RemoveAsync(id);
-				}
-				else
-				{
-					_response.IsSuccess = false;
-					_response.Message = "Not Found";
-				}
-			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
-
-			return _response;
-		}
-        
-		[HttpGet("GetAllUsersWithRentedMotorcycleAsync")]
+        [HttpGet("GetAllUsersWithRentedMotorcycleAsync")]
         public async Task<ResponseModel> GetAllUsersWithRentedMotorcycleAsync()
         {
             try
             {
-                List<MotorcycleModel> motorcycles = await _motorcycleService.GetAllByStatusAsync([RentStatus.Rented]);
-                List<string?> motorcycleIds = motorcycles.Select(s => s.Id).ToList();
-                if (motorcycleIds == null)
-                {
-                    _responseModel.IsSuccess = false;
-                    _responseModel.Message = "Não existe motos com locação";
-
-                    return _responseModel;
-                }
-                else
-                {
-                    List<RidersRents> ridersRents = await _ridersRentsService.GetRentedMotorcyclesByIdAsync(motorcycleIds);
-                    List<string> rentsIds = ridersRents.Select(s => s.RentId).ToList();
-                    List<Rent> rents = await _rentService.GetAllRentByIdsAsync(rentsIds);
-
-                    List<Rent> userWithRentedMotorcycle = rents.Where(x => x.Status == RentStatus.Rented).ToList();
-                    _response.Result = _mapper.Map<RentModel>(userWithRentedMotorcycle);
-                }
+                _responseModel = await _mediator.Send(new GetAllUsersWithRentedMotorcycleQuery());
             }
             catch (Exception ex)
             {

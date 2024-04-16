@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Newtonsoft.Json;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Domain.Models;
@@ -22,7 +23,7 @@ namespace RentH2.Application.CQRSPlan.Handlers
 
         public async Task<ResponseModel> Handle(GetPlanListByStatusQuery request, CancellationToken cancellationToken)
         {
-            _responseModel.Result = _mapper.Map<List<PlanModel>>(await _planGateway.GetAllByStatusAsync(request.status));
+            _responseModel.Result = JsonConvert.SerializeObject(_mapper.Map<List<PlanModel>>(await _planGateway.GetAllByStatusAsync(request.status)));
             return _responseModel;
         }
     }

@@ -40,6 +40,10 @@ namespace RentH2.Infrastructure
                 c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]);
             }); //.AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
+            services.AddRefitClient<IPlanService>().ConfigureHttpClient(c => {
+                c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:PlanAPI"]);
+            }); //.AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+
             if (dataBaseType == DataBaseType.MongoDB)
             {
                 services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
@@ -64,10 +68,6 @@ namespace RentH2.Infrastructure
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             }
-
-            //services.AddScoped<IRentService, RentService>();
-            //services.AddHttpClient("Rent", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]))
-            //    .AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
             return services;
         }

@@ -12,7 +12,7 @@ namespace RentH2.Domain.Interface.Services
 		[Put("/api/motorcycle")]
 		Task<ResponseModel> Put(MotorcycleModel motorcycleModel);
 
-        [Post("/api/motorcycle/GetAllAvailable")]
-        Task<ResponseModel> GetAllAvailable(RentAgenda rentAgenda);
+        [Post("/api/motorcycle/GetAllAvailableAsync")]
+        Task<ResponseModel> GetAllAvailableAsync(RentAgendaModel rentAgendaModel);
     }
 }

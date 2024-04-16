@@ -55,12 +55,12 @@ namespace RentH2.Services.RentAPI.Controllers
             return _responseModel;
         }
 
-        [HttpPost("GetAvalaiblePlans")]
-        public async Task<ResponseModel> GetAvalaiblePlans([FromBody] RentAgendaModel rentAgendaModel)
+        [HttpPost("GetAvalaiblePlansForRent")]
+        public async Task<ResponseModel> GetAvalaiblePlansForRent([FromBody] RentAgendaModel rentAgendaModel)
         {
             try
             {
-                _responseModel = await _mediator.Send(new GetAvalaiblePlansQuery(rentAgendaModel));
+                _responseModel = await _mediator.Send(new GetAvalaiblePlansForRentQuery(rentAgendaModel));
             }
             catch (Exception ex)
             {

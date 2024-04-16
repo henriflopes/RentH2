@@ -13,7 +13,7 @@ namespace RentH2.Domain.Entities
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime EndDate { get; set; }
         public double TotalDaysInRow { get; set; }
-        public string? MotorcycleStatus { get; set; }
+        public string MotorcycleStatus { get; set; }
         public Plan Plan { get; set; }
     }
 }

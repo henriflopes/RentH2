@@ -42,13 +42,13 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             return _response;
         }
 
-        [HttpPost("GetAllAvailable")]
+        [HttpPost("GetAllAvailableAsync")]
         //[Authorize]
-        public async Task<ResponseModel> GetAllAvailable([FromBody] RentAgenda rentAgenda)
+        public async Task<ResponseModel> GetAllAvailableAsync([FromBody] RentAgendaModel rentAgendaModel)
         {
             try
             {
-                _response = await _mediator.Send(new GetAllAvailableQuery(rentAgenda));
+                _response = await _mediator.Send(new GetAllAvailableQuery(rentAgendaModel));
             }
             catch (Exception ex)
             {

@@ -53,7 +53,23 @@ namespace RentH2.Services.PlanAPI.Controllers
 			return _response;
 		}
 
-		[HttpGet]
+        [HttpPost("GetAvalaiblePlansAsync")]
+        public async Task<ResponseModel> GetAvalaiblePlansAsync([FromBody] RentAgendaModel rentAgendaModel)
+        {
+            try
+            {
+                _response = await _mediator.Send(new GetAvalaiblePlansQuery(rentAgendaModel));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+
+            return _response;
+        }
+
+        [HttpGet]
 		[Route("{id}")]
 		public async Task<ResponseModel> Get(string id)
 		{

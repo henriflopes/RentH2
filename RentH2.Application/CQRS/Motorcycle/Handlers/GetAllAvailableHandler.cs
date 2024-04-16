@@ -22,7 +22,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
 
         public async Task<ResponseModel> Handle(GetAllAvailableQuery request, CancellationToken cancellationToken)
         {
-            var unvailableResp = await _rentService.GetAllRentedByExpectedDateAsync(request.rentAgenda.StartDate, request.rentAgenda.EndDate);
+            var unvailableResp = await _rentService.GetAllRentedByExpectedDateAsync(request.rentAgendaModel.StartDate, request.rentAgendaModel.EndDate);
 
             if (unvailableResp != null && unvailableResp.IsSuccess)
             {

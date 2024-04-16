@@ -9,6 +9,7 @@ using RentH2.Domain.Utility;
 using RentH2.Domain.Entities;
 using RentH2.Domain.Test._Builders;
 using RentH2.Infrastructure.Repositories.Interfaces;
+using RentH2.Domain.Interface.Services;
 
 namespace RentH2.Application.Test.RentTest
 {
@@ -20,6 +21,7 @@ namespace RentH2.Application.Test.RentTest
         private CreateRentHandler _createRentHandler;
         private CreateRentCommand _createRentCommand;
         private readonly Mock<IRentGateway> _rentGatewayMock;
+        private readonly Mock<IMotorcycleService> _motorcycleServiceMock;
         private readonly CancellationToken _cancellationToken;
 
         public CreateRentHandlerTest()
@@ -39,9 +41,10 @@ namespace RentH2.Application.Test.RentTest
             };
 
             _cancellationToken = new CancellationToken();
-            
+            _motorcycleServiceMock = new Mock<IMotorcycleService>();
+
             _rentGatewayMock = new Mock<IRentGateway>();
-            _createRentHandler = new CreateRentHandler(_rentGatewayMock.Object, _mapper);
+            _createRentHandler = new CreateRentHandler(_rentGatewayMock.Object, _mapper, _motorcycleServiceMock.Object);
         }
 
         [Fact]

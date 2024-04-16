@@ -14,6 +14,9 @@ namespace RentH2.Infrastructure.Configuration
                 config.CreateMap<PlanModel, Plan>().ReverseMap();
                 config.CreateMap<RentModel, Rent>().ReverseMap();
                 config.CreateMap<ApplicationUserModel, ApplicationUser>().ReverseMap();
+                config.CreateMap<RentAgendaModel, RentAgenda>().ReverseMap();
+
+                
             });
 
             return mappingConfig;

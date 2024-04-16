@@ -29,9 +29,9 @@ namespace RentH2.Application.CQRSRent.Handlers
         {
 
             Rent rent = _mapper.Map<Rent>(request.RentModel);
-            RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rent);
+            RentAgendaModel rentAgendaModel = _mapper.Map<RentAgendaModel>(rent);
 
-            var resp = await _motorcycleService.GetAllAvailable(rentAgenda);
+            var resp = await _motorcycleService.GetAllAvailableAsync(rentAgendaModel);
 
             if (resp != null && resp.IsSuccess)
             {

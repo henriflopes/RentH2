@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Web.Services.IServices;
 using RentH2.Web.Utility;
 

@@ -1,5 +1,5 @@
 ﻿//using AutoMapper;
-//using RentH2.Common.Models;
+//using RentH2.Domain.Models;
 //using RentH2.Services.RentAPI.Models;
 //using RentH2.Services.RentAPI.Models.Dto;
 

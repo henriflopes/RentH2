@@ -1,6 +1,7 @@
-﻿using static RentH2.Common.Utility.SD;
+﻿
+using static RentH2.Domain.Utility.SD;
 
-namespace RentH2.Common.Models
+namespace RentH2.Domain.Models
 {
     public class RequestModel
     {

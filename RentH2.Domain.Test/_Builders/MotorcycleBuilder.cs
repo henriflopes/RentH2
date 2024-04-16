@@ -1,6 +1,6 @@
 using Bogus;
 using Bogus.Extensions.UnitedKingdom;
-using RentH2.Common.Utility;
+using RentH2.Domain.Utility;
 using RentH2.Domain.Entities;
 
 namespace RentH2.Domain.Test._Builders

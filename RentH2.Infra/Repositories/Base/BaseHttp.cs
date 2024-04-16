@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using RentH2.Common.Models.Base;
+using RentH2.Domain.Models.Base;
 using RestSharp;
 
 namespace RentH2.Infrastructure.Repositories.Base

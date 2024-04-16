@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RentH2.Common.Utility;
+using RentH2.Domain.Utility;
 
 namespace RentH2.Infrastructure.Repositories.Base.PostgreSQL.Configurations.Entities
 {

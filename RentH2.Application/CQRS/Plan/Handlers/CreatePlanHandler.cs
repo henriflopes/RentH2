@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.CQRSPlan.Commands;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Interfaces;
 

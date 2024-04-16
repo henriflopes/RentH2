@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
-namespace RentH2.Common.Models
+namespace RentH2.Domain.Models
 {
     public class RegistrationRequestModel
     {

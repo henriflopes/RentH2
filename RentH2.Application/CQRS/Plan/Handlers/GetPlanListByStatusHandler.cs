@@ -2,7 +2,7 @@
 using MediatR;
 using RentH2.Application.CQRSPlan.Queries;
 using RentH2.Application.CQRSPlan.Queries;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Infrastructure.Repositories.Interfaces;
 
 namespace RentH2.Application.CQRSPlan.Handlers

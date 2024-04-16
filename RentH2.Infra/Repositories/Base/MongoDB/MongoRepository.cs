@@ -1,7 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using RentH2.Domain.Base;
-using RentH2.Domain.Repositories.Base.MongoDB.Interfaces;
+using RentH2.Domain.Interface.Repositories;
 using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;
 using System.Linq.Expressions;
 

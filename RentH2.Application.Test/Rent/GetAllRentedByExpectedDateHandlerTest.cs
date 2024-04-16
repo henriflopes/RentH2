@@ -2,12 +2,13 @@ using Bogus;
 using Moq;
 using RentH2.Application.CQRSRent.Handlers;
 using RentH2.Application.Test.Utility;
-using RentH2.Common.Models;
-using RentH2.Common.Utility;
+using RentH2.Domain.Models;
+using RentH2.Domain.Utility;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Interfaces;
 using RentH2.Application.CQRSRent.Queries;
 using RentH2.Domain.Test._Builders;
+using RentH2.Domain.Interface.Services;
 
 namespace RentH2.Application.Test.RentTest
 {
@@ -20,6 +21,7 @@ namespace RentH2.Application.Test.RentTest
         private readonly DateTime _startDate;
         private readonly DateTime _endDate;
         private readonly Mock<IRentGateway> _rentGatewayMock;
+        private readonly Mock<IMotorcycleService> _rentServiceMock;
         private readonly CancellationToken _cancellationToken;
 
         public GetAllRentedByExpectedDateHandlerTest()
@@ -39,7 +41,8 @@ namespace RentH2.Application.Test.RentTest
             };
             _cancellationToken = new CancellationToken();
             _rentGatewayMock = new Mock<IRentGateway>();
-            _getAllRentedByExpectedDateHandler = new GetAllRentedByExpectedDateHandler(_rentGatewayMock.Object, _mapper);
+            _rentServiceMock = new Mock<IMotorcycleService>();
+            _getAllRentedByExpectedDateHandler = new GetAllRentedByExpectedDateHandler(_rentGatewayMock.Object, _mapper, _rentServiceMock.Object);
         }
 
         [Fact]

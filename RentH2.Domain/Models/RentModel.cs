@@ -1,9 +1,9 @@
 ﻿using MongoDB.Bson;
-using RentH2.Common.Models.Base;
+using RentH2.Domain.Models.Base;
 using RentH2.Domain.Base;
 using RentH2.Domain.Entities;
 
-namespace RentH2.Common.Models
+namespace RentH2.Domain.Models
 {
     [BsonCollection("Rents")]
     public class RentModel : HttpBaseResult

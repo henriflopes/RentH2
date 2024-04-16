@@ -1,4 +1,4 @@
-﻿namespace RentH2.Common.Models
+﻿namespace RentH2.Domain.Models
 {
     public class RidersRentsModel
     {

@@ -1,5 +1,5 @@
-﻿using RentH2.Common.Models;
-using RentH2.Common.Utility;
+﻿using RentH2.Domain.Models;
+using RentH2.Domain.Utility;
 using RentH2.Web.Services.IServices;
 
 namespace RentH2.Web.Services

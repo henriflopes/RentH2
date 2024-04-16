@@ -3,8 +3,9 @@ using MediatR;
 using RentH2.Application.CQRSRent.Queries;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Application.CQRSPlan.Queries;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Infrastructure.Repositories.Interfaces;
+using Newtonsoft.Json;
 
 namespace RentH2.Application.CQRSMotorcycle.Handlers
 {
@@ -23,7 +24,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
 
         public async Task<ResponseModel> Handle(GetMotorcycleListByStatusQuery request, CancellationToken cancellationToken)
         {
-            _responseModel.Result = _mapper.Map<List<MotorcycleModel>>(await _motorcycleGateway.GetAllByStatusAsync(request.status));
+            _responseModel.Result = JsonConvert.SerializeObject(_mapper.Map<List<MotorcycleModel>>(await _motorcycleGateway.GetAllByStatusAsync(request.status)));
             _responseModel.IsSuccess = true;
             return _responseModel;
         }

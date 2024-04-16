@@ -3,8 +3,8 @@ using RentH2.Web.Services.IServices;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
-using RentH2.Common.Models;
-using static RentH2.Common.Utility.SD;
+using static RentH2.Domain.Utility.SD;
+using RentH2.Domain.Models;
 
 namespace RentH2.Web.Service
 {

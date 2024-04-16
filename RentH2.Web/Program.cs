@@ -33,7 +33,7 @@ SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"] + "/api/auth/";
 SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"] + "/api/shoppingcart/";
 SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"] + "/api/order/";
 SD.RentAPIBase = builder.Configuration["ServiceUrls:RentAPI"] + "/api/rent/";
-RentH2.Common.Utility.SD.MotorcycleAPIBase = builder.Configuration["ServiceUrls:MotorcycleAPI"] + "/api/motorcycle/";
+RentH2.Domain.Utility.SD.MotorcycleAPIBase = builder.Configuration["ServiceUrls:MotorcycleAPI"] + "/api/motorcycle/";
 SD.PlanAPIBase = builder.Configuration["ServiceUrls:PlanAPI"] + "/api/plan/";
 
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();

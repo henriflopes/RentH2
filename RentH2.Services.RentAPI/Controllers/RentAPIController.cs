@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Application.CQRSRent.Commands;
 using RentH2.Application.CQRSRent.Queries;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
+using ZstdSharp.Unsafe;
 
 namespace RentH2.Services.RentAPI.Controllers
 {
     [Route("api/rent")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RentAPIController : ControllerBase
     {
         private ResponseModel _responseModel;
@@ -37,12 +38,13 @@ namespace RentH2.Services.RentAPI.Controllers
             return _responseModel;
         }
 
-        [HttpPost("GetAllRentedByExpectedDateAsync")]
+        [HttpGet("GetAllRentedByExpectedDateAsync")]
         public async Task<ResponseModel> GetAllRentedByExpectedDateAsync(DateTime startDate, DateTime endDate)
         {
             try
             {
                 _responseModel = await _mediator.Send(new GetAllRentedByExpectedDateQuery(startDate, endDate));
+                _responseModel.Result = new List<RentModel>(){};
             }
             catch (Exception ex)
             {

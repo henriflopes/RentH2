@@ -1,5 +1,5 @@
-﻿using RentH2.Common.Models;
-using RentH2.Domain.Contracts;
+﻿using RentH2.Domain.Models;
+using RentH2.Domain.Interface.Repositories;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Base;
 using RentH2.Infrastructure.Repositories.Interfaces;

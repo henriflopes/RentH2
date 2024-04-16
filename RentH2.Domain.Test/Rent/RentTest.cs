@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using RentH2.Common.Utility;
+using RentH2.Domain.Utility;
 using RentH2.Domain.Entities;
 using ExpectedObjects;
 using RentH2.Domain.Entities.Validators;

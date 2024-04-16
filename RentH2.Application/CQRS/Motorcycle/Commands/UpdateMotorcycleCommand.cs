@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 
 namespace RentH2.Application.CQRSMotorcycle.Commands
 {

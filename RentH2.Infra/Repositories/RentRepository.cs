@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
-using RentH2.Common.Utility;
-using RentH2.Domain.Contracts;
+using RentH2.Domain.Utility;
+using RentH2.Domain.Interface.Repositories;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Base.MongoDB;
 using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;

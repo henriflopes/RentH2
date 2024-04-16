@@ -5,20 +5,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using RentH2.Domain.Contracts;
 using RentH2.Domain.Entities;
-using RentH2.Domain.Repositories.Base.MongoDB.Interfaces;
 using RentH2.Infrastructure.Configuration;
 using RentH2.Infrastructure.Repositories;
 using RentH2.Infrastructure.Repositories.Base.MongoDB;
 using RentH2.Infrastructure.Repositories.Base.MongoDB.Interfaces;
 using RentH2.Infrastructure.Repositories.Base.PostgreSQL;
 using RentH2.Infrastructure.Repositories.Interfaces;
-using RentH2.Infrastructure.Services;
-using RentH2.Infrastructure.Services.Contracts;
 using RentH2.Infrastructure.Utility;
 using EntityFramework.Exceptions.PostgreSQL;
-using static RentH2.Common.Utility.SD;
+using static RentH2.Domain.Utility.SD;
+using RentH2.Domain.Interface.Repositories;
+using Refit;
+using RentH2.Domain.Interface.Services;
 
 namespace RentH2.Infrastructure
 {
@@ -33,6 +32,14 @@ namespace RentH2.Infrastructure
             services.AddHttpContextAccessor();
             services.AddScoped<BackEndApiAuthenticationHttpClientHandler>();
 
+            services.AddRefitClient<IMotorcycleService>().ConfigureHttpClient(c => {
+                c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:MotorcycleAPI"]);
+            }); //.AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+
+            services.AddRefitClient<IRentService>().ConfigureHttpClient(c => {
+                c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]);
+            }); //.AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+
             if (dataBaseType == DataBaseType.MongoDB)
             {
                 services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
@@ -44,6 +51,8 @@ namespace RentH2.Infrastructure
                 services.AddScoped<IMotorcycleGateway, MotorcycleGateway>();
                 services.AddScoped<IPlanRepository, PlanRepository>();
                 services.AddScoped<IPlanGateway, PlanGateway>();
+                services.AddScoped<IRentGateway, RentGateway>();
+                services.AddScoped<IRentRepository, RentRepository>();
             }
 
             if (dataBaseType == DataBaseType.PostgreSQL)
@@ -56,9 +65,9 @@ namespace RentH2.Infrastructure
                 services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             }
 
-            services.AddScoped<IRentService, RentService>();
-            services.AddHttpClient("Rent", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]))
-                .AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
+            //services.AddScoped<IRentService, RentService>();
+            //services.AddHttpClient("Rent", q => q.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RentAPI"]))
+            //    .AddHttpMessageHandler<BackEndApiAuthenticationHttpClientHandler>();
 
             return services;
         }

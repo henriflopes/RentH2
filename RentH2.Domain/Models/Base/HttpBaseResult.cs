@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RentH2.Common.Models.Base
+namespace RentH2.Domain.Models.Base
 {
     public class HttpBaseResult
     {

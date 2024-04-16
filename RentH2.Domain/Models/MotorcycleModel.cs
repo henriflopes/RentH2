@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using RentH2.Common.Models.Base;
+using RentH2.Domain.Models.Base;
 
-namespace RentH2.Common.Models
+namespace RentH2.Domain.Models
 {
     public class MotorcycleModel : HttpBaseResult
     {

@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
-using RentH2.Common.Models;
-using RentH2.Common.Utility;
+using RentH2.Domain.Models;
+using RentH2.Domain.Utility;
 using RentH2.Domain.Entities.Validators;
+using RentH2.Domain.Entities;
 
 namespace RentH2.Services.MotorcycleAPI.Controllers
 {
@@ -31,6 +32,23 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             try
             {
                 _response = await _mediator.Send(new GetMotorcycleListQuery());
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
+
+            return _response;
+        }
+
+        [HttpPost("GetAllAvailable")]
+        //[Authorize]
+        public async Task<ResponseModel> GetAllAvailable([FromBody] RentAgenda rentAgenda)
+        {
+            try
+            {
+                _response = await _mediator.Send(new GetAllAvailableQuery(rentAgenda));
             }
             catch (Exception ex)
             {

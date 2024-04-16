@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using MediatR;
 using RentH2.Application.CQRSRent.Commands;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Interfaces;
+using RentH2.Domain.Utility;
+using RentH2.Domain.Interface.Services;
+using Newtonsoft.Json;
 
 namespace RentH2.Application.CQRSRent.Handlers
 {
@@ -11,57 +14,42 @@ namespace RentH2.Application.CQRSRent.Handlers
     {
         private readonly IRentGateway _rentGateway;
         private readonly IMapper _mapper;
+        private readonly IMotorcycleService _motorcycleService;
         private readonly ResponseModel _responseModel;
 
-        public CreateRentHandler(IRentGateway rentGateway, IMapper mapper)
+        public CreateRentHandler(IRentGateway rentGateway, IMapper mapper, IMotorcycleService motorcycleService)
         {
             _rentGateway = rentGateway;
             _mapper = mapper;
+            _motorcycleService = motorcycleService;
             _responseModel = new();
         }
 
         public async Task<ResponseModel> Handle(CreateRentCommand request, CancellationToken cancellationToken)
         {
 
-            //Rent rent = _mapper.Map<Rent>(rentDto);
+            Rent rent = _mapper.Map<Rent>(request.RentModel);
+            RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rent);
 
-            //RentAgenda rentAgenda = _mapper.Map<RentAgenda>(rent);
+            var resp = await _motorcycleService.GetAllAvailable(rentAgenda);
 
-            //var motorcycle = await _motorcycleService.GetOneAvailable(rentAgenda);
-            //if (motorcycle == null)
-            //{
-            //    _response.IsSuccess = false;
-            //    _response.Message = "Não há motos disponíveis para este período!";
+            if (resp != null && resp.IsSuccess)
+            {
+                var motorcycleModel = JsonConvert.DeserializeObject<List<MotorcycleModel>>(resp.Result.ToString()).FirstOrDefault();
+                var motorcycle = _mapper.Map<Motorcycle>(motorcycleModel);
+                motorcycle.UpdateStatus(RentStatus.Rented);
+                await _motorcycleService.Put(_mapper.Map<MotorcycleModel>(motorcycle));
+                
+                rent.UpdateMotorcycleId(motorcycle.Id.ToString());
+                var result = await _rentGateway.CreateAsync(rent);
 
-            //    return _response;
-            //}
+                _responseModel.Result = JsonConvert.SerializeObject(_mapper.Map<RentModel>(result));
 
-            //var motorcycleDto = _mapper.Map<Motorcycle>(motorcycle);
-            //motorcycleDto.Status = RentStatus.Rented;
-            //await _motorcycleService.UpdateAsync(motorcycleDto);
-            //rent.Motorcycle = motorcycleDto;
+                return _responseModel;
+            }
 
-            //var result = await _rentService.CreateAsync(rent);
-
-            //RidersRents ridersRents = new RidersRents
-            //{
-            //    RentId = result.Id,
-            //    MotorcycleId = rent.Motorcycle.Id,
-            //    PlanId = rent.Plan.Id,
-            //    UserId = rent.User.Id,
-            //    TimeStamp = DateTime.UtcNow
-            //};
-
-            //await _ridersRentsService.CreateAsync(ridersRents);
-
-            //_response.Result = _mapper.Map<RentDto>(rent);
-
-
-            var rent = _mapper.Map<Rent>(request.RentModel);
-
-            var result = await _rentGateway.CreateAsync(rent);
-
-            _responseModel.Result = _mapper.Map<RentModel>(result);
+            _responseModel.IsSuccess = false;
+            _responseModel.Message = "não há motos disponíveis para este período!";
 
             return _responseModel;
         }

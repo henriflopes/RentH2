@@ -6,7 +6,7 @@
 //using MongoDB.Driver.Linq;
 //using MongoDB.Driver;
 //using RentH2.Services.RentAPI.Models;
-//using RentH2.Common.Models;
+//using RentH2.Domain.Models;
 
 //namespace RentH2.Services.RentAPI.Services
 //{

@@ -4,8 +4,8 @@ using Moq;
 using RentH2.Application.CQRSPlan.Commands;
 using RentH2.Application.CQRSPlan.Handlers;
 using RentH2.Application.Test.Utility;
-using RentH2.Common.Models;
-using RentH2.Common.Utility;
+using RentH2.Domain.Models;
+using RentH2.Domain.Utility;
 using RentH2.Domain.Entities;
 using RentH2.Infrastructure.Repositories.Interfaces;
 

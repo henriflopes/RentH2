@@ -2,7 +2,7 @@
 using MediatR;
 using RentH2.Application.CQRSMotorcycle.Commands;
 using RentH2.Application.CQRSMotorcycle.Queries;
-using RentH2.Common.Models;
+using RentH2.Domain.Models;
 using RentH2.Domain.Base;
 using RentH2.Domain.Entities;
 using RentH2.Domain.Entities.Validators;

@@ -7,7 +7,7 @@ using RentH2.Application;
 using RentH2.Infrastructure;
 using RentH2.Application.Extensions;
 using Serilog;
-using RentH2.Common.Utility;
+using RentH2.Domain.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,5 @@
 ﻿//using Newtonsoft.Json;
-//using RentH2.Common.Models;
+//using RentH2.Domain.Models;
 //using RentH2.Services.RentAPI.Models.Dto;
 //using RentH2.Services.RentAPI.Services.IService;
 //using System.Text;

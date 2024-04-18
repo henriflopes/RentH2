@@ -24,7 +24,9 @@ This app has been built with the following technologies:
   - Bootstrap 5
   - Jquery
   - Fluent Validation
+  - Automapper
   - Mediator
+  - Refit
 
   Test
   - Xunit

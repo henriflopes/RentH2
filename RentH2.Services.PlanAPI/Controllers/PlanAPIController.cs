@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RentH2.Application.CQRSPlan.Commands;
 using RentH2.Application.CQRSPlan.Queries;
+using RentH2.Domain.Entities.Validators;
 using RentH2.Domain.Models;
 
 namespace RentH2.Services.PlanAPI.Controllers
@@ -28,13 +29,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
                 _response = await _mediator.Send(new GetPlanListQuery());
             }
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 
 		[HttpPost("GetAllByStatusAsync")]
@@ -44,13 +50,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
                 _response = await _mediator.Send(new GetPlanListByStatusQuery(rentStatus));
             }
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 
         [HttpPost("GetAvalaiblePlansAsync")]
@@ -59,6 +70,11 @@ namespace RentH2.Services.PlanAPI.Controllers
             try
             {
                 _response = await _mediator.Send(new GetAvalaiblePlansQuery(rentAgendaModel));
+            }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -77,13 +93,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
                 _response = await _mediator.Send(new GetPlanByIdQuery(id));
 			}
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 
 
@@ -95,13 +116,18 @@ namespace RentH2.Services.PlanAPI.Controllers
                 _response = await _mediator.Send(new CreatePlanCommand(planModel));
 
             }
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 
 		[HttpPut]
@@ -111,13 +137,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
                 _response = await _mediator.Send(new UpdatePlanCommand(planModel));
             }
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 
 		[HttpDelete]
@@ -128,13 +159,18 @@ namespace RentH2.Services.PlanAPI.Controllers
 			{
                 _response = await _mediator.Send(new DeletePlanCommand(id));
             }
-			catch (Exception ex)
-			{
-				_response.IsSuccess = false;
-				_response.Message = ex.Message;
-			}
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
+            }
 
-			return _response;
+            return _response;
 		}
 	}
 }

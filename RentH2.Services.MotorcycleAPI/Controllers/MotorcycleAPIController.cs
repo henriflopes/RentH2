@@ -33,6 +33,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             {
                 _response = await _mediator.Send(new GetMotorcycleListQuery());
             }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
@@ -49,6 +54,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             try
             {
                 _response = await _mediator.Send(new GetAllAvailableQuery(rentAgendaModel));
+            }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -68,6 +78,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             {
                 _response = await _mediator.Send(new GetMotorcycleByIdQuery(id));
             }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
@@ -84,6 +99,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             try
             {
                 _response = await _mediator.Send(new GetMotorcycleListByStatusQuery(rentStatus));
+            }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -125,6 +145,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             {
                 _response = await _mediator.Send(new UpdateMotorcycleCommand(motorcycleModel));
             }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
+            }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
@@ -142,6 +167,11 @@ namespace RentH2.Services.MotorcycleAPI.Controllers
             try
             {
                 _response = await _mediator.Send(new DeleteMotorcycleCommand(id));
+            }
+            catch (ExceptionDomain exDomain)
+            {
+                _response.IsSuccess = false;
+                _response.Message = exDomain.ErrorMessages.FirstOrDefault();
             }
             catch (Exception ex)
             {

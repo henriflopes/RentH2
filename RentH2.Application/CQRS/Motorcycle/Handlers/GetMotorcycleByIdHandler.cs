@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using RentH2.Application.CQRSRent.Queries;
 using RentH2.Application.CQRSMotorcycle.Queries;
 using RentH2.Domain.Models;
 using RentH2.Domain.Base;
@@ -28,7 +27,7 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
             var result = JsonConvert.SerializeObject(_mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetAsync(request.Id)));
 
             MotorcycleValidator.New()
-                .When(result == null, Resources.MotorcycleNotFound)
+                .When(result == null || result == "null", Resources.MotorcycleNotFound)
                 .ThrowExceptionIfExists();
 
             _responseModel.IsSuccess = true;

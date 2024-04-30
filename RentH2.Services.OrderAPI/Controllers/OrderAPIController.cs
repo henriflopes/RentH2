@@ -12,7 +12,7 @@ namespace RentH2.Services.OrderAPI.Controllers
 {
     [Route("api/order")]
 	[ApiController]
-	[Authorize(Roles = Roles.Administrator)]
+	//[Authorize(Roles = Roles.Administrator)]
 	public class OrderAPIController : ControllerBase
 	{
 		private readonly IMapper _mapper;

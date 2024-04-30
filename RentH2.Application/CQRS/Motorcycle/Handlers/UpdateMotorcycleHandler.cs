@@ -31,10 +31,13 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
                 .When(motorcycle == null, Resources.MotorcycleNotFound)
                 .ThrowExceptionIfExists();
 
-            var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(motorcycle.NumberPlate));
-            MotorcycleValidator.New()
-                .When(motorcycleNumberPlate != null, Resources.MotorcycleExistsNumberPlate)
-                .ThrowExceptionIfExists();
+            if (request.MotorcycleModel.NumberPlate != motorcycle.NumberPlate)
+            {
+                var motorcycleNumberPlate = await _mediator.Send(new GetMotorcycleByNumberPlateQuery(request.MotorcycleModel.NumberPlate));
+                MotorcycleValidator.New()
+                    .When(motorcycleNumberPlate != null, Resources.MotorcycleExistsNumberPlate)
+                    .ThrowExceptionIfExists();
+            }
 
             motorcycle.UpdateYear(request.MotorcycleModel.Year);
             motorcycle.UpdateStatus(request.MotorcycleModel.Status);

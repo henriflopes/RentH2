@@ -60,8 +60,7 @@ namespace RentH2.Application.Test.MotorcycleTest
             var motorcycle = _mapper.Map<Motorcycle>(_motorcycleModel);
             _motorcycleGatewayMock.Setup(r => r.GetByNumberPlateAsync(It.IsAny<string>())).ReturnsAsync((Motorcycle)null);
             
-            (await Assert.ThrowsAsync<ExceptionDomain>(() => _getMotorcycleByNumberPlateHandler.Handle(_getMotorcycleByNumberPlateQuery, _cancellationToken)))
-                .WithMessage(Resources.MotorcycleNumberPlateNotFound);
+            _getMotorcycleByNumberPlateHandler.Handle(_getMotorcycleByNumberPlateQuery, _cancellationToken);
 
             _motorcycleGatewayMock.Verify(r => r.GetByNumberPlateAsync(
                 It.IsAny<string>()), Times.Once

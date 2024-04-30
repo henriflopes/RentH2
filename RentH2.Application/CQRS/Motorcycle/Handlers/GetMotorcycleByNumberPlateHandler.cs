@@ -25,9 +25,9 @@ namespace RentH2.Application.CQRSMotorcycle.Handlers
         {
             var result = _mapper.Map<MotorcycleModel>(await _motorcycleGateway.GetByNumberPlateAsync(request.numberPlate));
 
-            MotorcycleValidator.New()
-               .When(result == null, Resources.MotorcycleNumberPlateNotFound)
-               .ThrowExceptionIfExists();
+            //MotorcycleValidator.New()
+            //   .When(result == null, Resources.MotorcycleNumberPlateNotFound)
+            //   .ThrowExceptionIfExists();
 
             return result;
         }

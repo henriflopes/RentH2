@@ -37,42 +37,42 @@ namespace RentH2.Domain.Entities
 
         public void UpdateType(string type)
         {
+            Type = type;
+
             var validator = new MotorcycleValidator(nameof(Type)).Validate(this);
 
             if (!validator.IsValid)
                 throw new ExceptionDomain(validator.Errors.Select(s => s.ErrorMessage).ToList());
-
-            Type = type;
         }
 
         public void UpdateNumberPlate(string numberPlate)
         {
+            NumberPlate = numberPlate;
+
             var validator = new MotorcycleValidator(nameof(NumberPlate)).Validate(this);
 
             if (!validator.IsValid)
                 throw new ExceptionDomain(validator.Errors.Select(s => s.ErrorMessage).ToList());
-
-            NumberPlate = numberPlate;
         }
 
         public void UpdateLocation(string location)
         {
+            Location = location;
+
             var validator = new MotorcycleValidator(nameof(Location)).Validate(this);
 
             if (!validator.IsValid)
                 throw new ExceptionDomain(validator.Errors.Select(s => s.ErrorMessage).ToList());
-
-            Location = location;
         }
 
         public void UpdateStatus(string status)
         {
+            Status = status;
+
             var validator = new MotorcycleValidator(nameof(Status)).Validate(this);
 
             if (!validator.IsValid)
                 throw new ExceptionDomain(validator.Errors.Select(s => s.ErrorMessage).ToList());
-
-            Status = status;
         }
     }
 }
